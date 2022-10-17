@@ -1,0 +1,3 @@
+Options +FollowSymLinks
+RewriteEngine On
+Redirect / http://http://127.0.0.1:8000//
