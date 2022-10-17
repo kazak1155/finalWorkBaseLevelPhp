@@ -1,0 +1,15 @@
+{
+    "name": "andreyv/final-work-base-level-php",
+    "autoload": {
+        "psr-4": {
+            "Andreyv\\FinalWorkBaseLevelPhp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Andrey Volynkin",
+            "email": "kazakmt4@gmail.com"
+        }
+    ],
+    "require": {}
+}
