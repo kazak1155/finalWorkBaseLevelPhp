@@ -23,3 +23,4 @@ $urlList = [ '/main/' => [
 ];
 
 //var_dump($_SERVER['DOCUMENT_ROOT']);
+echo '1';exit;
