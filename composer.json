@@ -3,6 +3,9 @@
     "autoload": {
         "psr-4": {
             "Andreyv\\FinalWorkBaseLevelPhp\\": "src/"
+        },
+        "db" : {
+
         }
     },
     "authors": [

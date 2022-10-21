@@ -3,7 +3,7 @@
 require_once 'autoload.php';;
 //phpinfo ();
 
-/*
+/**
 * create array routs
 */
 $urlList = [ '/main/' => [
@@ -35,6 +35,13 @@ if ($title == 'user') {
     </head>
     <body>
     <p>пользователи</p>
+    <?php
+//    $users = new User();
+//    $allUser = $users->showAllUser();
+//    foreach ($allUser as $user) {
+//        echo $user['name'];
+//    }
+    ?>
     <table class="table">
         <thead>
         <tr>
