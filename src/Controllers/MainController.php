@@ -10,7 +10,7 @@ use App\View\View;
  */
 class MainController
 {
-    public function homepage()
+    public function mainPage()
     {
         return new View('mainPage.mainPage',
             [
