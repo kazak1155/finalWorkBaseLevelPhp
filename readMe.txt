@@ -1,0 +1,1 @@
+email, password and status user for authorization

@@ -1,20 +1,20 @@
 {
-    "name": "andreyv/final-work-base-level-php",
+    "name": "vendor/composer",
+    "description": "test",
+    "type": "library",
     "autoload": {
         "psr-4": {
-            "Andreyv\\FinalWorkBaseLevelPhp\\": "src/"
-        },
-        "db" : {
-
+            "App\\": "src/"
         }
     },
     "authors": [
         {
-            "name": "Andrey Volynkin",
+            "name": "Andrey V",
             "email": "kazakmt4@gmail.com"
         }
     ],
+    "minimum-stability": "stable",
     "require": {
-        "ext-pdo": "*"
+        "illuminate/database": "^8.74"
     }
 }
