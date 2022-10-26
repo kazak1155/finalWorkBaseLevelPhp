@@ -43,7 +43,9 @@ class Application
             http_response_code(404);
             $view = new View(
                 'errors\error',
-                ['error' => 'Ошибка 404. Страница не найдена', 'title' => 'произошла ошибка']
+                [
+                    'error' => 'Ошибка 404. Страница не найдена',
+                    'title' => 'произошла ошибка']
             );
             $view->render();
         }
