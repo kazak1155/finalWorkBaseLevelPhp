@@ -15,7 +15,7 @@ $router = new Router();
 
 $router->get('', [MainController::class, 'mainPage']);
 
-$router->get('/user', [AdminUserController::class, 'getAllUsers']
+$router->get('/user', [AdminUserController::class, 'getAllUsers']);
 
 $application = new Application($router);
 
