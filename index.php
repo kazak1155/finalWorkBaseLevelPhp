@@ -3,19 +3,19 @@
 use App\Application;
 use App\Router;
 use App\Controllers\MainController;
-use App\Controllers\AdminController;
+use App\Controllers\Admin\AdminUserController;
 
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', true);
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'bootstrap.php';
-coomit
+
 $router = new Router();
 
 $router->get('', [MainController::class, 'mainPage']);
 
-$router->get('/user', [AdminController::class, 'getAllUsers']);
+$router->get('/user', [AdminUserController::class, 'getAllUsers']
 
 $application = new Application($router);
 

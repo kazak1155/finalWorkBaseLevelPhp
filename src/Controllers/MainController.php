@@ -16,4 +16,11 @@ class MainController
             [
             ]);
     }
+
+    public function user()
+    {
+        return new View('mainPage.mainPage',
+            [
+            ]);
+    }
 }
