@@ -14,6 +14,7 @@ class AdminUserController
 {
     public function getAllUsers()
     {
+        $title = 'Все пользователи';
         $users = User::where(null)
             ->orderByDesc('id')
             ->get();
@@ -21,6 +22,7 @@ class AdminUserController
         return new View('admin.allUser',
             [
                 'users' => $users,
+                'title' => $title
             ]);
     }
 }

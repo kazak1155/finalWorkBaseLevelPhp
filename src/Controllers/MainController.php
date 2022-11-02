@@ -12,8 +12,11 @@ class MainController
 {
     public function mainPage()
     {
+        $title = 'Главная страница';
+
         return new View('mainPage.mainPage',
             [
+                'title' => $title
             ]);
     }
 
