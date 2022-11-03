@@ -22,6 +22,16 @@ class Router
         $this->addRoute('post', $path, $callback);
     }
 
+    public function delete(string $path, array $callback)
+    {
+        $this->addRoute('delete', $path, $callback);
+    }
+
+    public function put(string $path, array $callback)
+    {
+        $this->addRoute('put', $path, $callback);
+    }
+
     private function addRoute(string $method, string $path, array $callback)
     {
 

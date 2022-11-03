@@ -3,7 +3,7 @@
 use App\Application;
 use App\Router;
 use App\Controllers\MainController;
-use App\Controllers\Admin\AdminUserController;
+use App\Controllers\AdminController;
 
 session_start();
 error_reporting(E_ALL);
@@ -15,7 +15,8 @@ $router = new Router();
 
 $router->get('', [MainController::class, 'mainPage']);
 
-$router->get('user', [AdminUserController::class, 'getAllUsers']);
+$router->get('user', [AdminController::class, 'getAllUsers']);
+$router->delete('user', [AdminController::class, 'deleteUser']);
 
 $application = new Application($router);
 
