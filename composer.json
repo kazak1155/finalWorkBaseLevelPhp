@@ -16,5 +16,10 @@
     "minimum-stability": "stable",
     "require": {
         "illuminate/database": "^8.74"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src"
+        }
     }
 }

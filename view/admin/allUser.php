@@ -35,9 +35,6 @@ require_once($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'layout' . DIRECT
         <br><br><br>
         </tbody>
 <?php endforeach ?>
-    <button type="submit" class="btn btn-primary btn-md" name="delete" value="1">button 1</button>
-    <button type="submit" class="btn btn-primary btn-md" name="delete" value="2">button 2</button>
-    <button type="submit" class="btn btn-primary btn-md" name="delete" value="3">button 3</button>
 
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . 'footer.php');

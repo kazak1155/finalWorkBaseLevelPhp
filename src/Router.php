@@ -40,6 +40,7 @@ class Router
 
     public function dispatch(string $uri, string $method)
     {
+
         $method = mb_strtolower($method);
         $uri = trim($uri, '/');
 

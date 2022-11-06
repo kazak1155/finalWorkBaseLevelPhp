@@ -7,6 +7,8 @@ use App\View\Renderable;
 use App\View\View;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
+//require_once __DIR__ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR .  'dp.php';
+
 /**
  * Class Application
  * @package App

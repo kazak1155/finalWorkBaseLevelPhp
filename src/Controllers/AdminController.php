@@ -27,12 +27,10 @@ class AdminController
 
     public function deleteUser(Request $request)
     {
-        $title = 'удаление пользователя';
         $id = $request->id;
         $user = User::find($id);
         $user->delete();
         $_SESSION['message'] = 'пользователь удален';
         header('Location: /user');
-
     }
 }
