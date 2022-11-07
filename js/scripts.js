@@ -1,44 +1,39 @@
 window.onload = () => {
 
-    const buttonsDelete = document.getElementsByName("delete");
+
+    var buttonsDelete = document.getElementsByName("delete");
 
     if (buttonsDelete.length > 0) {
-        for (var d = 0; d < buttonsDelete.length; d++) {
-            console.log(buttonsDelete[d]);
-            buttonsDelete[d].onclick = function (event) {
-                alert('xxx');
-                let id = $(this).data('id');
-                // $.ajax({
-                //     url: "showText/" + event.target.value,
-                //     method: 'DELETE',
-                //     dataType: 'html',
-                //     data: {
-                //         id: id
-                //     },
-                //     success: function(data){
-                //         window.location.replace("/showText?success=сообщение удалено из БД");
-                //     }
-                // });
-            };
-        }
-    }
-    var buttons = document.getElementsByName("delete");
-    if (buttons.length > 0) {
-        for (var i = 0; i < buttons.length; i++) {
-            buttons[i].onclick = deleteUser(buttons[i]);
+        for (var i = 0; i < buttonsDelete.length; i++) {
+            buttonsDelete[i].onclick = deleteUser(buttonsDelete[i]);
         }
     }
 
-    var buttons = document.getElementsByName("edit");
-    if (buttons.length > 0) {
-        for (var i = 0; i < buttons.length; i++) {
-            buttons[i].onclick = editUser(buttons[i]);
+    var buttonsEdit = document.getElementsByName("edit");
+
+    if (buttonsEdit.length > 0) {
+        for (var i = 0; i < buttonsEdit.length; i++) {
+            buttonsEdit[i].onclick = editUser(buttonsEdit[i]);
         }
     }
 };
 
 function deleteUser(val) {
-    return function(){alert("пользователь с ID= " + val.value + " удален");};
+    return function(){
+        alert("пользователь с ID= " + val.value + " удален");
+    let id = val.value;
+    $.ajax({
+        url: "user/" + val.value,
+        method: 'DELETE',
+        dataType: 'html',
+        data: {
+            id: id
+        },
+        success: function(data){
+            window.location.replace("/user?success=пользователь удалено из БД");
+        }
+    });
+    };
 }
 
 function editUser(val) {

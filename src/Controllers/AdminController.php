@@ -29,8 +29,12 @@ class AdminController
     {
         $id = $request->id;
         $user = User::find($id);
-        $user->delete();
-        $_SESSION['message'] = 'пользователь удален';
+//        $user->delete();
+//        $_SESSION['success'] = 'пользователь удален';
         header('Location: /user');
+
+        return new View('admin.allUser',
+            [
+            ]);
     }
 }

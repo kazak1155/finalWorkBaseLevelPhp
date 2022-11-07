@@ -15,8 +15,9 @@ $router = new Router();
 $router->get('', [MainController::class, 'mainPage']);
 
 $router->get('user', [AdminController::class, 'getAllUsers']);
+$router->delete('user/{id}', [AdminController::class, 'deleteUser']);
 
-$application = new Application($router);
+про$application = new Application($router);
 
 $application->run($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
 

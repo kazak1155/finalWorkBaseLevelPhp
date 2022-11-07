@@ -2,6 +2,6 @@
 return [
     'host' => 'localhost',
     'user' => 'root',
-    'password' => '1155',
+    'password' => '',
     'dbname' => 'cloud_storage'
 ];
