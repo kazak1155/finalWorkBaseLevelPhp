@@ -17,7 +17,7 @@ $router->get('', [MainController::class, 'mainPage']);
 $router->get('user', [AdminController::class, 'getAllUsers']);
 $router->delete('user/{id}', [AdminController::class, 'deleteUser']);
 
-про$application = new Application($router);
+$application = new Application($router);
 
 $application->run($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
 
