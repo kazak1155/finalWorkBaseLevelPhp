@@ -7,12 +7,24 @@ if (!empty($_SESSION['error']) && !empty($_SESSION['error'])) { ?>
 <?php if (isset($_SESSION['success']) && !empty($_SESSION['success'])) { ?>
     <div class="alert alert-info"><?= $_SESSION['success'] ?>
     </div><?php } $_SESSION['success'] = '';?>
-
-<a href="/user">пользователи</a>
-<br>
-<a href="/file">файлы</a>
-<br>
-<a href="/auth">authorization</a>
+<?php
+if ($_SESSION['status_user'] == 'administrator') {
+?>
+    <br>
+    <a href="/user">пользователи</a>
+    <br>
+    <a href="/file">файлы</a>
+<?php
+} elseif ($_SESSION['status_user'] == 'user') {
+?>
+    <br>
+    <a href="/user/<?= $user['id'] ?>">личный кибинет</a>
+    <br>
+    <a href="/file">мои файлы</a>
+    <?php } else {
+    header('Location: /auth');
+}
+?>
 
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . 'footer.php');
