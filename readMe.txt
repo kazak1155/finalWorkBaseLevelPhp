@@ -1,1 +1,7 @@
 email, password and status user for authorization
+
+111@mail.com, 111, user
+222@mail.com, 222, administrator
+333@mail.com, 333, user
+444@mail.com, 444, administrator
+555@mail.com, 555, user

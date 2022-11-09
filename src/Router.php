@@ -24,7 +24,7 @@ class Router
 
     public function delete(string $path, array $callback)
     {
-        $this->addRoute('delete', $path, $callback);
+        $this->addRoute('DELETE', $path, $callback);
     }
 
     public function put(string $path, array $callback)

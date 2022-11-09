@@ -1,6 +1,8 @@
 <?php
 
 namespace App;
+
+use App\Controllers\AuthorizationController;
 use App\Controllers\MainController;
 use App\Controllers\AdminController;
 
@@ -16,6 +18,9 @@ $router->get('', [MainController::class, 'mainPage']);
 
 $router->get('user', [AdminController::class, 'getAllUsers']);
 $router->delete('user/{id}', [AdminController::class, 'deleteUser']);
+
+$router->get('auth', [AuthorizationController::class, 'auth']);
+$router->post('auth', [AuthorizationController::class, 'auth']);
 
 $application = new Application($router);
 

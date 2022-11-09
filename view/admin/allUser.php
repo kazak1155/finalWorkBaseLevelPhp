@@ -1,33 +1,14 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . 'header.php');
-
-if (isset($_GET['success'])) {
-    $message = $_GET['success'];
-} else {
-    $message = '';
-}
-
-if (isset($_SESSION['success'])) {
-    $message = $_SESSION['success'];
-} else {
-    $message = '';
-}
-
-if (isset($_SESSION['error'])) {
-    $error = $_SESSION['error'];
-} else {
-    $error = '';
-}
 ?>
 
-<?php if (!empty($_SESSION['error']) && !empty($error)) { ?>
-    <div class="alert alert-danger"><?= $error ?>
+<?php if (!empty($_SESSION['error']) && !empty($_SESSION['error'])) { ?>
+    <div class="alert alert-danger"><?= $_SESSION['error'] ?>
     </div><?php } $_SESSION['error'] = '';?>
-<?php if (isset($_SESSION['success']) && !empty($message)) { ?>
-    <div class="alert alert-info"><?= $message ?>
+<?php if (isset($_SESSION['success']) && !empty($_SESSION['success'])) { ?>
+    <div class="alert alert-info"><?= $_SESSION['success'] ?>
     </div><?php } $_SESSION['success'] = '';?>
 
-<body>
     <table class="table table-striped">
         <thead>
         <tr>
