@@ -14,7 +14,7 @@ $_SESSION['success'] = ''; ?>
     <table>
         <tr>
             <td>
-                <table class="table table-striped">-->
+                <table class="table table-striped">
                     <thead>
                     <tr>
                         <th scope="col">id</th>
@@ -53,14 +53,13 @@ $_SESSION['success'] = ''; ?>
                 </table>
             </td>
         </tr>
-        <tr>
-            <td>
-                <form action="/auth" method="post">
-                    <input type="submit" name="logout" value="Выйти с сайта">
-                </form>
-            </td>
-        </tr>
     </table>
+
+    <div class="float-right px-2">
+        <form action="/auth" method="post">
+            <input class="btn btn-dark" type="submit" name="logout" value="Выйти с сайта">
+        </form>
+    </div>
 
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . 'footer.php');

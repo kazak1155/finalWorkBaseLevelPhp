@@ -32,6 +32,8 @@ class AuthorizationController
                             $_SESSION['success'] = 'вы авторизированы';
                         }
                         header('Location: /');
+                    } else {
+                        $_SESSION['error'] = 'неправильно введен пароль';
                     }
                 } else {
                     $_SESSION['error'] = 'такого пользователя нет в БД';

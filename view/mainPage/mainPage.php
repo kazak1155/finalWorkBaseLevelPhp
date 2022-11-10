@@ -12,6 +12,7 @@ $_SESSION['success'] = ''; ?>
 <?php
 if ($_SESSION['status_user'] == 'administrator') {
     ?>
+
     <table>
         <tr>
             <td>
@@ -28,26 +29,37 @@ if ($_SESSION['status_user'] == 'administrator') {
                 <a href="/file">файлы</a>
             </td>
         </tr>
-        <tr>
-            <td>
-                <br><br>
-                <form action="/auth" method="post">
-                    <input type="submit" name="logout" value="Выйти с сайта">
-                </form>
-            </td>
-        </tr>
     </table>
+    <br>
+    <div class="float-right px-2">
+        <form action="/auth" method="post">
+            <input class="btn btn-dark" type="submit" name="logout" value="Выйти с сайта">
+        </form>
+    </div>
+
     <?php
 } elseif ($_SESSION['status_user'] == 'user') {
     ?>
+
+    <table>
+        <tr>
+            <td>
+                <a href="/user/<?= $_SESSION['userId'] ?>">личный кибинет</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="/file/<?= $_SESSION['userId'] ?>">мои файлы</a>
+            </td>
+        </tr>
+    </table>
     <br>
-    <a href="/user/<?= $_SESSION['userId'] ?>">личный кибинет</a>
-    <br>
-    <a href="/file">мои файлы</a>
-    <br><br>
-    <form action="/auth" method="post">
-        <input type="submit" name="logout" value="Выйти с сайта">
-    </form>
+    <div class="float-right px-2">
+        <form action="/auth" method="post">
+            <input class="btn btn-dark" type="submit" name="logout" value="Выйти с сайта">
+        </form>
+    </div>
+
 <?php } else {
     header('Location: /auth');
 }
