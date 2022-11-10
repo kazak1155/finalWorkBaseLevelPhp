@@ -25,9 +25,8 @@ class AdminController
             ]);
     }
 
-    public function deleteUser(Request $request)
+    public function deleteUser($id)
     {
-        $id = $request->id;
         $user = User::find($id);
 //        $user->delete();
 //        $_SESSION['success'] = 'пользователь удален';

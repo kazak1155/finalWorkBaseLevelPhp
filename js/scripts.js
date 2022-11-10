@@ -16,6 +16,14 @@ window.onload = () => {
             buttonsEdit[i].onclick = editUser(buttonsEdit[i]);
         }
     }
+
+    var buttonsPersonalAreaUser = document.getElementsByName("PersonalAreaUser");
+
+    if (buttonsPersonalAreaUser.length > 0) {
+        for (var i = 0; i < buttonsPersonalAreaUser.length; i++) {
+            buttonsPersonalAreaUser[i].onclick = personalAreaUser(buttonsPersonalAreaUser[i]);
+        }
+    }
 };
 
 function deleteUser(val) {
@@ -38,4 +46,10 @@ function deleteUser(val) {
 
 function editUser(val) {
     return function(){alert("пользователь с ID= " + val.value + " отредактирован");};
+}
+
+function personalAreaUser(val) {
+    return function(){
+        window.location.href = '/user/' +val.value;
+    };
 }

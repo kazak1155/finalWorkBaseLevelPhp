@@ -5,6 +5,7 @@ namespace App;
 use App\Controllers\AuthorizationController;
 use App\Controllers\MainController;
 use App\Controllers\AdminController;
+use App\Controllers\UserController;
 
 session_start();
 error_reporting(E_ALL);
@@ -17,10 +18,12 @@ $router = new Router();
 $router->get('', [MainController::class, 'mainPage']);
 
 $router->get('user', [AdminController::class, 'getAllUsers']);
-$router->delete('user/{id}', [AdminController::class, 'deleteUser']);
+$router->delete('user/*', [AdminController::class, 'deleteUser']);
 
 $router->get('auth', [AuthorizationController::class, 'auth']);
 $router->post('auth', [AuthorizationController::class, 'auth']);
+
+$router->get('user/*', [UserController::class, 'PersonalAreaUser']);
 
 $application = new Application($router);
 

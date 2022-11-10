@@ -9,49 +9,24 @@ $_SESSION['error'] = ''; ?>
     <div class="alert alert-info"><?= $_SESSION['success'] ?>
     </div><?php }
 $_SESSION['success'] = ''; ?>
-<?php
-if ($_SESSION['status_user'] == 'administrator') {
-    ?>
+
     <table>
         <tr>
             <td>
-                <a href="/user/<?= $_SESSION['userId'] ?>">личный кибинет</a>
+                 <p class="h5">name</p>
+            </td>
+            <td>
+                <p><?= $user['name'] ?></p>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="/user">все пользователи</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="/file">файлы</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <br><br>
                 <form action="/auth" method="post">
                     <input type="submit" name="logout" value="Выйти с сайта">
                 </form>
             </td>
         </tr>
     </table>
-    <?php
-} elseif ($_SESSION['status_user'] == 'user') {
-    ?>
-    <br>
-    <a href="/user/<?= $_SESSION['userId'] ?>">личный кибинет</a>
-    <br>
-    <a href="/file">мои файлы</a>
-    <br><br>
-    <form action="/auth" method="post">
-        <input type="submit" name="logout" value="Выйти с сайта">
-    </form>
-<?php } else {
-    header('Location: /auth');
-}
-?>
 
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . 'footer.php');
