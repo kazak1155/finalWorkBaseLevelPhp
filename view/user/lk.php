@@ -9,8 +9,11 @@ $_SESSION['error'] = ''; ?>
     <div class="alert alert-info"><?= $_SESSION['success'] ?>
     </div><?php }
 $_SESSION['success'] = ''; ?>
-
-    <table>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+    <table class="table table-bordered">
         <tr>
             <td>
                  <p class="h5">name</p>
@@ -21,6 +24,30 @@ $_SESSION['success'] = ''; ?>
         </tr>
         <tr>
             <td>
+                <p class="h5">surname</p>
+            </td>
+            <td>
+                <p><?= $user['surname'] ?></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p class="h5">email</p>
+            </td>
+            <td>
+                <p><?= $user['email'] ?></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p class="h5">date_create</p>
+            </td>
+            <td>
+                <p><?= $user['date_create'] ?></p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
                 <form action="/auth" method="post">
                     <input type="submit" name="logout" value="Выйти с сайта">
                 </form>
