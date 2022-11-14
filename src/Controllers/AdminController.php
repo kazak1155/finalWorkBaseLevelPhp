@@ -28,11 +28,14 @@ class AdminController
 
     public function deleteUser($id)
     {
-//        $user = User::find($id);
+
+        $user = User::find($id);
+        $user -> delete();
+        $_SESSION['success'] = 'пользователь с именем: ' .  $user->name . ' удален';
 
         return new Json(
             [
-                'message' => 'пользователь удален',
+                'message' => 'пользователь с именем: ' .  $user->name . ' удален',
                 'result' => true
             ]
         );

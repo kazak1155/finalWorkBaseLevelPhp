@@ -36,7 +36,6 @@ window.onload = () => {
 
 function deleteUser(val) {
     return function(){
-        alert("пользователь с ID= " + val.value + " удален");
     let id = val.value;
     $.ajax({
         url: "user/" + val.value,
@@ -46,7 +45,7 @@ function deleteUser(val) {
             id: id
         },
         success: function(data){
-            window.location.replace("/user?success=пользователь удален из БД");
+            window.location.reload();
         }
     });
     };
@@ -67,9 +66,7 @@ function editUser(val) {
             data: {
                 id: id
             },
-            success: function(data){
-                window.location.replace("/user?success=пользователь удален из БД");
-            }
+            success: function(data){}
         });
     };
 }
