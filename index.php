@@ -30,12 +30,3 @@ $router->get('user/*', [UserController::class, 'PersonalAreaUser']);
 $application = new Application($router);
 
 $application->run($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
-
-$urlList = [
-    '' => [
-                'GET' => 'MainController::mainPage()'
-          ],
-    'user' => [
-                'GET' => 'AdminController::getAllUsers()'
-    ]
-];
