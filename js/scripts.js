@@ -9,6 +9,14 @@ window.onload = () => {
         }
     }
 
+    var buttonsEditForm = document.getElementsByName("editForm");
+
+    if (buttonsEditForm.length > 0) {
+        for (var i = 0; i < buttonsEditForm.length; i++) {
+            buttonsEditForm[i].onclick = editUserForm(buttonsEditForm[i]);
+        }
+    }
+
     var buttonsEdit = document.getElementsByName("edit");
 
     if (buttonsEdit.length > 0) {
@@ -38,14 +46,32 @@ function deleteUser(val) {
             id: id
         },
         success: function(data){
-            window.location.replace("/user?success=пользователь удалено из БД");
+            window.location.replace("/user?success=пользователь удален из БД");
         }
     });
     };
 }
 
+function editUserForm(val) {
+    return function(){window.location.replace("/editUser/" + val.value);};
+}
+
 function editUser(val) {
-    return function(){alert("пользователь с ID= " + val.value + " отредактирован");};
+    return function(){
+        alert("пользователь с ID= " + val.value + " отредактирован");
+        let id = val.value;
+        $.ajax({
+            url: "user/" + val.value,
+            method: 'PUT',
+            dataType: 'html',
+            data: {
+                id: id
+            },
+            success: function(data){
+                window.location.replace("/user?success=пользователь удален из БД");
+            }
+        });
+    };
 }
 
 function personalAreaUser(val) {

@@ -30,6 +30,11 @@ if ($_SESSION['status_user'] == 'administrator') {
         </tr>
         <tr>
             <td>
+                <a href="/createUser">создать нового пользователя</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <br><br>
                 <form action="/auth" method="post">
                     <input type="submit" name="logout" value="Выйти с сайта">

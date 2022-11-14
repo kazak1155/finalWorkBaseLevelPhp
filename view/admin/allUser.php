@@ -14,7 +14,7 @@ $_SESSION['success'] = ''; ?>
     <table>
         <tr>
             <td>
-                <table class="table table-striped">-->
+                <table class="table table-striped">
                     <thead>
                     <tr>
                         <th scope="col">id</th>
@@ -36,7 +36,7 @@ $_SESSION['success'] = ''; ?>
                             <td><?= $user['email'] ?></td>
                             <td><?= $user['date_create'] ?></td>
                             <td>
-                                <button type="submit" name="edit" value="<?= $user['id'] ?>">редактировать пользователя
+                                <button type="submit" name="editForm" value="<?= $user['id'] ?>">редактировать пользователя
                                 </button>
                             </td>
                             <td>

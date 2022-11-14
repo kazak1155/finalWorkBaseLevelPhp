@@ -18,6 +18,8 @@ $router = new Router();
 $router->get('', [MainController::class, 'mainPage']);
 
 $router->get('user', [AdminController::class, 'getAllUsers']);
+$router->get('editUser/*', [AdminController::class, 'editUserForm']);
+$router->get('createUser', [AdminController::class, 'createUserForm']);
 $router->delete('user/*', [AdminController::class, 'deleteUser']);
 
 $router->get('auth', [AuthorizationController::class, 'auth']);

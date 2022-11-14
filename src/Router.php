@@ -24,7 +24,7 @@ class Router
 
     public function delete(string $path, array $callback)
     {
-        $this->addRoute('DELETE', $path, $callback);
+        $this->addRoute('delete', $path, $callback);
     }
 
     public function put(string $path, array $callback)
@@ -40,7 +40,6 @@ class Router
 
     public function dispatch(string $uri, string $method)
     {
-
         $method = mb_strtolower($method);
         $uri = trim($uri, '/');
 
