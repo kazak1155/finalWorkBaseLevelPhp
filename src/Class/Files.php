@@ -1,5 +1,6 @@
 <?php
 
+namespace App\Class;
 /**
  * Files Class with all function for files
  */
