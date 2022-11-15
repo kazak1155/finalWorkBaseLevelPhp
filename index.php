@@ -24,8 +24,9 @@ $router->delete('user/*', [AdminController::class, 'deleteUser']);
 $router->put('user/*', [AdminController::class, 'editUser']);
 $router->post('user/*', [AdminController::class, 'createUser']);
 
-$router->get('auth', [AuthorizationController::class, 'auth']);
-$router->post('auth', [AuthorizationController::class, 'auth']);
+$router->get('login', [AuthorizationController::class, 'login']);
+$router->post('login', [AuthorizationController::class, 'login']);
+$router->get('logout', [AuthorizationController::class, 'logout']);
 
 $router->get('user/*', [UserController::class, 'PersonalAreaUser']);
 

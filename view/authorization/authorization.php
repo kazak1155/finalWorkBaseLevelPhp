@@ -10,7 +10,7 @@ if (!empty($_SESSION['error']) && !empty($_SESSION['error'])) { ?>
 
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <form action="/auth" method="post">
+            <form action="/login" method="post">
                 <div class="form-group">
                     <label for="exampleInputEmail1">введите email</label>
                     <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp">

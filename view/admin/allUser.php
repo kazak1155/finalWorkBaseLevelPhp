@@ -56,8 +56,8 @@ $_SESSION['success'] = ''; ?>
     </table>
 
     <div class="float-right px-2">
-        <form action="/auth" method="post">
-            <input class="btn btn-dark" type="submit" name="logout" value="Выйти с сайта">
+        <form action="/logout" method="get">
+            <input type="submit" name="logout" value="Выйти с сайта">
         </form>
     </div>
 

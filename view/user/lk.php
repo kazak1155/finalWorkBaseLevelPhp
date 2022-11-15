@@ -48,12 +48,27 @@ $_SESSION['success'] = ''; ?>
                     <p class="text-center"><?= $user['date_create'] ?></p>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <p class="h5 text-center">статус</p>
+                </td>
+                <td>
+                    <?php
+                    if ($user['status'] == 'administrator') {
+                        $status = 'Администатор';
+                    } else {
+                        $status = 'Пользователь';
+                    }
+                    ?>
+                    <p class="text-center"><?= $status ?></p>
+                </td>
+            </tr>
         </table>
     </div>
 
-    <div class="float-right px-5">
-        <form action="/auth" method="post">
-            <input class="btn btn-dark" type="submit" name="logout" value="Выйти с сайта">
+    <div class="float-left px-5">
+        <form action="/logout" method="get">
+            <input type="submit" name="logout" value="Выйти с сайта">
         </form>
     </div>
 

@@ -56,7 +56,7 @@ editUser
         </tr>
         <tr>
             <td>
-                <form action="/auth" method="post">
+                <form action="/logout" method="get">
                     <input type="submit" name="logout" value="Выйти с сайта">
                 </form>
             </td>

@@ -36,7 +36,7 @@ if ($_SESSION['status_user'] == 'administrator') {
         <tr>
             <td>
                 <br><br>
-                <form action="/auth" method="post">
+                <form action="/logout" method="get">
                     <input type="submit" name="logout" value="Выйти с сайта">
                 </form>
             </td>
@@ -50,11 +50,11 @@ if ($_SESSION['status_user'] == 'administrator') {
     <br>
     <a href="/file">мои файлы</a>
     <br><br>
-    <form action="/auth" method="post">
+    <form action="/logout" method="get">
         <input type="submit" name="logout" value="Выйти с сайта">
     </form>
 <?php } else {
-    header('Location: /auth');
+    header('Location: /login');
 }
 ?>
 
