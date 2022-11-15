@@ -62,4 +62,33 @@ class AdminController
                 'title' => $title
             ]);
     }
+
+
+    public function editUser($id)
+    {
+
+        $user = User::find($id);
+        $_SESSION['success'] = 'пользователь с именем: ' .  $user->name . ' изменен';
+
+        return new Json(
+            [
+                'message' => 'пользователь с именем: ' .  $user->name . ' изменен',
+                'result' => true
+            ]
+        );
+    }
+
+
+    public function createUser()
+    {
+
+        $_SESSION['success'] = 'новый подьзователь создан';
+
+        return new Json(
+            [
+                'message' => 'новый подьзователь создан',
+                'result' => true
+            ]
+        );
+    }
 }

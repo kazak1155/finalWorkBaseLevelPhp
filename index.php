@@ -21,6 +21,8 @@ $router->get('user', [AdminController::class, 'getAllUsers']);
 $router->get('editUser/*', [AdminController::class, 'editUserForm']);
 $router->get('createUser', [AdminController::class, 'createUserForm']);
 $router->delete('user/*', [AdminController::class, 'deleteUser']);
+$router->put('user/*', [AdminController::class, 'editUser']);
+$router->post('user/*', [AdminController::class, 'createUser']);
 
 $router->get('auth', [AuthorizationController::class, 'auth']);
 $router->post('auth', [AuthorizationController::class, 'auth']);

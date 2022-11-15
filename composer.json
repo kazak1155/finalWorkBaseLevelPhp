@@ -17,5 +17,5 @@
     "require": {
         "illuminate/database": "^8.74",
       "ext-json": "*"
-    },
+    }
 }
