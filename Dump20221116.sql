@@ -69,7 +69,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'ivan','ivanov','$2y$10$RNfilcfMVgPpX/l7IAfBNuRBnNj6aesjHYM.TO73kmgrTj875SiCm','111@mail.com','2001-01-01','user'),(2,'petr','petrov','$2y$10$lCNPFif03QGj2SlLdxkSZe3liiBfH4eebwg2r0Yb1D0UpqUPS20P2','222@mail.com','2002-02-02','administrator'),(3,'semen','semenov','$2y$10$YiYsDTB5YfN8L3N0DAvfQOCpBUVKJ4K5dtwzTynpjeoYBjvaVflfm','333@mail.com','2003-03-03','user'),(4,'abdrey','andreev','$2y$10$Tt10htkln1MaacrRjtHDmuIG1fjmjN1t0THdKqzktQXriRBPkZ/Sy','444@mail.com','2003-04-04','administrator'),(5,'alexandr','alexandrov','$2y$10$ASRBS1bXGw37hWiQ.klRLOjv80vSXmmnQQEzjMwaI2EI4SArvP0Cm','555@mail.com','2003-05-05','user'),(6,'test1','test1','$2y$10$IgcsMJcVCPSQCy0pUuKBMuucIJzf6zvb33F373S8HJ63o5KApAlsC','test1@mail.com','2003-06-06','user'),(7,'test2','test2','$2y$10$8ShrAmWUdh/EG9kvrpmW7.UyrRUb7f36cQKCKuUJYCT0HWpNww3CS','test2@mail.com','2003-07-07','user'),(8,'test3','test3','$2y$2y$10$FJkQT5TVpLtlnAJiJ9QQperwDNbGyQapf6LJ1z1M././pPOKI8yca','test3@mail.com','2003-08-08','user');
+INSERT INTO `user` VALUES (1,'ivan','ivanov','$2y$10$RNfilcfMVgPpX/l7IAfBNuRBnNj6aesjHYM.TO73kmgrTj875SiCm','111@mail.com','2001-01-01','user'),(2,'petr','petrov','$2y$10$lCNPFif03QGj2SlLdxkSZe3liiBfH4eebwg2r0Yb1D0UpqUPS20P2','222@mail.com','2002-02-02','administrator'),(3,'semen','semenov','$2y$10$YiYsDTB5YfN8L3N0DAvfQOCpBUVKJ4K5dtwzTynpjeoYBjvaVflfm','333@mail.com','2003-03-03','user'),(4,'andrey','andreev','$2y$10$Tt10htkln1MaacrRjtHDmuIG1fjmjN1t0THdKqzktQXriRBPkZ/Sy','444@mail.com','2003-04-04','administrator'),(5,'alexandr','alexandrov','$2y$10$ASRBS1bXGw37hWiQ.klRLOjv80vSXmmnQQEzjMwaI2EI4SArvP0Cm','555@mail.com','2003-05-05','user'),(6,'test1','test1','$2y$10$IgcsMJcVCPSQCy0pUuKBMuucIJzf6zvb33F373S8HJ63o5KApAlsC','test1@mail.com','2003-06-06','user'),(7,'test2','test2','$2y$10$31K1C3Sc9kykEjP1ZyIOb.lgtTfbtd1o9fMWEAjFH73i1N2rASGvK','test2@mail.com','2003-07-07','user'),(8,'test3','test3','$2y$10$SXJETJW/OBoOzjfYfWsK2.SynTfwqUeD2Um2lTns5GAB0178mXyB6','test3@mail.com','2003-08-08','user');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -82,4 +82,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-14 14:29:25
+-- Dump completed on 2022-11-16 14:34:40

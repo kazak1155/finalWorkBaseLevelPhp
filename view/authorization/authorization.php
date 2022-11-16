@@ -25,8 +25,5 @@ if (!empty($_SESSION['error']) && !empty($_SESSION['error'])) { ?>
         </div>
     </div>
 
-<br>
-<a href="/">mainPage</a>
-
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . 'footer.php');

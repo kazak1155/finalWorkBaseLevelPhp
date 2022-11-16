@@ -17,18 +17,20 @@ $router = new Router();
 
 $router->get('', [MainController::class, 'mainPage']);
 
-$router->get('user', [AdminController::class, 'getAllUsers']);
-$router->get('editUser/*', [AdminController::class, 'editUserForm']);
-$router->get('createUser', [AdminController::class, 'createUserForm']);
-$router->delete('user/*', [AdminController::class, 'deleteUser']);
-$router->put('user/*', [AdminController::class, 'editUser']);
-$router->post('user/*', [AdminController::class, 'createUser']);
+$router->get('admin/user', [AdminController::class, 'getAllUsers']);
+$router->get('admin/editUser/*', [AdminController::class, 'editUserForm']);
+$router->delete('admin/user/*', [AdminController::class, 'deleteUser']);
+$router->put('admin/user/*', [AdminController::class, 'editUser']);
 
 $router->get('login', [AuthorizationController::class, 'login']);
 $router->post('login', [AuthorizationController::class, 'login']);
 $router->get('logout', [AuthorizationController::class, 'logout']);
 
+$router->get('user', [UserController::class, 'showAllUser']);
 $router->get('user/*', [UserController::class, 'PersonalAreaUser']);
+$router->post('user', [UserController::class, 'createUser']);
+$router->put('user/*', [UserController::class, 'updateUser']);
+$router->delete('user/*', [UserController::class, 'deleteUser']);
 
 $application = new Application($router);
 

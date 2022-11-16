@@ -3,7 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\User;
-use App\View\View;
+use App\View\Json;
+
 
 /**
  * Class UserController
@@ -13,14 +14,85 @@ class UserController
 {
     public function PersonalAreaUser($id)
     {
-        $title = 'Личный кабинет';
         $user = User::find($id);
-
-        return new View('user.lk',
+        $objectsJsonUser = [
             [
-                'title' => $title,
-                'user' =>$user
+                'id' => $user->id,
+                'name' => $user->name,
+                'surname' => $user->surname,
+                'password' => $user->password,
+                'email' => $user->email,
+                'date_create' => $user->date_create,
+            ]
+        ];
+
+        return new Json(
+            [
+                'users' => json_encode($objectsJsonUser)
             ]);
     }
 
+    public function showAllUser()
+    {
+    $users = User::where(null)
+        ->get();
+    $objectsJsonUsers = [];
+    foreach ($users as $user) {
+        $objectsJsonUsers[] = [
+            [
+                'id' => $user->id,
+                'name' => $user->name,
+                'surname' => $user->surname,
+                'password' => $user->password,
+                'email' => $user->email,
+                'date_create' => $user->date_create,
+            ]
+        ];
+    }
+
+    return new Json(
+        [
+            'users' => json_encode($objectsJsonUsers)
+        ]);
+    }
+
+    public function createUser()
+    {
+        $objectsJsonUser = '';
+
+    return new Json(
+        [
+            'users' => json_encode($objectsJsonUser)
+        ]);
+    }
+
+    public function updateUser($id)
+    {
+        $user = User::find($id);
+        $objectsJsonUser = '';
+
+        return new Json(
+            [
+                'users' => json_encode($objectsJsonUser)
+            ]);
+    }
+
+    public function deleteUser($id)
+    {
+        $user = User::find($id);
+        if (isset($user)) {
+            $result = 'true';
+            $user -> delete();
+            $message = 'пользователь с ид: ' .  $user->id . ' удален';
+        } else {
+            $result = 'false';
+            $message = 'пользователя в таким ид нет в БД';
+        }
+
+        return new Json(
+            [
+                'message' => $message,
+                'result' => $result
+            ]);
+    }
 }

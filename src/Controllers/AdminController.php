@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\User;
 use App\View\Json;
-use App\View\View;
+
 
 
 /**
@@ -15,78 +15,55 @@ class AdminController
 {
     public function getAllUsers()
     {
-        $title = 'Все пользователи';
         $users = User::where(null)
             ->get();
+        $objectsJsonUser = [];
+        foreach ($users as $user) {
+            $objectsJsonUser[] = [
+                [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'surname' => $user->surname,
+                    'password' => $user->password,
+                    'email' => $user->email,
+                    'date_create' => $user->date_create,
+                ]
+            ];
+        }
 
-        return new View('admin.allUser',
+        return new Json(
             [
-                'users' => $users,
-                'title' => $title
+                'users' => json_encode($objectsJsonUser)
             ]);
     }
 
     public function deleteUser($id)
     {
-
         $user = User::find($id);
-        $user -> delete();
-        $_SESSION['success'] = 'пользователь с именем: ' .  $user->name . ' удален';
+        if (isset($user)) {
+            $result = 'true';
+            $user -> delete();
+            $message = 'пользователь с ид: ' .  $user->id . ' удален';
+        } else {
+            $result = 'false';
+            $message = 'пользователя в таким ид нет в БД';
+        }
 
         return new Json(
             [
-                'message' => 'пользователь с именем: ' .  $user->name . ' удален',
-                'result' => true
-            ]
-        );
-    }
-
-    public function editUserForm($id)
-    {
-        $user = User::find($id);
-        $title = 'редактирование пользователя';
-
-        return new View('admin.editCreateUser',
-            [
-                'user' => $user,
-                'title' => $title
+                'message' => $message,
+                'result' => $result
             ]);
     }
-
-    public function createUserForm()
-    {
-        $title = 'создание нового пользователя пользователя';
-
-        return new View('admin.editCreateUser',
-            [
-                'title' => $title
-            ]);
-    }
-
 
     public function editUser($id)
     {
-
         $user = User::find($id);
         $_SESSION['success'] = 'пользователь с именем: ' .  $user->name . ' изменен';
 
         return new Json(
             [
                 'message' => 'пользователь с именем: ' .  $user->name . ' изменен',
-                'result' => true
-            ]
-        );
-    }
-
-
-    public function createUser()
-    {
-
-        $_SESSION['success'] = 'новый подьзователь создан';
-
-        return new Json(
-            [
-                'message' => 'новый подьзователь создан',
                 'result' => true
             ]
         );

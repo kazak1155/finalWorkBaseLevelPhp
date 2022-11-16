@@ -15,22 +15,17 @@ if ($_SESSION['status_user'] == 'administrator') {
     <table>
         <tr>
             <td>
-                <a href="/user/<?= $_SESSION['userId'] ?>">личный кибинет</a>
+                <a href="/admin/user/<?= $_SESSION['userId'] ?>">личный кибинет</a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="/user">все пользователи</a>
+                <a href="/admin/user">все пользователи</a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="/file">файлы</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="/createUser">создать нового пользователя</a>
+                <a href="/admin/file">файлы</a>
             </td>
         </tr>
         <tr>
