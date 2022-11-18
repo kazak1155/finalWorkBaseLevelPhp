@@ -7,13 +7,13 @@ use App\Controllers\MainController;
 use App\Controllers\AdminController;
 use App\Controllers\UserController;
 
-//session_start();
-//error_reporting(E_ALL);
-//ini_set('display_errors', true);
-//
-//require_once __DIR__ . DIRECTORY_SEPARATOR . 'bootstrap.php';
-//
-//$router = new Router();
+session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', true);
+
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'bootstrap.php';
+
+$router = new Router();
 //
 //$router->get('', [MainController::class, 'mainPage']);
 //
@@ -26,20 +26,15 @@ use App\Controllers\UserController;
 //$router->post('login', [AuthorizationController::class, 'login']);
 //$router->get('logout', [AuthorizationController::class, 'logout']);
 //
-//$router->get('user', [UserController::class, 'showAllUser']);
-//$router->get('user/*', [UserController::class, 'PersonalAreaUser']);
-//$router->post('user', [UserController::class, 'createUser']);
-//$router->put('user/*', [UserController::class, 'updateUser']);
-//$router->delete('user/*', [UserController::class, 'deleteUser']);
-//
-//$application = new Application($router);
-//
-//$application->run($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
+$router->get('user', [UserController::class, 'showAllUser']);
+$router->get('user/*', [UserController::class, 'PersonalAreaUser']);
+$router->post('user', [UserController::class, 'createUser']);
+$router->put('user/*', [UserController::class, 'updateUser']);
+$router->delete('user/*', [UserController::class, 'deleteUser']);
 
 $urlList = [
     'admin/user' => [
-        'get' =>
-            [UserController::class, 'showAllUser']
+        'get' => 'UserController::showAllUser'
     ],
     'admin/user/*' => [
         'delete' => 'AdminController::deleteUser',
@@ -54,13 +49,21 @@ $urlList = [
         'delete' => 'UserController::deleteUser'
     ]
 ];
-
+$addTextTostring = '::class';
 foreach ($urlList as $key1 => $list1) {
     echo '<pre>';
     foreach ($list1 as $key2 => $list2){
-        foreach ($list2 as $key3 => $list3){
-//            echo "path= " . $key1 . " , method= " . $key2 . ' , class= ' . $list3 . '<br>';
-            var_dump($list3);
-        }
+//            var_dump($key2); var_dump($list2);
+        $classFunction = explode("::", $list2);
+//        echo 'path= ' . $key1 . ' method= ' . $key2 . ' class= ' . $classFunction[0].$addTextTostring . ' function= ' . $classFunction[1];
+        $router->$key2($key1, [$classFunction[0].$addTextTostring, $classFunction[1]]);
+        echo '$router->' . $key2 . '(' . $key1 . ', [' . $classFunction[0] . ', ' .  $classFunction[1] . ']';
     }
+    echo '</pre>';
 }
+
+$application = new Application($router);
+
+$application->run($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
+
+

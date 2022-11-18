@@ -13,8 +13,9 @@ use App\View\Json;
  */
 class AdminController
 {
-    public function getAllUsers()
+    static function getAllUsers()
     {
+//        var_dump($_REQUEST); exit;
         $users = User::where(null)
             ->get();
         $objectsJsonUser = [];
