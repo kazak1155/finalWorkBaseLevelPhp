@@ -35,50 +35,50 @@ $router = new Router();
 $urlList = [
     'admin/user' => [
         'get' => [
-            'UserController::class' => 'showAllUser'
+            'App\Controllers\UserController::class' => 'showAllUser'
         ]
     ],
     'admin/user/*' => [
         'delete' =>  [
-            'AdminController::class' => 'deleteUser'
+            'App\Controllers\AdminController::class' => 'deleteUser'
         ],
         'put' => [
-            'AdminController::class' => 'editUser'
+            'App\Controllers\AdminController::class' => 'editUser'
         ],
         'get' => [
-            'AdminController::class' => 'PersonalAreaUser'
+            'App\Controllers\AdminController::class' => 'PersonalAreaUser'
         ]
     ],
     'user' => [
         'get' => [
-            'UserController::class' => 'showAllUser'
+            'App\Controllers\UserController::class' => 'showAllUser'
         ]
     ],
     'user/*' => [
         'get' => [
-            'UserController::class' => 'PersonalAreaUser'
+            'App\Controllers\UserController::class' => 'PersonalAreaUser'
         ],
         'put' => [
-            'UserController::class' => 'updateUser'
+            'App\Controllers\UserController::class' => 'updateUser'
         ],
         'delete' => [
-            'UserController::class' => 'deleteUser'
+            'App\Controllers\UserController::class' => 'deleteUser'
         ]
     ],
     'login' => [
         'get' => [
-            'AuthorizationController::class' => 'login'
+            'App\Controllers\AuthorizationController::class' => 'login'
         ],
         'post' => [
-            'AuthorizationController::class' => 'login'
+            'App\Controllers\AuthorizationController::class' => 'login'
         ],
         'get' => [
-            'AuthorizationController::class' => 'logout'
+            'App\Controllers\AuthorizationController::class' => 'logout'
             ]
     ],
     '' => [
         'get' => [
-            'MainController::class' => 'mainPage'
+            'App\Controllers\MainController::class' => 'mainPage'
         ]
     ]
 ];
