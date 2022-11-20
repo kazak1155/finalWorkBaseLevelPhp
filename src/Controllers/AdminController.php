@@ -57,14 +57,33 @@ class AdminController
             ]);
     }
 
-    public function editUser($id)
+    public function editUser()
     {
-        $user = User::find($id);
+        $test = file_get_contents('php://input');
+        $body = json_decode($test, true);
+        $user = User::find($body['id']);
+        if (isset($body['name'])) {
+            $user->name = $body['name'];
+        }
+        if (isset($body['surname'])) {
+            $user->surname = $body['surname'];
+        }
+        if (isset($body['email'])) {
+            $user->email = $body['email'];
+        }
+        if (isset($body['date_create'])) {
+            $user->date_create = $body['date_create'];
+        }
+        if (isset($body['status'])) {
+            $user->status = $body['status'];
+        }
+        $user->save();
+
         $_SESSION['success'] = 'пользователь с именем: ' .  $user->name . ' изменен';
 
         return new Json(
             [
-                'message' => 'пользователь с именем: ' .  $user->name . ' изменен',
+                'message' => 'пользователь с id: ' .  $user->id . ' изменен',
                 'result' => true
             ]
         );
