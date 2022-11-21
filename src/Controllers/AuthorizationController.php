@@ -15,7 +15,7 @@ class AuthorizationController
     public function login()
     {
         $user = '';
-        $title = 'аторизация';
+        $title = 'авторизация';
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
         if (isset($_POST['send'])) {
@@ -56,5 +56,36 @@ class AuthorizationController
                 'title' => $title,
                 'user' => $user,
             ]);
+    }
+
+    public function registration()
+    {
+        $title = 'регистрация пользователя';
+        $_SESSION['error'] = '';
+        var_dump($_POST);
+        if (isset($_POST['send']) && $_POST['send'] != '') {
+            $_SESSION['registration'] = '1';
+            $newUser = new User();
+            $userEmail = User::where('email', $_POST['email'])->first();
+            if (isset($userEmail->email)) {
+                $_SESSION['error'] = 'пользователь с таким  email уже есть в БД';
+            } else {
+                $newUser->name = $_POST['name'] ?? '';
+                $newUser->surname = $_POST['surname'] ?? '';
+                $newUser->password = password_hash($_POST['password'] ?? '', PASSWORD_DEFAULT);
+                $newUser->email = $_POST['email'] ?? '';
+                $newUser->created_at = time();
+                $newUser->status = 'user';
+//                $newUser->save();
+                $_SESSION['success'] = 'пользователь с email= ' . $newUser->email . ' создан';
+                $_SESSION['registration'] = '555';
+                header('Location: /login');
+            }
+        }
+
+    return new View('authorization.registration',
+        [
+            'title' => $title,
+        ]);
     }
 }

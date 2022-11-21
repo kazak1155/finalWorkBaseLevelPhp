@@ -10,6 +10,8 @@ $_SESSION['error'] = ''; ?>
     </div><?php }
 $_SESSION['success'] = ''; ?>
 <?php
+//var_dump($_SESSION['registration']); exit;
+
 if ($_SESSION['status_user'] == 'administrator') {
     ?>
     <table>
@@ -48,7 +50,10 @@ if ($_SESSION['status_user'] == 'administrator') {
     <form action="/logout" method="get">
         <input type="submit" name="logout" value="Выйти с сайта">
     </form>
-<?php } else {
+<?php
+} elseif ($_SESSION['registration'] == '1') {
+    header('Location: /registration');
+} else {
     header('Location: /login');
 }
 ?>

@@ -61,6 +61,14 @@ $urlList = [
             'App\Controllers\AuthorizationController' => 'logout'
         ]
     ],
+    'registration' => [
+        'post' => [
+            'App\Controllers\AuthorizationController' => 'registration'
+        ],
+        'get' => [
+            'App\Controllers\AuthorizationController' => 'registration'
+        ]
+    ],
     '' => [
         'get' => [
             'App\Controllers\MainController' => 'mainPage'
