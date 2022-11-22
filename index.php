@@ -18,7 +18,7 @@ $router = new Router();
 $urlList = [
     'admin/user' => [
         'get' => [
-            'App\Controllers\UserController' => 'showAllUser'
+            'App\Controllers\AdminController' => 'showAllUser'
         ]
     ],
     'admin/user/*' => [
@@ -67,6 +67,11 @@ $urlList = [
         ],
         'get' => [
             'App\Controllers\AuthorizationController' => 'registration'
+        ]
+    ],
+    'passwordReset' => [
+        'post' => [
+            'App\Controllers\AuthorizationController' => 'passwordReset'
         ]
     ],
     '' => [

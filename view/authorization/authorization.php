@@ -30,6 +30,12 @@ if (isset($_SESSION['registration']) && ($_SESSION['registration'] = '1')) {
         <div class="col-md-8 offset-md-2">
             <form action="/registration" method="post">
                 <button name="send" type="submit" class="btn btn-primary">регистрация</button>
+            </form>
+        </div>
+        <div class="col-md-8 offset-md-2">
+            <form action="/passwordReset" method="post">
+                <button name="send" type="submit" class="btn btn-primary">сброс пароля</button>
+            </form>
         </div>
     </div>
 <?php

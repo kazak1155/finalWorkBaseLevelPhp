@@ -3,11 +3,11 @@
 namespace App\Controllers;
 
 use App\Models\User;
+use App\View\Json;
 use App\View\View;
-use MongoDB\Driver\Session;
 
 /**
- * Class AuthorizationController for authorization user
+ * Class AuthorizationController for authorization, registration and logout user
  * @package App\Controllers
  */
 class AuthorizationController
@@ -47,14 +47,12 @@ class AuthorizationController
 
     public function logout()
     {
-            $user = '';
-            $title = 'выйти с сайта';
-            session_destroy();
+        $result = 'вы успешно вышли с сайта';
+        session_destroy();
 
-        return new View('authorization.authorization',
+        return new Json(
             [
-                'title' => $title,
-                'user' => $user,
+                'result' => $result
             ]);
     }
 
@@ -87,5 +85,17 @@ class AuthorizationController
         [
             'title' => $title,
         ]);
+    }
+
+    public function passwordReset()
+    {
+        $user = '';
+        $title = 'passwordReset';
+
+        return new View('authorization.passwordReset',
+            [
+                'title' => $title,
+                'user' => $user,
+            ]);
     }
 }
