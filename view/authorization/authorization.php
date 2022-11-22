@@ -33,7 +33,7 @@ if (isset($_SESSION['registration']) && ($_SESSION['registration'] = '1')) {
             </form>
         </div>
         <div class="col-md-8 offset-md-2">
-            <form action="/passwordReset" method="post">
+            <form action="/passwordReset" method="get">
                 <button name="send" type="submit" class="btn btn-primary">сброс пароля</button>
             </form>
         </div>

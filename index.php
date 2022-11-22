@@ -70,6 +70,9 @@ $urlList = [
         ]
     ],
     'passwordReset' => [
+        'get' => [
+            'App\Controllers\AuthorizationController' => 'passwordReset'
+        ],
         'post' => [
             'App\Controllers\AuthorizationController' => 'passwordReset'
         ]
