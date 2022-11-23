@@ -116,7 +116,7 @@ class AuthorizationController
                 $message = 'такого email нет в БД';
             }
         } else {
-            $message = 'кнопка "сброс пароля не нажата';
+            $message = 'кнопка "сброс пароля" не нажата';
         }
 
         return new Json(
