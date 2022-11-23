@@ -58,6 +58,7 @@ class UserController
 
     public function createUser()
     {
+        echo 'request= ' ; var_dump($_REQUEST); exit;
         $objectsJsonUser = '';
 
     return new Json(
@@ -66,8 +67,9 @@ class UserController
         ]);
     }
 
-    public function updateUser($id)
+    public function updateUser()
     {
+        echo 'request= ' ; var_dump($_REQUEST); exit;
         $user = User::find($id);
         $objectsJsonUser = '';
 

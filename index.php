@@ -35,14 +35,17 @@ $urlList = [
     'user' => [
         'get' => [
             'App\Controllers\UserController' => 'showAllUser'
+        ],
+        'post' => [
+            'App\Controllers\UserController' => 'createUser'
+        ],
+        'put' => [
+            'App\Controllers\UserController' => 'updateUser'
         ]
     ],
     'user/*' => [
         'get' => [
             'App\Controllers\UserController' => 'PersonalAreaUser'
-        ],
-        'put' => [
-            'App\Controllers\UserController' => 'updateUser'
         ],
         'delete' => [
             'App\Controllers\UserController' => 'deleteUser'
@@ -71,10 +74,10 @@ $urlList = [
     ],
     'passwordReset' => [
         'get' => [
-            'App\Controllers\AuthorizationController' => 'passwordReset'
+            'App\Controllers\AuthorizationController' => 'passwordResetGet'
         ],
         'post' => [
-            'App\Controllers\AuthorizationController' => 'passwordReset'
+            'App\Controllers\AuthorizationController' => 'passwordResetPost'
         ]
     ],
     '' => [

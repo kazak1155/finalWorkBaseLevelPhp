@@ -87,7 +87,7 @@ class AuthorizationController
         ]);
     }
 
-    public function passwordReset()
+    public function passwordResetGet()
     {
         $user = '';
         $title = 'passwordReset';
@@ -96,6 +96,29 @@ class AuthorizationController
             [
                 'title' => $title,
                 'user' => $user,
+            ]);
+    }
+
+    public function passwordResetPost()
+    {
+        $email = $_REQUEST['email'];
+        echo '$email= ' ; var_dump($_REQUEST);
+        if (isset($_REQUEST['passwordReset'])) {
+            $user = User::where('email', $email)->first();
+            if (isset($user)) {
+                $user->password = password_hash('12345', PASSWORD_DEFAULT);
+                $user->save();
+                $message = 'пароль для пользователя с email ' . $email . ' установлен на 12345';
+            } else {
+                $message = 'такого email нет в БД';
+            }
+        } else {
+            $message = 'кнопка "сброс пароля не нажата';
+        }
+
+        return new Json(
+            [
+                'message' => $message,
             ]);
     }
 }
