@@ -102,12 +102,15 @@ class AuthorizationController
     public function passwordResetPost()
     {
         $email = $_REQUEST['email'];
-        echo '$email= ' ; var_dump($_REQUEST);
         if (isset($_REQUEST['passwordReset'])) {
             $user = User::where('email', $email)->first();
             if (isset($user)) {
                 $user->password = password_hash('12345', PASSWORD_DEFAULT);
                 $user->save();
+                // Сообщение
+                $message = 'пароль установлен на 12345';
+                // Отправляем
+                mail($email, 'пароль сброшен', $message);
                 $message = 'пароль для пользователя с email ' . $email . ' установлен на 12345';
             } else {
                 $message = 'такого email нет в БД';
