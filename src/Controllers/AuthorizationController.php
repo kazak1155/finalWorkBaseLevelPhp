@@ -137,7 +137,7 @@ class AuthorizationController
                 $mail->CharSet = 'UTF-8';/*Выставляем кодировку*/
 
 
-                $mail->setFrom('example@mail.ru', 'Андрей Грибин');/*Указываем адрес почты отправителя */
+                $mail->setFrom('admin@mail.ru');/*Указываем адрес почты отправителя */
                 /*Указываем перечень адресов почты куда отсылаем сообщение*/
                 $mail->addAddress($email, $user->name . ' ' . $user->surname);
 
