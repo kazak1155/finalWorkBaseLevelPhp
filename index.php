@@ -2,11 +2,6 @@
 
 namespace App;
 
-use App\Controllers\AuthorizationController;
-use App\Controllers\MainController;
-use App\Controllers\AdminController;
-use App\Controllers\UserController;
-
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', true);

@@ -89,6 +89,18 @@ class AuthorizationController
 
     public function passwordResetGet()
     {
+        if (isset($_GET['code'])) {
+            $email = $_SESSION['email'];
+            $user = User::where('email', $email)->first();
+            $user->password = password_hash('12345', PASSWORD_DEFAULT);
+            $user->save();
+            $_SESSION['success'] = 'пароль для пользователя с email ' . $email . ' сброшен yf 12345';
+            $message = 'пароль для пользователя с email ' . $email . ' сброшен yf 12345';
+            return new Json(
+                [
+                    'message' => $message,
+                ]);
+        }
         $user = '';
         $title = 'passwordReset';
 
@@ -102,16 +114,16 @@ class AuthorizationController
     public function passwordResetPost()
     {
         $email = $_REQUEST['email'];
+        $_SESSION['email'] = $email;
         if (isset($_REQUEST['passwordReset'])) {
             $user = User::where('email', $email)->first();
             if (isset($user)) {
-                $user->password = password_hash('12345', PASSWORD_DEFAULT);
-                $user->save();
-                // Сообщение
-                $message = 'пароль установлен на 12345';
-                // Отправляем
-                mail($email, 'пароль сброшен', $message);
-                $message = 'пароль для пользователя с email ' . $email . ' установлен на 12345';
+                $code = rand(1,1000);
+                $letterBody = 'Для восстановления пароля перейдите по <a href="http://' . $_SERVER['SERVER_NAME'] . ':8000' . '/passwordReset?code=' . $code . '">' . 'ссылке</a>.';
+                echo $letterBody;
+//                sendEmail($email, 'Восстановление пароля', $letterBody);
+//                return 'На вашу почту отправлено письмо со ссылкой на восстановление пароля';
+                $message = 'На почту  с '. $email.  ' отправлено письмо со ссылкой на восстановление пароля';
             } else {
                 $message = 'такого email нет в БД';
             }

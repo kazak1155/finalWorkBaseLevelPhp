@@ -16,6 +16,8 @@
     "minimum-stability": "stable",
     "require": {
         "illuminate/database": "^8.74",
-      "ext-json": "*"
+        "ext-json": "*",
+        "phpmailer/phpmailer": "^6.6",
+        "ext-pdo": "*"
     }
 }
