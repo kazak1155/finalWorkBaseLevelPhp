@@ -1,4 +1,5 @@
 <?php
+
 require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 const APP_DIR = __DIR__;
 const VIEW_DIR = DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR;

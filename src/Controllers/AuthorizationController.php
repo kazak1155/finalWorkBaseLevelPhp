@@ -5,6 +5,9 @@ namespace App\Controllers;
 use App\Models\User;
 use App\View\Json;
 use App\View\View;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+require 'vendor/autoload.php';
 
 /**
  * Class AuthorizationController for authorization, registration and logout user
@@ -93,22 +96,23 @@ class AuthorizationController
             $email = $_SESSION['email'];
             $user = User::where('email', $email)->first();
             $user->password = password_hash('12345', PASSWORD_DEFAULT);
-            $user->save();
+//            $user->save();
             $_SESSION['success'] = 'пароль для пользователя с email ' . $email . ' сброшен на 12345';
             $message = 'пароль для пользователя с email ' . $email . ' сброшен на 12345';
             return new Json(
                 [
                     'message' => $message,
                 ]);
-        }
-        $user = '';
-        $title = 'passwordReset';
+        } else {
+            $user = '';
+            $title = 'passwordReset';
 
-        return new View('authorization.passwordReset',
-            [
-                'title' => $title,
-                'user' => $user,
-            ]);
+            return new View('authorization.passwordReset',
+                [
+                    'title' => $title,
+                    'user' => $user,
+                ]);
+        }
     }
 
     public function passwordResetPost()
@@ -120,7 +124,29 @@ class AuthorizationController
             if (isset($user)) {
                 $code = rand(1,1000);
                 $letterBody = 'Для восстановления пароля перейдите по <a href="http://' . $_SERVER['SERVER_NAME'] . ':8000' . '/passwordReset?code=' . $code . '">' . 'ссылке</a>.';
-                echo $letterBody;
+//                echo $letterBody;
+                $mail = new PHPMailer(true);
+                $mail->SMTPDebug = 2;         /*Оставляем как есть*/
+                $mail->isSMTP();              /*Запускаем настройку SMTP*/
+                $mail->Host = 'smtp.mail.ru'; /*Выбираем сервер SMTP*/
+                $mail->SMTPAuth = true;        /*Активируем авторизацию на своей почте*/
+                $mail->Username = 'login';   /*Имя(логин) от аккаунта почты отправителя */
+                $mail->Password = 'password';        /*Пароль от аккаунта  почты отправителя */
+                $mail->SMTPSecure = 'ssl';            /*Указываем протокол*/
+                $mail->Port = 465;			/*Указываем порт*/
+                $mail->CharSet = 'UTF-8';/*Выставляем кодировку*/
+
+
+                $mail->setFrom('example@mail.ru', 'Андрей Грибин');/*Указываем адрес почты отправителя */
+                /*Указываем перечень адресов почты куда отсылаем сообщение*/
+                $mail->addAddress($email, $user->name . ' ' . $user->surname);
+
+
+                $mail->isHTML(true);      /*формируем html сообщение*/
+                $mail->Subject = 'сброс пароля'; /*Заголовок сообщения*/
+                $mail->Body    = $letterBody;/* Текст сообщения */
+                $mail->AltBody = 'сообщение о сбросе пароля входа на сайт';/*Описание сообщения */
+                $mail->send();
 //                sendEmail($email, 'Восстановление пароля', $letterBody);
 //                return 'На вашу почту отправлено письмо со ссылкой на восстановление пароля';
                 $message = 'На почту  с '. $email.  ' отправлено письмо со ссылкой на восстановление пароля';
