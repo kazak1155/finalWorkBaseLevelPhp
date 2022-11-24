@@ -94,8 +94,8 @@ class AuthorizationController
             $user = User::where('email', $email)->first();
             $user->password = password_hash('12345', PASSWORD_DEFAULT);
             $user->save();
-            $_SESSION['success'] = 'пароль для пользователя с email ' . $email . ' сброшен yf 12345';
-            $message = 'пароль для пользователя с email ' . $email . ' сброшен yf 12345';
+            $_SESSION['success'] = 'пароль для пользователя с email ' . $email . ' сброшен на 12345';
+            $message = 'пароль для пользователя с email ' . $email . ' сброшен на 12345';
             return new Json(
                 [
                     'message' => $message,
