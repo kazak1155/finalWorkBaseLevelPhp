@@ -62,12 +62,13 @@ class UserController
         $title = 'регистрация пользователя';
         $_SESSION['error'] = '';
         if (isset($_POST['send']) && $_POST['send'] != '') {
-            $_SESSION['registration'] = '1';
+//            $_SESSION['registration'] = '1';
             $newUser = new User();
             $userEmail = User::where('email', $_POST['email'])->first();
 //            var_dump($userEmail); exit;
             if (isset($userEmail->email)) {
                 $_SESSION['error'] = 'пользователь с таким  email уже есть в БД';
+                $message = 'пользователь с таким  email уже есть в БД';
             } else {
                 $newUser->name = $_POST['name'] ?? '';
                 $newUser->surname = $_POST['surname'] ?? '';
@@ -77,6 +78,7 @@ class UserController
                 $newUser->status = 'user';
 //                $newUser->save();
                 $_SESSION['success'] = 'пользователь с email= ' . $newUser->email . ' создан';
+                $message = 'пользователь с email= ' . $newUser->email . ' создан';
                 $_SESSION['registration'] = '555';
                 header('Location: /login');
             }
@@ -84,6 +86,7 @@ class UserController
             return new Json(
                 [
                     'title' => $title,
+                    'message' => $message,
                 ]);
         }
 

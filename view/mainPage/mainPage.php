@@ -10,7 +10,9 @@ $_SESSION['error'] = ''; ?>
     </div><?php }
 $_SESSION['success'] = ''; ?>
 <?php
-
+if (isset($_SESSION['registration'])) {
+    var_dump($_SESSION['registration']);
+}
 if (isset($_SESSION['status_user']) && $_SESSION['status_user'] == 'administrator') {
     ?>
     <table>
@@ -50,10 +52,7 @@ if (isset($_SESSION['status_user']) && $_SESSION['status_user'] == 'administrato
         <input type="submit" name="logout" value="Выйти с сайта">
     </form>
 <?php
-} elseif ($_SESSION['registration'] == '1') {
-//    header('Location: /user');
-
-} else {
+}  else {
     header('Location: /login');
 }
 ?>
