@@ -49,9 +49,6 @@ $urlList = [
     'login' => [
         'get' => [
             'App\Controllers\AuthorizationController' => 'login'
-        ],
-        'post' => [
-            'App\Controllers\AuthorizationController' => 'login'
         ]
     ],
     'logout' => [

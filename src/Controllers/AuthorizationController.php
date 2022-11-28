@@ -17,11 +17,11 @@ class AuthorizationController
 {
     public function login()
     {
-        $user = '';
         $title = 'авторизация';
-        $email = $_POST['email'] ?? '';
-        $password = $_POST['password'] ?? '';
-        if (isset($_POST['send'])) {
+        $user = '';
+        if (isset($_GET['email'])) {
+            $email = $_GET['email'] ?? '';
+            $password = $_GET['password'] ?? '';
             $user = User::where('email', $email)->first();
             if (isset($user)) {
                 if ($user->email == $email && password_verify($password, $user->password )) {
@@ -84,10 +84,10 @@ class AuthorizationController
             }
         }
 
-    return new View('authorization.registration',
-        [
-            'title' => $title,
-        ]);
+        return new Json(
+            [
+                'message' => $message,
+            ]);
     }
 
     public function passwordResetGet()

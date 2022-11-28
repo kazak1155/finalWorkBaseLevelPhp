@@ -14,7 +14,7 @@ if (isset($_SESSION['registration']) && ($_SESSION['registration'] = '1')) {
 
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <form action="/login" method="post">
+            <form action="/login" method="GET">
                 <div class="form-group">
                     <label for="exampleInputEmail1">введите email</label>
                     <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp">
@@ -24,7 +24,7 @@ if (isset($_SESSION['registration']) && ($_SESSION['registration'] = '1')) {
                     <input name="password" type="password" class="form-control" id="password">
                 </div>
                 <br>
-                <button name="send" type="submit" class="btn btn-primary">авторизироваться</button>
+                <button type="submit" class="btn btn-primary">авторизироваться</button>
             </form>
         </div>
         <div class="col-md-8 offset-md-2">
