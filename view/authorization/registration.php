@@ -10,7 +10,7 @@ if (!empty($_SESSION['error']) && !empty($_SESSION['error'])) { ?>
     <h2>Регистрация нового пользователя</h2>
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <form action="/registration" method="post">
+            <form action="/user" method="post">
                 <div class="form-group">
                     <label for="exampleInputEmail1">введите имя</label>
                     <input required name="name" type="text" class="form-control" id="name" aria-describedby="emailHelp">

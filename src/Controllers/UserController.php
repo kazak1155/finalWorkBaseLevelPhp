@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\User;
 use App\View\Json;
+use App\View\View;
 
 
 /**
@@ -56,15 +57,40 @@ class UserController
         ]);
     }
 
-    public function createUser()
+    public function registration()
     {
-        echo 'request= ' ; var_dump($_REQUEST); exit;
-        $objectsJsonUser = '';
+        $title = 'регистрация пользователя';
+        $_SESSION['error'] = '';
+        if (isset($_POST['send']) && $_POST['send'] != '') {
+            $_SESSION['registration'] = '1';
+            $newUser = new User();
+            $userEmail = User::where('email', $_POST['email'])->first();
+//            var_dump($userEmail); exit;
+            if (isset($userEmail->email)) {
+                $_SESSION['error'] = 'пользователь с таким  email уже есть в БД';
+            } else {
+                $newUser->name = $_POST['name'] ?? '';
+                $newUser->surname = $_POST['surname'] ?? '';
+                $newUser->password = password_hash($_POST['password'] ?? '', PASSWORD_DEFAULT);
+                $newUser->email = $_POST['email'] ?? '';
+                $newUser->created_at = time();
+                $newUser->status = 'user';
+//                $newUser->save();
+                $_SESSION['success'] = 'пользователь с email= ' . $newUser->email . ' создан';
+                $_SESSION['registration'] = '555';
+                header('Location: /login');
+            }
 
-    return new Json(
-        [
-            'users' => json_encode($objectsJsonUser)
-        ]);
+            return new Json(
+                [
+                    'title' => $title,
+                ]);
+        }
+
+        return new View('authorization.registration',
+            [
+                'title' => $title,
+            ]);
     }
 
     public function updateUser()

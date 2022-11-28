@@ -59,60 +59,47 @@ class AuthorizationController
             ]);
     }
 
-    public function registration()
-    {
-        $title = 'регистрация пользователя';
-        $_SESSION['error'] = '';
-        var_dump($_POST);
-        if (isset($_POST['send']) && $_POST['send'] != '') {
-            $_SESSION['registration'] = '1';
-            $newUser = new User();
-            $userEmail = User::where('email', $_POST['email'])->first();
-            if (isset($userEmail->email)) {
-                $_SESSION['error'] = 'пользователь с таким  email уже есть в БД';
-            } else {
-                $newUser->name = $_POST['name'] ?? '';
-                $newUser->surname = $_POST['surname'] ?? '';
-                $newUser->password = password_hash($_POST['password'] ?? '', PASSWORD_DEFAULT);
-                $newUser->email = $_POST['email'] ?? '';
-                $newUser->created_at = time();
-                $newUser->status = 'user';
-//                $newUser->save();
-                $_SESSION['success'] = 'пользователь с email= ' . $newUser->email . ' создан';
-                $_SESSION['registration'] = '555';
-                header('Location: /login');
-            }
-        }
-
-        return new Json(
-            [
-                'message' => $message,
-            ]);
-    }
-
     public function passwordResetGet()
     {
-        if (isset($_GET['code'])) {
-            $email = $_SESSION['email'];
+        $title = 'passwordReset';
+        $user = '';
+        if (isset($_GET['email'])) {
+            $email = $_GET['email'];
             $user = User::where('email', $email)->first();
-            $user->password = password_hash('12345', PASSWORD_DEFAULT);
+            if (isset($user)) {
+                $user->password = password_hash('12345', PASSWORD_DEFAULT);
 //            $user->save();
-            $_SESSION['success'] = 'пароль для пользователя с email ' . $email . ' сброшен на 12345';
-            $message = 'пароль для пользователя с email ' . $email . ' сброшен на 12345';
+                $_SESSION['success'] = 'пароль для пользователя с email ' . $email . ' сброшен на 12345';
+                $message = 'пароль для пользователя с email ' . $email . ' сброшен на 12345';
+                return new Json(
+                    [
+                        'message' => $message,
+                    ]);
+            } else {
+                $_SESSION['error'] = 'такого пользователя нет в БД';
+                $message = 'такого пользователя нет в БД';
+
+                return new Json(
+                    [
+                        'user' => $user,
+                        'message' => $message,
+                    ]);
+            }
+        } else {
+            $_SESSION['error'] = 'email не введен';
+            $message = 'email не введен';
+
             return new Json(
                 [
+                    'user' => $user,
                     'message' => $message,
                 ]);
-        } else {
-            $user = '';
-            $title = 'passwordReset';
-
-            return new View('authorization.passwordReset',
-                [
-                    'title' => $title,
-                    'user' => $user,
-                ]);
         }
+
+        return new View('authorization.passwordReset',
+            [
+                'title' => $title,
+            ]);
     }
 
     public function passwordResetPost()

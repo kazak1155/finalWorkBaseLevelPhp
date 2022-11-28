@@ -10,9 +10,8 @@ $_SESSION['error'] = ''; ?>
     </div><?php }
 $_SESSION['success'] = ''; ?>
 <?php
-//var_dump($_SESSION['registration']); exit;
 
-if ($_SESSION['status_user'] == 'administrator') {
+if (isset($_SESSION['status_user']) && $_SESSION['status_user'] == 'administrator') {
     ?>
     <table>
         <tr>
@@ -40,7 +39,7 @@ if ($_SESSION['status_user'] == 'administrator') {
         </tr>
     </table>
     <?php
-} elseif ($_SESSION['status_user'] == 'user') {
+} elseif (isset($_SESSION['status_user']) && $_SESSION['status_user'] == 'user') {
     ?>
     <br>
     <a href="/user/<?= $_SESSION['userId'] ?>">личный кибинет</a>
@@ -52,7 +51,8 @@ if ($_SESSION['status_user'] == 'administrator') {
     </form>
 <?php
 } elseif ($_SESSION['registration'] == '1') {
-    header('Location: /registration');
+//    header('Location: /user');
+
 } else {
     header('Location: /login');
 }

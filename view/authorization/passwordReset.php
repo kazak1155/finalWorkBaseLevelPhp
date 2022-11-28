@@ -10,13 +10,13 @@ if (!empty($_SESSION['error']) && !empty($_SESSION['error'])) { ?>
     <h2>passwordReset</h2>
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <form action="/passwordReset" method="post">
+            <form action="/passwordReset" method="GET">
                 <div class="form-group">
                     <label for="exampleInputEmail1">введите email</label>
                     <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp">
                 </div>
                 <br>
-                <button name="passwordReset" type="submit" class="btn btn-primary">сбросить пароль</button>
+                <button type="submit" class="btn btn-primary">сбросить пароль</button>
             </form>
         </div>
     </div>

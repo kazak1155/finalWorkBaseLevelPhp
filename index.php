@@ -32,7 +32,7 @@ $urlList = [
             'App\Controllers\UserController' => 'showAllUser'
         ],
         'post' => [
-            'App\Controllers\UserController' => 'createUser'
+            'App\Controllers\UserController' => 'registration'
         ],
         'put' => [
             'App\Controllers\UserController' => 'updateUser'
@@ -56,21 +56,10 @@ $urlList = [
             'App\Controllers\AuthorizationController' => 'logout'
         ]
     ],
-    'registration' => [
-        'post' => [
-            'App\Controllers\AuthorizationController' => 'registration'
-        ],
-        'get' => [
-            'App\Controllers\AuthorizationController' => 'registration'
-        ]
-    ],
     'passwordReset' => [
         'get' => [
             'App\Controllers\AuthorizationController' => 'passwordResetGet'
         ],
-        'post' => [
-            'App\Controllers\AuthorizationController' => 'passwordResetPost'
-        ]
     ],
     '' => [
         'get' => [
