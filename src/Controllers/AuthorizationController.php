@@ -67,10 +67,32 @@ class AuthorizationController
                 $email = $_GET['email'];
                 $user = User::where('email', $email)->first();
                 if (isset($user)) {
-                    $user->password = password_hash('12345', PASSWORD_DEFAULT);
-//            $user->save();
-                    $_SESSION['success'] = 'пароль для пользователя с email ' . $email . ' сброшен на 12345';
-                    $message = 'пароль для пользователя с email ' . $email . ' сброшен на 12345';
+                    $code = rand(1,1000);
+                    $letterBody = 'Для восстановления пароля перейдите по <a href="http://' . $_SERVER['SERVER_NAME'] . ':8000' . '/passwordReset?code=' . $code . '">' . 'ссылке</a>.';
+//                echo $letterBody;
+                    $mail = new PHPMailer(true);
+                    $mail->SMTPDebug = 2;         /*Оставляем как есть*/
+                    $mail->isSMTP();              /*Запускаем настройку SMTP*/
+                    $mail->Host = 'app.debugmail.io'; /*Выбираем сервер SMTP*/
+                    $mail->SMTPAuth = true;        /*Активируем авторизацию на своей почте*/
+                    $mail->Username = '2e6f2a3c-3a66-4bae-95fe-7e1dbc7b6df5';   /*Имя(логин) от аккаунта почты отправителя */
+                    $mail->Password = '6e3c8573-3410-43b6-a900-463581444a7c';        /*Пароль от аккаунта  почты отправителя */
+                    $mail->SMTPSecure = 'ssl';            /*Указываем протокол*/
+                    $mail->Port = 25;			/*Указываем порт*/
+                    $mail->CharSet = 'UTF-8';/*Выставляем кодировку*/
+
+                    $mail->setFrom('admin@mail.ru');/*Указываем адрес почты отправителя */
+                    /*Указываем перечень адресов почты куда отсылаем сообщение*/
+                    $mail->addAddress($email, $user->name . ' ' . $user->surname);
+
+                    $mail->isHTML(true);      /*формируем html сообщение*/
+                    $mail->Subject = 'сброс пароля'; /*Заголовок сообщения*/
+                    $mail->Body    = $letterBody;/* Текст сообщения */
+                    $mail->AltBody = 'сообщение о сбросе пароля входа на сайт';/*Описание сообщения */
+                    $mail->send();
+//                sendEmail($email, 'Восстановление пароля', $letterBody);
+//                return 'На вашу почту отправлено письмо со ссылкой на восстановление пароля';
+                    $message = 'На почту  с '. $email.  ' отправлено письмо со ссылкой на восстановление пароля';
                     return new Json(
                         [
                             'message' => $message,
@@ -116,19 +138,17 @@ class AuthorizationController
                 $mail = new PHPMailer(true);
                 $mail->SMTPDebug = 2;         /*Оставляем как есть*/
                 $mail->isSMTP();              /*Запускаем настройку SMTP*/
-                $mail->Host = 'smtp.mail.ru'; /*Выбираем сервер SMTP*/
+                $mail->Host = 'app.debugmail.io'; /*Выбираем сервер SMTP*/
                 $mail->SMTPAuth = true;        /*Активируем авторизацию на своей почте*/
-                $mail->Username = 'login';   /*Имя(логин) от аккаунта почты отправителя */
-                $mail->Password = 'password';        /*Пароль от аккаунта  почты отправителя */
+                $mail->Username = '2e6f2a3c-3a66-4bae-95fe-7e1dbc7b6df5';   /*Имя(логин) от аккаунта почты отправителя */
+                $mail->Password = '6e3c8573-3410-43b6-a900-463581444a7c';        /*Пароль от аккаунта  почты отправителя */
                 $mail->SMTPSecure = 'ssl';            /*Указываем протокол*/
-                $mail->Port = 465;			/*Указываем порт*/
+                $mail->Port = 25;			/*Указываем порт*/
                 $mail->CharSet = 'UTF-8';/*Выставляем кодировку*/
-
 
                 $mail->setFrom('admin@mail.ru');/*Указываем адрес почты отправителя */
                 /*Указываем перечень адресов почты куда отсылаем сообщение*/
                 $mail->addAddress($email, $user->name . ' ' . $user->surname);
-
 
                 $mail->isHTML(true);      /*формируем html сообщение*/
                 $mail->Subject = 'сброс пароля'; /*Заголовок сообщения*/
