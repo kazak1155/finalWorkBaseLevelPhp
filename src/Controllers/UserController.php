@@ -59,8 +59,8 @@ class UserController
 
     public function createUser()
     {
-        $test = file_get_contents('php://input');
-        $body = json_decode($test, true);
+        $jsonInput = file_get_contents('php://input');
+        $body = json_decode($jsonInput, true);
         $email = $body['email'];
         if (isset($body['name'])) {
             if (isset($body['password'])) {
@@ -117,13 +117,15 @@ class UserController
 
     public function updateUser()
     {
-        echo 'request= ' ; var_dump($_REQUEST); exit;
-        $user = User::find($id);
-        $objectsJsonUser = '';
+        $jsonInput = file_get_contents('php://input');
+        $body = json_decode($jsonInput, true);
+//        var_dump($body); exit;
+        $user = User::find($body['id']);
+        $message = ' пользователь с email ' . $user->email . ' изменен';
 
         return new Json(
             [
-                'users' => json_encode($objectsJsonUser)
+                'message' => $message,
             ]);
     }
 
