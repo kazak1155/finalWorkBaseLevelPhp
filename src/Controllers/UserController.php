@@ -13,7 +13,7 @@ use App\View\View;
  */
 class UserController
 {
-    public function PersonalAreaUser($id)
+    public function showUserById($id)
     {
         $user = User::find($id);
         $objectsJsonUser = [
@@ -57,43 +57,62 @@ class UserController
         ]);
     }
 
-    public function registration()
+    public function createUser()
     {
-        $title = 'регистрация пользователя';
-        $_SESSION['error'] = '';
-        if (isset($_POST['send']) && $_POST['send'] != '') {
-//            $_SESSION['registration'] = '1';
-            $newUser = new User();
-            $userEmail = User::where('email', $_POST['email'])->first();
-//            var_dump($userEmail); exit;
-            if (isset($userEmail->email)) {
-                $_SESSION['error'] = 'пользователь с таким  email уже есть в БД';
-                $message = 'пользователь с таким  email уже есть в БД';
+        $test = file_get_contents('php://input');
+        $body = json_decode($test, true);
+        $email = $body['email'];
+        if (isset($body['name'])) {
+            if (isset($body['password'])) {
+                if (isset($body['email'])) {
+                    $user = User::where('email', $email)->first();
+                    if (isset($user)) {
+                        $message = 'такой email уже есть в БД';
+
+                        return new Json(
+                            [
+                                'message' => $message,
+                            ]);
+                    } else {
+                        $newUser = new User();
+                        $newUser->name = $body['name'];
+                        $newUser->surname = $body['surname'];
+                        $newUser->password = password_hash($body['password'], PASSWORD_DEFAULT);
+                        $newUser->email = $body['email'];
+                        $newUser->created_at = date("Y-m-d");
+                        $newUser->status = 'user';
+                        $newUser->save();
+                        $message = 'новый пользователь с email ' . $body['email'] . ' создан';
+
+                        return new Json(
+                            [
+                                'message' => $message,
+                            ]);
+                    }
+                } else {
+                    $message = 'email пользователя не введен';
+
+                    return new Json(
+                        [
+                            'message' => $message,
+                        ]);
+                }
             } else {
-                $newUser->name = $_POST['name'] ?? '';
-                $newUser->surname = $_POST['surname'] ?? '';
-                $newUser->password = password_hash($_POST['password'] ?? '', PASSWORD_DEFAULT);
-                $newUser->email = $_POST['email'] ?? '';
-                $newUser->created_at = time();
-                $newUser->status = 'user';
-//                $newUser->save();
-                $_SESSION['success'] = 'пользователь с email= ' . $newUser->email . ' создан';
-                $message = 'пользователь с email= ' . $newUser->email . ' создан';
-                $_SESSION['registration'] = '555';
-                header('Location: /login');
+                $message = 'пароль пользователя не введен';
+
+                return new Json(
+                    [
+                        'message' => $message,
+                    ]);
             }
+        } else {
+            $message = 'имя пользователя не введено';
 
             return new Json(
                 [
-                    'title' => $title,
                     'message' => $message,
                 ]);
         }
-
-        return new View('authorization.registration',
-            [
-                'title' => $title,
-            ]);
     }
 
     public function updateUser()

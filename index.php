@@ -32,7 +32,7 @@ $urlList = [
             'App\Controllers\UserController' => 'showAllUser'
         ],
         'post' => [
-            'App\Controllers\UserController' => 'registration'
+            'App\Controllers\UserController' => 'createUser'
         ],
         'put' => [
             'App\Controllers\UserController' => 'updateUser'
@@ -40,7 +40,7 @@ $urlList = [
     ],
     'user/*' => [
         'get' => [
-            'App\Controllers\UserController' => 'PersonalAreaUser'
+            'App\Controllers\UserController' => 'showUserById'
         ],
         'delete' => [
             'App\Controllers\UserController' => 'deleteUser'
