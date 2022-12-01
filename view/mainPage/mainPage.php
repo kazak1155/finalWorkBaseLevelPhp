@@ -15,6 +15,7 @@ if (isset($_SESSION['registration'])) {
 }
 if (isset($_SESSION['status_user']) && $_SESSION['status_user'] == 'administrator') {
     ?>
+        <h2>administrator</h2>
     <table>
         <tr>
             <td>

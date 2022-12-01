@@ -37,6 +37,26 @@ class AdminController
             ]);
     }
 
+    public function showUserById($id)
+    {
+        $user = User::find($id);
+        $objectsJsonUser = [
+            [
+                'id' => $user->id,
+                'name' => $user->name,
+                'surname' => $user->surname,
+                'password' => $user->password,
+                'email' => $user->email,
+                'date_create' => $user->date_create,
+            ]
+        ];
+
+        return new Json(
+            [
+                'users' => json_encode($objectsJsonUser)
+            ]);
+    }
+
     public function deleteUser($id)
     {
         $user = User::find($id);
@@ -58,33 +78,47 @@ class AdminController
 
     public function editUser()
     {
-        $test = file_get_contents('php://input');
-        $body = json_decode($test, true);
-        $user = User::find($body['id']);
-        if (isset($body['name'])) {
-            $user->name = $body['name'];
-        }
-        if (isset($body['surname'])) {
-            $user->surname = $body['surname'];
-        }
-        if (isset($body['email'])) {
-            $user->email = $body['email'];
-        }
-        if (isset($body['date_create'])) {
-            $user->date_create = $body['date_create'];
-        }
-        if (isset($body['status'])) {
-            $user->status = $body['status'];
-        }
-        $user->save();
+        $jsonInput = file_get_contents('php://input');
+        $body = json_decode($jsonInput, true);
+        if (isset($body)) {
+            $user = User::find($body['id']);
+            if (isset($user)) {
+                $user->name = $body['name'] ?? $user->name;
+                $user->surname = $body['surname'] ?? $user->surname;
+                if (isset($body['password'])) {
+                    $user->password = password_hash($body['password'], PASSWORD_DEFAULT);
+                }
+                $user->email = $body['email'] ?? $user->email;
+                $user->status = $body['status'] ?? $user->status;
+                $user->save();
+                $message = 'пользаватель с id ' . $body['id'] . ' изменен';
+                $result = true;
 
-        $_SESSION['success'] = 'пользователь с именем: ' .  $user->name . ' изменен';
+                return new Json(
+                    [
+                        'message' => $message,
+                        'result' => $result
+                    ]);
 
-        return new Json(
-            [
-                'message' => 'пользователь с id: ' .  $user->id . ' изменен',
-                'result' => true
-            ]
-        );
+            } else {
+                $message = 'такого пользовател нет в БД';
+                $result = false;
+
+                return new Json(
+                    [
+                        'message' => $message,
+                        'result' => $result
+                    ]);
+            }
+        } else {
+            $message = 'ничего не передано в запросе';
+            $result = false;
+
+            return new Json(
+                [
+                    'message' => $message,
+                    'result' => $result
+                ]);
+        }
     }
 }

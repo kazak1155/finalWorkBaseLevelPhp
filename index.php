@@ -14,17 +14,17 @@ $urlList = [
     'admin/user' => [
         'get' => [
             'App\Controllers\AdminController' => 'showAllUser'
+        ],
+        'put' => [
+            'App\Controllers\AdminController' => 'editUser'
         ]
-    ],
+        ],
     'admin/user/*' => [
         'delete' =>  [
             'App\Controllers\AdminController' => 'deleteUser'
         ],
-        'put' => [
-            'App\Controllers\AdminController' => 'editUser'
-        ],
         'get' => [
-            'App\Controllers\AdminController' => 'PersonalAreaUser'
+            'App\Controllers\AdminController' => 'showUserById'
         ]
     ],
     'user' => [
