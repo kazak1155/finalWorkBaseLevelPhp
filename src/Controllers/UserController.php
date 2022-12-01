@@ -61,28 +61,46 @@ class UserController
     {
         $jsonInput = file_get_contents('php://input');
         $body = json_decode($jsonInput, true);
-        $email = $body['email'];
-        if (isset($body['name'])) {
-            if (isset($body['password'])) {
-                if (isset($body['email'])) {
-                    $user = User::where('email', $email)->first();
-                    if (isset($user)) {
-                        $message = 'такой email уже есть в БД';
+        if (isset($body)) {
+            $email = $body['email'];
+            if (isset($body['name'])) {
+                if (isset($body['surname'])) {
+                    if (isset($body['password'])) {
+                        if (isset($body['email'])) {
+                            $user = User::where('email', $email)->first();
+                            if (isset($user)) {
+                                $message = 'такой email уже есть в БД';
 
-                        return new Json(
-                            [
-                                'message' => $message,
-                            ]);
+                                return new Json(
+                                    [
+                                        'message' => $message,
+                                    ]);
+                            } else {
+                                $newUser = new User();
+                                $newUser->name = $body['name'];
+                                $newUser->surname = $body['surname'];
+                                $newUser->password = password_hash($body['password'], PASSWORD_DEFAULT);
+                                $newUser->email = $body['email'];
+                                $newUser->created_at = date("Y-m-d");
+                                $newUser->status = 'user';
+                                $newUser->save();
+                                $message = 'новый пользователь с email ' . $body['email'] . ' создан';
+
+                                return new Json(
+                                    [
+                                        'message' => $message,
+                                    ]);
+                            }
+                        } else {
+                            $message = 'email пользователя не введен';
+
+                            return new Json(
+                                [
+                                    'message' => $message,
+                                ]);
+                        }
                     } else {
-                        $newUser = new User();
-                        $newUser->name = $body['name'];
-                        $newUser->surname = $body['surname'];
-                        $newUser->password = password_hash($body['password'], PASSWORD_DEFAULT);
-                        $newUser->email = $body['email'];
-                        $newUser->created_at = date("Y-m-d");
-                        $newUser->status = 'user';
-                        $newUser->save();
-                        $message = 'новый пользователь с email ' . $body['email'] . ' создан';
+                        $message = 'пароль пользователя не введен';
 
                         return new Json(
                             [
@@ -90,15 +108,16 @@ class UserController
                             ]);
                     }
                 } else {
-                    $message = 'email пользователя не введен';
+                    $message = 'фамилия  пользователя не введена';
 
                     return new Json(
                         [
                             'message' => $message,
                         ]);
                 }
+
             } else {
-                $message = 'пароль пользователя не введен';
+                $message = 'имя пользователя не введено';
 
                 return new Json(
                     [
@@ -106,7 +125,7 @@ class UserController
                     ]);
             }
         } else {
-            $message = 'имя пользователя не введено';
+            $message = 'данных в запросе нет';
 
             return new Json(
                 [
