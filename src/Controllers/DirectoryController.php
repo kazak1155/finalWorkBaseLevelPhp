@@ -59,16 +59,4 @@ class DirectoryController
                 'result' => $result
             ]);
     }
-
-    public function deleteFile($id)
-    {
-        $message ='';
-        $result = '';
-
-        return new Json(
-            [
-                'message' => $message,
-                'result' => $result
-            ]);
-    }
 }
