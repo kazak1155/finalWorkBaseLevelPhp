@@ -6,6 +6,10 @@ namespace App\Class;
  */
 class Files
 {
+    public static function find($id)
+    {
+    }
+
     /**
      * Show all files in databade
      * @return files[] all files from all users
