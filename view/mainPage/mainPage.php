@@ -12,26 +12,25 @@ $_SESSION['success'] = ''; ?>
 <?php
 if (isset($_SESSION['registration'])) {
     var_dump($_SESSION['registration']);
-}
-if (isset($_SESSION['status_user']) && $_SESSION['status_user'] == 'administrator') {
-    ?>
-        <h2>administrator</h2>
+} ?>
+
+    <h2><?= $status ?></h2>
     <table>
         <tr>
             <td>
-                <a href="/admin/user/<?= $_SESSION['userId'] ?>">личный кибинет</a>
+                <a href="<?= $personalData ?>">личный кабинет</a>
             </td>
         </tr>
-        <tr>
-            <td>
-                <a href="/admin/user">все пользователи</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="/admin/file">файлы</a>
-            </td>
-        </tr>
+
+        <?php foreach ($menu as $menu1): ?>
+
+            <tr>
+                <td>
+                    <a href="<?= $menu1['path'] ?>"><?= $menu1['name_link'] ?></a>
+                </td>
+            </tr>
+
+        <?php endforeach ?>
         <tr>
             <td>
                 <br><br>
@@ -41,22 +40,6 @@ if (isset($_SESSION['status_user']) && $_SESSION['status_user'] == 'administrato
             </td>
         </tr>
     </table>
-    <?php
-} elseif (isset($_SESSION['status_user']) && $_SESSION['status_user'] == 'user') {
-    ?>
-    <br>
-    <a href="/user/<?= $_SESSION['userId'] ?>">личный кибинет</a>
-    <br>
-    <a href="/file">мои файлы</a>
-    <br><br>
-    <form action="/logout" method="get">
-        <input type="submit" name="logout" value="Выйти с сайта">
-    </form>
-<?php
-}  else {
-    header('Location: /login');
-}
-?>
 
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . 'footer.php');

@@ -17,8 +17,8 @@ $urlList = [
         ],
         'put' => [
             'App\Controllers\AdminController' => 'editUser'
-        ]
         ],
+    ],
     'admin/user/*' => [
         'delete' =>  [
             'App\Controllers\AdminController' => 'deleteUser'
@@ -64,6 +64,44 @@ $urlList = [
     '' => [
         'get' => [
             'App\Controllers\MainController' => 'mainPage'
+        ]
+    ],
+    'file' => [
+        'get' => [
+            'App\Controllers\FileController' => 'showAllFiles'
+        ],
+        'post' => [
+            'App\Controllers\FileController' => 'addFile'
+        ],
+        'put' => [
+            'App\Controllers\FileController' => 'editFile'
+        ]
+    ],
+    'file/*' => [
+        'get' => [
+            'App\Controllers\FileController' => 'showFileById'
+        ],
+        'delete' => [
+            'App\Controllers\FileController' => 'deleteFile'
+        ],
+        'put' => [
+            'App\Controllers\FileController' => 'editFile'
+        ]
+    ],
+    'directory' => [
+        'post' => [
+            'App\Controllers\DirectoryController' => 'addDirectory'
+        ],
+        'put' => [
+            'App\Controllers\DirectoryController' => 'editDirectory'
+        ]
+    ],
+    'directory/*' => [
+        'get' => [
+            'App\Controllers\DirectoryController' => 'showFilesInDirectory'
+        ],
+        'delete' => [
+            'App\Controllers\DirectoryController' => 'deleteDirectory'
         ]
     ]
 ];

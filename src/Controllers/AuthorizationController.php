@@ -115,7 +115,7 @@ class AuthorizationController
                     ]);
             }
         } else {
-            $message = 'email не введен';
+            $message = 'email не передан';
 
             return new Json(
                 [

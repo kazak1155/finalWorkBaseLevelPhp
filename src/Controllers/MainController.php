@@ -14,18 +14,38 @@ class MainController
 {
     public function mainPage()
     {
-        $menu = MenuAdmin::where(null)
-            ->get();
         $menu = MenuUser::where(null)
             ->get();
-        if (isset($_SESSION['status_user'])) {
-            var_dump($_SESSION['status_user']); exit;
-        }
-        $title = 'Главная страница';
+        if (isset($_SESSION['status_user']) && $_SESSION['status_user'] == 'administrator') {
+            $menu = MenuAdmin::where(null)
+                ->get();
+            $title = 'Главная страница';
+            $status = 'administrator';
+            $personalData = '/admin/user/' . $_SESSION['userId'];
 
-        return new View('mainPage.mainPage',
-            [
-                'title' => $title
-            ]);
+            return new View('mainPage.mainPage',
+                [
+                    'title' => $title,
+                    'status' => $status,
+                    'menu' => $menu,
+                    'personalData' => $personalData
+                ]);
+        } elseif (isset($_SESSION['status_user']) && $_SESSION['status_user'] == 'user') {
+            $menu = MenuUser::where(null)
+                ->get();
+            $title = 'Главная страница';
+            $status = 'user';
+            $personalData = '/user/' . $_SESSION['userId'];
+
+            return new View('mainPage.mainPage',
+                [
+                    'title' => $title,
+                    'status' => $status,
+                    'menu' => $menu,
+                    'personalData' => $personalData
+                ]);
+        } else {
+            header('Location: /login');
+        }
     }
 }
