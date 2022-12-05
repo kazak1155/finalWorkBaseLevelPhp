@@ -103,6 +103,11 @@ $urlList = [
         'delete' => [
             'App\Controllers\DirectoryController' => 'deleteDirectory'
         ]
+    ],
+    'fileForm' => [
+        'get' => [
+            'App\Controllers\FileController' => 'showFileForm'
+        ]
     ]
 ];
 

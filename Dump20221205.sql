@@ -27,11 +27,13 @@ CREATE TABLE `files` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `user` int(11) NOT NULL,
   `path` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `date_create` date NOT NULL,
+  `directory` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` date DEFAULT NULL,
+  `updated_at` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_file_idx` (`user`),
   CONSTRAINT `user_file` FOREIGN KEY (`user`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +42,7 @@ CREATE TABLE `files` (
 
 LOCK TABLES `files` WRITE;
 /*!40000 ALTER TABLE `files` DISABLE KEYS */;
-INSERT INTO `files` VALUES (1,'11',1,'1','2001-01-01'),(2,'22',2,'2','2002-02-02'),(3,'33',3,'3','2003-03-03');
+INSERT INTO `files` VALUES (1,'file_1',1,'1','directory_1 ','2001-01-01',NULL),(2,'file_2',1,'2','directory_2','2002-02-02',NULL),(3,'file_3',2,'3','directory_3','2003-03-03',NULL),(4,'file_4',2,'4','directory_4','2004-04-04',NULL),(5,'file_5',3,'5','directory_5','2005-05-05',NULL),(6,'file_6',3,'6','directory_6','2006-06-06',NULL),(7,'file_7',4,'7','directory_7','2007-07-07',NULL),(8,'file_8',4,'8','directory_8','2008-08-08',NULL),(9,'file_9',5,'9','directory_9','2009-09-09',NULL),(10,'file_10',5,'10','directory_10','2010-10-10',NULL);
 /*!40000 ALTER TABLE `files` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -133,4 +135,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-02  9:19:11
+-- Dump completed on 2022-12-05 14:39:07

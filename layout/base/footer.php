@@ -57,9 +57,9 @@
 <!--        var s = n;-->
 <!--        a()-->
 <!--    }([])</script>-->
-<script src="./static/js/1.b8d60a2d.chunk.js"></script>
-<script src="./static/js/main.145a1a91.chunk.js"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script type="text/javascript" src="js/scripts.js"></script>
-<script src="/js/bootstrap.min.js"></script>
+<!--<script src="./static/js/1.b8d60a2d.chunk.js"></script>-->
+<!--<script src="./static/js/main.145a1a91.chunk.js"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
+<!--<script type="text/javascript" src="js/scripts.js"></script>-->
+<!--<script src="/js/bootstrap.min.js"></script>-->
 </body>
 </html>

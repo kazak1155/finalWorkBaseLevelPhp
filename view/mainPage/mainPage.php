@@ -9,16 +9,17 @@ $_SESSION['error'] = ''; ?>
     <div class="alert alert-info"><?= $_SESSION['success'] ?>
     </div><?php }
 $_SESSION['success'] = ''; ?>
-<?php
-if (isset($_SESSION['registration'])) {
-    var_dump($_SESSION['registration']);
-} ?>
 
     <h2><?= $status ?></h2>
     <table>
         <tr>
             <td>
                 <a href="<?= $personalData ?>">личный кабинет</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="/fileForm">загрузить файл</a>
             </td>
         </tr>
 

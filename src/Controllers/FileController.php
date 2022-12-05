@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Class\Files;
-use App\Models\User;
+use App\Models\File;
 use App\View\Json;
 use App\View\View;
 
@@ -16,11 +16,26 @@ class FileController
 {
     public function showAllFiles()
     {
+
+        $files = File::where(null)
+            ->get();
         $objectsJsonUser = [];
+        foreach ($files as $file) {
+            $objectsJsonUser[] = [
+                [
+                    'id' => $file->id,
+                    'name' => $file->name,
+                    'path' => $file->path,
+                    'directory' => $file->directory,
+                    'created_at' => $file->created_at,
+                    'updated_at' => $file->updated_at,
+                ]
+            ];
+        }
 
         return new Json(
             [
-                'users' => json_encode($objectsJsonUser)
+                'files' => json_encode($objectsJsonUser)
             ]);
     }
 
@@ -50,13 +65,22 @@ class FileController
 
     public function showFileById($id)
     {
-        $message ='';
-        $result = '';
+        $file = Files::find($id);
+        $objectsJsonUser[] = [
+            [
+                'id' => $file->id,
+                'name' => $file->name,
+                'path' => $file->path,
+                'directory' => $file->directory,
+                'created_at' => $file->created_at,
+                'updated_at' => $file->updated_at,
+            ]
+        ];
+
 
         return new Json(
             [
-                'message' => $message,
-                'result' => $result
+                'files' => json_encode($objectsJsonUser)
             ]);
     }
 
@@ -78,6 +102,16 @@ class FileController
                 'file' => $file,
                 'message' => $message,
                 'result' => $result
+            ]);
+    }
+
+    public function showFileForm()
+    {
+        $title = 'страница для загрузки файла';
+
+        return new View('file.fileForm',
+            [
+                'title' => $title,
             ]);
     }
 }
