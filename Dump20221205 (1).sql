@@ -47,6 +47,30 @@ INSERT INTO `files` VALUES (1,'file_1',1,'1','directory_1 ','2001-01-01',NULL),(
 UNLOCK TABLES;
 
 --
+-- Table structure for table `folder`
+--
+
+DROP TABLE IF EXISTS `folder`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `folder` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `user` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `folder`
+--
+
+LOCK TABLES `folder` WRITE;
+/*!40000 ALTER TABLE `folder` DISABLE KEYS */;
+/*!40000 ALTER TABLE `folder` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `menu_admin`
 --
 
@@ -135,4 +159,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-05 14:39:07
+-- Dump completed on 2022-12-05 15:18:01
