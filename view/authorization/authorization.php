@@ -1,11 +1,6 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . 'header.php');
 
-if (isset($_SESSION['registration']) && ($_SESSION['registration'] == '1')) {
-    $url = 'http://127.0.0.1:8000/user' ;
-    var_dump($url); exit;
-    header('Location: /registration');
-} else {
     if (!empty($_SESSION['error']) && !empty($_SESSION['error'])) { ?>
         <div class="alert alert-danger"><?= $_SESSION['error'] ?>
         </div><?php } $_SESSION['error'] = '';?>
@@ -27,22 +22,22 @@ if (isset($_SESSION['registration']) && ($_SESSION['registration'] == '1')) {
                 <br>
                 <button type="submit" class="btn btn-primary">авторизироваться</button>
             </form>
+            <br>
         </div>
+
         <div class="col-md-8 offset-md-2">
             <form action="/user" method="post">
                 <button name="send" type="submit" class="btn btn-primary">регистрация</button>
             </form>
+            <br>
         </div>
+
         <div class="col-md-8 offset-md-2">
             <form action="/passwordReset" method="get">
                 <button type="submit" class="btn btn-primary">сброс пароля</button>
             </form>
         </div>
     </div>
-<?php
-}
-?>
-
 
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . 'footer.php');

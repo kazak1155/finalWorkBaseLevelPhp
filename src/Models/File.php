@@ -11,4 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 class File extends Model
 {
     protected $table = 'files';
+
+    public function folder()
+    {
+        return $this->belongsTo(Directory::class, 'directory_id', 'id');
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Class\Files;
+use App\Models\Directory;
 use App\Models\File;
 use App\View\Json;
 use App\View\View;
@@ -65,13 +66,15 @@ class FileController
 
     public function showFileById($id)
     {
-        $file = Files::find($id);
+        $file = File::find($id);
+        $folder = Directory::find($id);
+        var_dump($file->directory_id->name); exit;
         $objectsJsonUser[] = [
             [
                 'id' => $file->id,
                 'name' => $file->name,
                 'path' => $file->path,
-                'directory' => $file->directory,
+                'directory' => $file->directory->name,
                 'created_at' => $file->created_at,
                 'updated_at' => $file->updated_at,
             ]
