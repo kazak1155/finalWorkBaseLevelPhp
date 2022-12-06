@@ -17,9 +17,7 @@ class FileController
 {
     public function showAllFiles()
     {
-
-        $files = File::where(null)
-            ->get();
+        $files = File::all();
         $objectsJsonUser = [];
         foreach ($files as $file) {
             $objectsJsonUser[] = [
@@ -67,14 +65,13 @@ class FileController
     public function showFileById($id)
     {
         $file = File::find($id);
-        $folder = Directory::find($id);
-        var_dump($file->directory_id->name); exit;
+        $folder = Directory::find($file->directory_id);
         $objectsJsonUser[] = [
             [
                 'id' => $file->id,
                 'name' => $file->name,
                 'path' => $file->path,
-                'directory' => $file->directory->name,
+                'directory' => $folder->name,
                 'created_at' => $file->created_at,
                 'updated_at' => $file->updated_at,
             ]
