@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\Directory;
+use App\Models\File;
 use App\View\Json;
 use App\View\View;
 
@@ -38,20 +40,31 @@ class DirectoryController
 
     public function showFilesInDirectory($id)
     {
-        $message = '';
-        $result = '';
+        $directory = Directory::find($id);
+        $objectsJsonUser[] = [
+            [
+                'name' => $directory->name,
+                'name_parent_folder' => $directory->name_parent_folder,
+            ]
+        ];
 
         return new Json(
             [
-                'message' => $message,
-                'result' => $result
+                'files' => json_encode($objectsJsonUser)
             ]);
     }
 
     public function deleteDirectory ($id)
     {
-        $message ='';
-        $result = '';
+        $directory = Directory::find($id);
+        if (isset($directory)) {
+            $result = 'true';
+//            $directory -> delete();
+            $message = 'директория с именем: ' .  $directory->name . ' удалена';
+        } else {
+            $result = 'false';
+            $message = 'такой директории нет в БД';
+        }
 
         return new Json(
             [

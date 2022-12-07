@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Class\Files;
-use App\Models\Directory;
 use App\Models\File;
 use App\View\Json;
 use App\View\View;
@@ -82,7 +81,6 @@ class FileController
             ]
         ];
 
-
         return new Json(
             [
                 'files' => json_encode($objectsJsonUser)
@@ -91,7 +89,7 @@ class FileController
 
     public function deleteFile($id)
     {
-        $file = Files::find($id);
+        $file = File::find($id);
         if (isset($file)) {
             $message ='файл с ID= ' . $id . ' удален';
             $result = true;
@@ -104,7 +102,6 @@ class FileController
 
         return new Json(
             [
-                'file' => $file,
                 'message' => $message,
                 'result' => $result
             ]);
