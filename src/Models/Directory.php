@@ -14,6 +14,6 @@ class Directory extends Model
 
 //    public function folder()
 //    {
-//        return $this->belongsTo(File::class, 'directory_id', 'id');
+//        return $this->belongsToMany(File::class);
 //    }
 }

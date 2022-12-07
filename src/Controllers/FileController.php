@@ -20,14 +20,16 @@ class FileController
         $files = File::all();
         $objectsJsonUser = [];
         foreach ($files as $file) {
+//            var_dump($file->folder->name); exit;
             $objectsJsonUser[] = [
                 [
-                    'id' => $file->id,
+//                    'id' => $file->id,
                     'name' => $file->name,
                     'path' => $file->path,
-                    'directory' => $file->directory,
-                    'created_at' => $file->created_at,
-                    'updated_at' => $file->updated_at,
+                    'user' => $file->user,
+                    'directory' => $file->folder->name ?? '',
+//                    'created_at' => $file->created_at,
+//                    'updated_at' => $file->updated_at,
                 ]
             ];
         }
@@ -65,15 +67,18 @@ class FileController
     public function showFileById($id)
     {
         $file = File::find($id);
-        $folder = Directory::find($file->directory_id);
+//        $folderName = $file->folder->name;
+//        var_dump($file->folder->name);  exit;
+//        $folder = Directory::find($file->directory_id);
         $objectsJsonUser[] = [
             [
-                'id' => $file->id,
+//                    'id' => $file->id,
                 'name' => $file->name,
                 'path' => $file->path,
-                'directory' => $folder->name,
-                'created_at' => $file->created_at,
-                'updated_at' => $file->updated_at,
+                'user' => $file->user,
+                'directory' => $file->folder->name,
+//                    'created_at' => $file->created_at,
+//                    'updated_at' => $file->updated_at,
             ]
         ];
 
