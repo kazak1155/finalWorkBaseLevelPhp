@@ -25,9 +25,12 @@ DROP TABLE IF EXISTS `directory`;
 CREATE TABLE `directory` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `name_parent_folder` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` date DEFAULT NULL,
+  `updated_at` date DEFAULT NULL,
   PRIMARY KEY (`id`),
-  CONSTRAINT `file_to_folder` FOREIGN KEY (`id`) REFERENCES `files` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  KEY `file_to_folder_idx` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +39,7 @@ CREATE TABLE `directory` (
 
 LOCK TABLES `directory` WRITE;
 /*!40000 ALTER TABLE `directory` DISABLE KEYS */;
-INSERT INTO `directory` VALUES (1,'folder_1'),(2,'folder_2'),(3,'folder_3'),(4,'folder_4'),(5,'folder_5'),(6,'folder_6'),(7,'folder_7'),(8,'folder_8'),(9,'folder_9'),(10,'folder_10');
+INSERT INTO `directory` VALUES (1,'folder_1','user_1',NULL,NULL),(2,'folder_2','user_1',NULL,NULL),(3,'folder_3','user_2',NULL,NULL),(4,'folder_4','user_2',NULL,NULL),(5,'folder_5','user_3',NULL,NULL),(6,'folder_6','user_3',NULL,NULL),(7,'folder_7','user_4',NULL,NULL),(8,'folder_8','user_4',NULL,NULL),(9,'folder_9','user_5',NULL,NULL),(10,'folder_10','user_5',NULL,NULL),(11,'user_1',NULL,NULL,NULL),(12,'user_2',NULL,NULL,NULL),(13,'user_3',NULL,NULL,NULL),(14,'user_4',NULL,NULL,NULL),(15,'user_5',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `directory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,6 +60,8 @@ CREATE TABLE `files` (
   `updated_at` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_file_idx` (`user`),
+  KEY `name_folder_idx` (`directory_id`),
+  CONSTRAINT `namde_folder_to_file` FOREIGN KEY (`directory_id`) REFERENCES `directory` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `user_file` FOREIGN KEY (`user`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -67,7 +72,7 @@ CREATE TABLE `files` (
 
 LOCK TABLES `files` WRITE;
 /*!40000 ALTER TABLE `files` DISABLE KEYS */;
-INSERT INTO `files` VALUES (1,'file_1',1,'1',1,'2001-01-01',NULL),(2,'file_2',1,'2',2,'2002-02-02',NULL),(3,'file_3',2,'3',3,'2003-03-03',NULL),(4,'file_4',2,'4',4,'2004-04-04',NULL),(5,'file_5',3,'5',5,'2005-05-05',NULL),(6,'file_6',3,'6',6,'2006-06-06',NULL),(7,'file_7',4,'7',7,'2007-07-07',NULL),(8,'file_8',4,'8',8,'2008-08-08',NULL),(9,'file_9',5,'9',9,'2009-09-09',NULL),(10,'file_10',5,'10',19,'2010-10-10',NULL);
+INSERT INTO `files` VALUES (1,'file_1',1,'1',1,'2001-01-01',NULL),(2,'file_2',1,'2',2,'2002-02-02',NULL),(3,'file_3',2,'3',3,'2003-03-03',NULL),(4,'file_4',2,'4',4,'2004-04-04',NULL),(5,'file_5',3,'5',5,'2005-05-05',NULL),(6,'file_6',3,'6',6,'2006-06-06',NULL),(7,'file_7',4,'7',7,'2007-07-07',NULL),(8,'file_8',4,'8',8,'2008-08-08',NULL),(9,'file_9',5,'9',9,'2009-09-09',NULL),(10,'file_10',5,'10',10,'2010-10-10',NULL);
 /*!40000 ALTER TABLE `files` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -160,4 +165,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-06 14:00:15
+-- Dump completed on 2022-12-07 15:47:28
