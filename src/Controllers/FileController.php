@@ -41,8 +41,21 @@ class FileController
 
     public function addFile()
     {
-        $message = '';
-        $result = '';
+        echo '<pre>';
+        var_dump($_FILES['test']['name']);
+        echo '</pre>';
+        exit;
+        if (!empty($_FILES)) {
+            foreach ($_FILES as $data) {
+                move_uploaded_file($data['tmp_name'], '/files/user_1/directory_1');
+                var_dump($data);
+            }
+            $message = 'OK';
+            $result = true;
+        } else {
+            $message = 'никокого файла не передано';
+            $result = false;
+        }
 
         return new Json(
             [
