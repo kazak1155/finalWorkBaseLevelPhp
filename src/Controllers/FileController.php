@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Class\Files;
+use App\Models\Directory;
 use App\Models\File;
 use App\View\Json;
 use App\View\View;
@@ -19,7 +19,6 @@ class FileController
         $files = File::all();
         $objectsJsonUser = [];
         foreach ($files as $file) {
-//            var_dump($file->folder->name); exit;
             $objectsJsonUser[] = [
                 [
 //                    'id' => $file->id,
@@ -41,17 +40,36 @@ class FileController
 
     public function addFile()
     {
-        echo '<pre>';
-        var_dump($_FILES['test']['name']);
-        echo '</pre>';
-        exit;
         if (!empty($_FILES)) {
             foreach ($_FILES as $data) {
-                move_uploaded_file($data['tmp_name'], '/files/user_1/directory_1');
-                var_dump($data);
+                if (isset($_POST['directory'])) {
+                    $directory = $_POST['directory'];
+                    $folder = Directory::where('name', $_POST['directory'])->first();
+                    $destianation = getcwd()  . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directory . DIRECTORY_SEPARATOR . $data['name'];
+                    move_uploaded_file($_FILES['test']['tmp_name'], $destianation);
+                    $newFile = new File();
+                    $newFile->name = $data['name'];
+                    $newFile->user = $_SESSION['userId'];
+                    $newFile->path = $destianation;
+                    $newFile->directory_id = $folder->id;
+                    $newFile->save();
+                    $message = 'файл с именем ' . $data['name'] . ' загружен в БД';
+                    $result = true;
+                } else {
+                    $destianation = getcwd()  . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $data['name'];
+                    move_uploaded_file($_FILES['test']['tmp_name'], $destianation);
+                    $name = 'user_' . $_SESSION['userId'];
+                    $folder = Directory::where('name', $name)->first();
+                    $newFile = new File();
+                    $newFile->name = $data['name'];
+                    $newFile->user = $_SESSION['userId'];
+                    $newFile->path = $destianation;
+                    $newFile->directory_id = $folder->id;
+                    $newFile->save();
+                    $message = 'файл с именем ' . $data['name'] . ' загружен в БД';
+                    $result = true;
+                }
             }
-            $message = 'OK';
-            $result = true;
         } else {
             $message = 'никокого файла не передано';
             $result = false;
