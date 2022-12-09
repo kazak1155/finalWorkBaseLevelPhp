@@ -84,7 +84,9 @@ class FileController
 
     public function editFile()
     {
-        var_dump(111); exit;
+        $jsonInput = file_get_contents('php://input');
+        $body = json_decode($jsonInput, true);
+        var_dump($body); exit;
         $message = '';
         $result = '';
 
