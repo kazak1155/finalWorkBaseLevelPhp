@@ -44,8 +44,9 @@ class FileController
             foreach ($_FILES as $data) {
                 if (isset($_POST['directory'])) {
                     $directory = $_POST['directory'];
-                    $folder = Directory::where('name', $_POST['directory'])->first();
-                    $destianation = getcwd()  . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directory . DIRECTORY_SEPARATOR . $data['name'];
+                    $folder = Directory::where('id', $_POST['directory'])->first();
+                    $directoryName = $folder->name;
+                    $destianation = getcwd()  . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $data['name'];
                     move_uploaded_file($_FILES['file']['tmp_name'], $destianation);
                     $newFile = new File();
                     $newFile->name = $data['name'];
