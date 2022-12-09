@@ -62,7 +62,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/admin/user/7",
+							"raw": "http://127.0.0.1:8000/admin/user/5",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -74,7 +74,7 @@
 							"path": [
 								"admin",
 								"user",
-								"7"
+								"5"
 							]
 						}
 					},
@@ -85,8 +85,12 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\"  : 6,\r\n    \"name\" : \"nameTest\",\r\n    \"email\" : \"nameTest@mail.com\"\r\n}"
+						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/admin/user/6",
+							"raw": "http://127.0.0.1:8000/admin/user",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -97,8 +101,7 @@
 							"port": "8000",
 							"path": [
 								"admin",
-								"user",
-								"6"
+								"user"
 							]
 						}
 					},
@@ -160,7 +163,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/user/7",
+							"raw": "http://127.0.0.1:8000/user/2",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -171,7 +174,7 @@
 							"port": "8000",
 							"path": [
 								"user",
-								"7"
+								"2"
 							]
 						}
 					},
@@ -182,8 +185,12 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : 6,\r\n    \"name\" : \"TEST\",\r\n    \"email\" : \"TEST\"\r\n}"
+						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/user/7",
+							"raw": "http://127.0.0.1:8000/user",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -193,8 +200,7 @@
 							],
 							"port": "8000",
 							"path": [
-								"user",
-								"7"
+								"user"
 							]
 						}
 					},
@@ -205,6 +211,10 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"TEST\",\r\n    \"surname\" : \"TESTsurname\",\r\n    \"password\" : \"TEST\",\r\n    \"email\" : \"TEST@mail.com\"\r\n}"
+						},
 						"url": {
 							"raw": "http://127.0.0.1:8000/user/",
 							"protocol": "http",

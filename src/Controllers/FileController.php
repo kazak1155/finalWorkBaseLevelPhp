@@ -46,7 +46,7 @@ class FileController
                     $directory = $_POST['directory'];
                     $folder = Directory::where('name', $_POST['directory'])->first();
                     $destianation = getcwd()  . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directory . DIRECTORY_SEPARATOR . $data['name'];
-                    move_uploaded_file($_FILES['test']['tmp_name'], $destianation);
+                    move_uploaded_file($_FILES['file']['tmp_name'], $destianation);
                     $newFile = new File();
                     $newFile->name = $data['name'];
                     $newFile->user = $_SESSION['userId'];
@@ -124,7 +124,7 @@ class FileController
         if (isset($file)) {
             $message ='файл с ID= ' . $id . ' удален';
             $result = true;
-//            $file->delete();
+            $file->delete();
         } else {
             $file = '';
             $message ='файла с таким ИД нет в БД';

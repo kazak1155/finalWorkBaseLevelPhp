@@ -32,19 +32,21 @@ class AuthorizationController
                         $_SESSION['userId'] = $user->id;
                         $_SESSION['success'] = 'вы авторизированы';
                     }
-                    header('Location: /');
+                    $message = 'пользователь авторизован';
+//                    header('Location: /');
                 } else {
-                    $_SESSION['error'] = 'неправильно введен пароль';
+                    $message = 'неправильно введен пароль';
                 }
             } else {
-                $_SESSION['error'] = 'такого пользователя нет в БД';
+                $message = 'такого пользователя нет в БД';
             }
+        } else {
+            $message = 'данных в запросе нет';
         }
 
-        return new View('authorization.authorization',
+        return new Json(
             [
-                'title' => $title,
-                'user' => $user,
+                'message' => $message,
             ]);
     }
 
