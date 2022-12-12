@@ -87,9 +87,46 @@ class FileController
     {
         $jsonInput = file_get_contents('php://input');
         $body = json_decode($jsonInput, true);
-        var_dump($body); exit;
-        $message = '';
-        $result = '';
+        if (isset($body['newName'])) {
+            $file = File::find($body['id']);
+            $directory = Directory::find($file->directory_id);
+            $directoryName = $directory->name;
+            $directoryName_parent_folder = $directory->name_parent_folder;
+            $pieces = explode(".", $file->name);
+            $oldName = $file->name;
+            $newName = $body['newName'] . '.' . end($pieces);
+            if (isset($body['id_directory'])) {
+                $directoryTo = Directory::find($body['id_directory']);
+                $directoryNameTo = $directoryTo->name;
+                $directoryParentName = $directoryTo->name_parent_folder;
+                if (!($directoryName_parent_folder == '')) {
+                    rename((getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $oldName),
+                        (getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . $directoryParentName . DIRECTORY_SEPARATOR . $directoryNameTo . DIRECTORY_SEPARATOR . $newName));
+                    $file->save();
+
+                    $message = 'файл успешно изменен';
+                    $result = true;
+                } else {
+                    rename((getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $oldName),
+                        (getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $newName));
+                    $file->save();
+
+                    $message = 'файл переименован и сохранен в той же папке';
+                    $result = false;
+                }
+            } else {
+                rename((getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $oldName),
+                    (getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $newName));
+                $file->save();
+
+                $message = 'файл переименован и сохранен в той же папке';
+                $result = false;
+            }
+        } else {
+            $message = 'ничего не передано в запросе';
+            $result =  false;
+        }
+
 
         return new Json(
             [
