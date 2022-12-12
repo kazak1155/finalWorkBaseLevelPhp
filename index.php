@@ -109,12 +109,10 @@ $urlList = [
             'App\Controllers\FileController' => 'showUsersAvailableToFile'
         ]
     ],
-    'files/share/*/*' => [
+    'files/share/*/user_id' => [
         'put' => [
             'App\Controllers\FileController' => 'shareAvailableToFile'
-        ]
-    ],
-    'files/share/*/*' => [
+        ],
         'delete' => [
             'App\Controllers\FileController' => 'deleteAvailableToFile'
         ]
