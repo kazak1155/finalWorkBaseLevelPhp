@@ -446,7 +446,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/file/2",
+							"raw": "http://127.0.0.1:8000/file/26",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -457,7 +457,7 @@
 							"port": "8000",
 							"path": [
 								"file",
-								"2"
+								"26"
 							]
 						}
 					},
