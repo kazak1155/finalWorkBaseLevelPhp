@@ -179,13 +179,33 @@ class FileController
             ]);
     }
 
-    public function showFileForm()
+    public function showUsersAvailableToFile($id)
     {
-        $title = 'страница для загрузки файла';
+        $message ='';
 
-        return new View('file.fileForm',
+        return new Json(
             [
-                'title' => $title,
+                'message' => $message,
+            ]);
+    }
+
+    public function shareAvailableToFile($idFile, $idUser)
+    {
+        $message ='';
+
+        return new Json(
+            [
+                'message' => $message,
+            ]);
+    }
+
+    public function deleteAvailableToFile($idFile, $idUser)
+    {
+        $message ='';
+
+        return new Json(
+            [
+                'message' => $message,
             ]);
     }
 }

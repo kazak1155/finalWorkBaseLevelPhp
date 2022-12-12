@@ -104,9 +104,19 @@ $urlList = [
             'App\Controllers\DirectoryController' => 'deleteDirectory'
         ]
     ],
-    'fileForm' => [
+    'files/share/*' => [
         'get' => [
-            'App\Controllers\FileController' => 'showFileForm'
+            'App\Controllers\FileController' => 'showUsersAvailableToFile'
+        ]
+    ],
+    'files/share/*/*' => [
+        'put' => [
+            'App\Controllers\FileController' => 'shareAvailableToFile'
+        ]
+    ],
+    'files/share/*/*' => [
+        'delete' => [
+            'App\Controllers\FileController' => 'deleteAvailableToFile'
         ]
     ]
 ];

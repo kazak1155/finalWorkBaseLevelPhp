@@ -41,8 +41,29 @@ class DirectoryController
 
     public function editDirectory()
     {
-        $message = '';
-        $result = '';
+        $jsonInput = file_get_contents('php://input');
+        $body = json_decode($jsonInput, true);
+        if (isset($body)) {
+            if (isset($body['name'])) {
+                $directory = Directory::find($body['directory_id']);
+                $oldNameDirectory = $directory->name;
+                $newNameDirectory = $body['name'];
+                rename((getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $oldNameDirectory),
+                    (getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $newNameDirectory));
+                $directory->name = $body['name'];
+                $directory->save();
+                $message = 'папка переименована';
+                $result = true;
+            } else {
+                $message = 'имя папки не передано';
+                $result = false;
+            }
+
+        } else {
+            $message = 'ничего не передано';
+            $result = false;
+        }
+
 
         return new Json(
             [
@@ -53,26 +74,29 @@ class DirectoryController
 
     public function showFilesInDirectory($id)
     {
-        $directory = Directory::find($id);
-        $objectsJsonUser[] = [
-            [
-                'name' => $directory->name,
-                'name_parent_folder' => $directory->name_parent_folder,
-            ]
-        ];
+        $files = File::where('directory_id', $id)->get();
+        $arrayFiles = [];
+        foreach ($files as $file){
+            $arrayFiles[] = [
+                [
+                    'name' => $file->name
+                ]
+            ];
+        }
+
 
         return new Json(
             [
-                'files' => json_encode($objectsJsonUser)
+                'files' => json_encode($arrayFiles)
             ]);
     }
 
-    public function deleteDirectory ($id)
+    public function deleteDirectory($id)
     {
         $directory = Directory::find($id);
         if (isset($directory)) {
             $result = 'true';
-//            $directory -> delete();
+            $directory -> delete();
             $message = 'директория с именем: ' .  $directory->name . ' удалена';
         } else {
             $result = 'false';
