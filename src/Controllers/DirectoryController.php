@@ -16,8 +16,21 @@ class DirectoryController
 {
     public function addDirectory()
     {
-        $message = '';
-        $result = '';
+        if (isset($_POST['name'])) {
+            $path = getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $_POST['name'];
+            if (!file_exists($path)) {
+                mkdir($path);
+                $message = 'папка создана';
+                $result = true;
+            } else {
+                $message = 'такая папка уже существует';
+                $result = false;
+            }
+        } else {
+            $message = 'название папки не задано';
+            $result = false;
+        }
+
 
         return new Json(
             [
