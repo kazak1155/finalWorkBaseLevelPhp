@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ba96b39d-d90f-4969-b772-fb3759bc7b85",
+		"_postman_id": "7ab01c02-b28a-4334-89e4-4333b6ac0bf4",
 		"name": "collection request",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "23591680"
@@ -382,6 +382,21 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/AndreyV/Pictures/1476-700x525-1.jpg"
+								},
+								{
+									"key": "directory",
+									"value": "4",
+									"type": "text"
+								}
+							]
+						},
 						"url": {
 							"raw": "http://127.0.0.1:8000/file",
 							"protocol": "http",
@@ -404,6 +419,10 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : 26,\r\n    \"newName\" :\"testName\",\r\n    \"id_directory\" : 9\r\n}"
+						},
 						"url": {
 							"raw": "http://127.0.0.1:8000/file",
 							"protocol": "http",
