@@ -56,10 +56,10 @@ CREATE TABLE `files` (
   `user` int(11) NOT NULL,
   `path` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `directory_id` int(11) NOT NULL,
-  `availabl_ to_users` int(11) DEFAULT NULL,
+  `availabl_to_users` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` date DEFAULT NULL,
   `updated_at` date DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`,`availabl_to_users`),
   KEY `user_file_idx` (`user`),
   KEY `name_folder_idx` (`directory_id`),
   CONSTRAINT `namde_folder_to_file` FOREIGN KEY (`directory_id`) REFERENCES `directory` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -73,7 +73,7 @@ CREATE TABLE `files` (
 
 LOCK TABLES `files` WRITE;
 /*!40000 ALTER TABLE `files` DISABLE KEYS */;
-INSERT INTO `files` VALUES (1,'vsratayaKartinka1.jpg',1,'C:\\myProject\\finalWorkBaseLevelPhp\\data\\user_1\\directory_1\\vsratayaKartinka1.jpg',1,1,'2022-12-09','2022-12-09'),(2,'vsratayaKartinka2.jpg',1,'2C:\\myProject\\finalWorkBaseLevelPhp\\data\\user_1\\directory_2\\vsratayaKartinka2.jpg',2,1,'2002-02-02','2022-12-09'),(3,'vsratayaKartinka3.jpg',2,'C:\\myProject\\finalWorkBaseLevelPhp\\data\\user_2\\directory_1\\vsratayaKartinka3.jpg',3,2,'2003-03-03',NULL),(4,'vsratayaKartinka4.jpg',2,'C:\\myProject\\finalWorkBaseLevelPhp\\data\\user_2\\directory_2\\vsratayaKartinka4.jpg',4,2,'2004-04-04',NULL),(5,'vsratayaKartinka5.jpg',3,'C:\\myProject\\finalWorkBaseLevelPhp\\data\\user_3\\directory_1\\vsratayaKartinka5.jpg',5,3,'2005-05-05',NULL),(6,'vsratayaKartinka6.jpg',3,'C:\\myProject\\finalWorkBaseLevelPhp\\data\\user_3\\directory_2\\vsratayaKartinka6.jpg',6,3,'2006-06-06',NULL),(7,'vsratayaKartinka7.jpg',4,'C:\\myProject\\finalWorkBaseLevelPhp\\fdata\\user_4\\directory_1\\vsratayaKartinka7.jpg',7,4,'2007-07-07',NULL),(8,'vsratayaKartinka8.jpg',4,'C:\\myProject\\finalWorkBaseLevelPhp\\data\\user_4\\directory_2\\vsratayaKartinka8.jpg',8,4,'2008-08-08',NULL),(9,'vsratayaKartinka9.jpg',5,'C:\\myProject\\finalWorkBaseLevelPhp\\data\\user_5\\directory_1\\vsratayaKartinka9.jpg',9,5,'2009-09-09',NULL),(10,'vsratayaKartinka10.jpg',5,'C:\\myProject\\finalWorkBaseLevelPhp\\data\\user_5\\directory_2\\vsratayaKartinka10.jpg',10,5,'2010-10-10',NULL),(26,'1476-700x525-1.jpg',2,'C:\\myProject\\finalWorkBaseLevelPhp\\data\\user_2\\directory_2\\1476-700x525-1.jpg',4,2,'2022-12-12','2022-12-12');
+INSERT INTO `files` VALUES (1,'vsratayaKartinka1.jpg',1,'C:\\myProject\\finalWorkBaseLevelPhp\\data\\user_1\\directory_1\\vsratayaKartinka1.jpg',1,'1','2022-12-09','2022-12-09'),(2,'vsratayaKartinka2.jpg',1,'2C:\\myProject\\finalWorkBaseLevelPhp\\data\\user_1\\directory_2\\vsratayaKartinka2.jpg',2,'1','2002-02-02','2022-12-09'),(3,'vsratayaKartinka3.jpg',2,'C:\\myProject\\finalWorkBaseLevelPhp\\data\\user_2\\directory_1\\vsratayaKartinka3.jpg',3,'2','2003-03-03',NULL),(4,'vsratayaKartinka4.jpg',2,'C:\\myProject\\finalWorkBaseLevelPhp\\data\\user_2\\directory_2\\vsratayaKartinka4.jpg',4,'2','2004-04-04',NULL),(5,'vsratayaKartinka5.jpg',3,'C:\\myProject\\finalWorkBaseLevelPhp\\data\\user_3\\directory_1\\vsratayaKartinka5.jpg',5,'3','2005-05-05',NULL),(6,'vsratayaKartinka6.jpg',3,'C:\\myProject\\finalWorkBaseLevelPhp\\data\\user_3\\directory_2\\vsratayaKartinka6.jpg',6,'3','2006-06-06',NULL),(7,'vsratayaKartinka7.jpg',4,'C:\\myProject\\finalWorkBaseLevelPhp\\fdata\\user_4\\directory_1\\vsratayaKartinka7.jpg',7,'4','2007-07-07',NULL),(8,'vsratayaKartinka8.jpg',4,'C:\\myProject\\finalWorkBaseLevelPhp\\data\\user_4\\directory_2\\vsratayaKartinka8.jpg',8,'4','2008-08-08',NULL),(9,'vsratayaKartinka9.jpg',5,'C:\\myProject\\finalWorkBaseLevelPhp\\data\\user_5\\directory_1\\vsratayaKartinka9.jpg',9,'5','2009-09-09',NULL),(10,'vsratayaKartinka10.jpg',5,'C:\\myProject\\finalWorkBaseLevelPhp\\data\\user_5\\directory_2\\vsratayaKartinka10.jpg',10,'5','2010-10-10',NULL),(26,'1476-700x525-1.jpg',2,'C:\\myProject\\finalWorkBaseLevelPhp\\data\\user_2\\directory_2\\1476-700x525-1.jpg',4,'2 3 5','2022-12-12','2022-12-12');
 /*!40000 ALTER TABLE `files` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4037,4 +4037,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-13 11:11:26
+-- Dump completed on 2022-12-13 11:56:01

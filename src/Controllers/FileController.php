@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Directory;
 use App\Models\File;
+use App\Models\User;
 use App\View\Json;
 use App\View\View;
 
@@ -183,9 +184,16 @@ class FileController
 
     public function showUsersAvailableToFile($id)
     {
-        $message ='TEST';
-        $files =File::find($id);
-        $message = $files;
+        $arrayAvailableNmaeUsers = [];
+        $files = File::find($id);
+        $arrayAvailableUsers = explode(' ', $files->availabl_to_users);
+//        var_dump($arrayAvailableUsers); exit;
+        foreach ($arrayAvailableUsers as $availableUsers) {
+            $user = User::find($availableUsers);
+            $arrayAvailableNmaeUsers[] = $user->name;
+        }
+//        $message = $files->availabl_to_users;
+        $message = 'пользователи, кому доступен файл ' . implode(",", $arrayAvailableNmaeUsers);
 
         return new Json(
             [

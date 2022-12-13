@@ -16,4 +16,9 @@ class File extends Model
     {
         return $this->belongsTo(Directory::class, 'directory_id', 'id');
     }
+
+    public function user()
+    {
+        return $this->morphOne(User::class, 'name');
+    }
 }
