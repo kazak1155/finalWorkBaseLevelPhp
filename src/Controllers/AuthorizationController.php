@@ -32,21 +32,35 @@ class AuthorizationController
                         $_SESSION['success'] = 'вы авторизированы';
                     }
                     $message = 'пользователь авторизован';
-//                    header('Location: /');
+
+                    return new Json(
+                        [
+                            'message' => $message,
+                        ]);
                 } else {
                     $message = 'неправильно введен пароль';
+
+                    return new Json(
+                        [
+                            'message' => $message,
+                        ]);
                 }
             } else {
                 $message = 'такого пользователя нет в БД';
+
+                return new Json(
+                    [
+                        'message' => $message,
+                    ]);
             }
         } else {
             $message = 'данных в запросе нет';
-        }
 
-        return new Json(
-            [
-                'message' => $message,
-            ]);
+            return new Json(
+                [
+                    'message' => $message,
+                ]);
+        }
     }
 
     public function logout()

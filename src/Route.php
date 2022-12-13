@@ -49,7 +49,6 @@ class Route
             return call_user_func_array($this->callback, $matches);
         } else {
             return call_user_func_array($this->callback, []);
-
         }
     }
 }

@@ -85,7 +85,7 @@ class UserController
                                 $newUser->created_at = date("Y-m-d");
                                 $newUser->status = 'user';
                                 $newUser->save();
-                                $path = getcwd()  . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'user_' . $newUser->id;
+                                $path = getcwd()  . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'user_' . $newUser->id;
                                 mkdir($path);
                                 $message = 'новый пользователь с email ' . $body['email'] . ' создан';
 
