@@ -19,6 +19,6 @@ class File extends Model
 
     public function user()
     {
-        return $this->morphOne(User::class, 'name');
+        return $this->hasMany(User::class, 'name');
     }
 }

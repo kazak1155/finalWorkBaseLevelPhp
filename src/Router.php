@@ -34,7 +34,6 @@ class Router
 
     private function addRoute(string $method, string $path, array $callback)
     {
-
         $this->routes[] = new Route($method, $path, $callback);
     }
 

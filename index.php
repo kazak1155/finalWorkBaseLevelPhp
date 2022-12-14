@@ -104,12 +104,12 @@ $urlList = [
             'App\Controllers\DirectoryController' => 'deleteDirectory'
         ]
     ],
-    'files/share/*' => [
+    'data/share/*' => [
         'get' => [
             'App\Controllers\FileController' => 'showUsersAvailableToFile'
         ]
     ],
-    'files/share/{id}/{user_id}' => [
+    'data/share/*/*' => [
         'put' => [
             'App\Controllers\FileController' => 'shareAvailableToFile'
         ],

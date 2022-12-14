@@ -68,6 +68,5 @@ class Application
         ]);
         $capsule->setAsGlobal();
         $capsule->bootEloquent();
-
     }
 }
