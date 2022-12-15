@@ -68,12 +68,10 @@ class DirectoryController
                 $message = 'имя папки не передано';
                 $result = false;
             }
-
         } else {
             $message = 'ничего не передано';
             $result = false;
         }
-
 
         return new Json(
             [
@@ -94,7 +92,6 @@ class DirectoryController
             ];
         }
 
-
         return new Json(
             [
                 'files' => json_encode($arrayFiles)
@@ -110,7 +107,6 @@ class DirectoryController
                 $directory -> delete();
                 rmdir ($directory->path);
                 $message = 'директория с именем: ' .  $directory->name . ' удалена';
-
             } else {
                 $result = 'false';
                 $message = 'такой директории нет в БД';
