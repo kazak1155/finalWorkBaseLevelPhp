@@ -43,7 +43,6 @@ class Router
         $uri = trim($uri, '/');
 
         $uri = preg_replace('/\?.*/', '', $uri);
-
         foreach ($this->routes as $route) {
             if ($route->match($uri, $method)) {
                 return $route->run($uri);

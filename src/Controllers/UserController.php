@@ -188,7 +188,7 @@ class UserController
         $user = User::find($id);
         if (isset($user)) {
             $result = true;
-            $user -> delete();
+            $user->delete();
             $message = 'пользователь с ид: ' .  $user->id . ' удален';
         } else {
             $result = false;

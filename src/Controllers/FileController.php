@@ -44,7 +44,6 @@ class FileController
         if (!empty($_FILES)) {
             foreach ($_FILES as $data) {
                 if (isset($_POST['directory'])) {
-                    $directory = $_POST['directory'];
                     $folder = Directory::where('id', $_POST['directory'])->first();
                     $directoryName = $folder->name;
                     $destianation = getcwd()  . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $data['name'];
@@ -54,6 +53,7 @@ class FileController
                     $newFile->user = $_SESSION['userId'];
                     $newFile->path = $destianation;
                     $newFile->directory_id = $folder->id;
+                    $newFile->availabl_to_users = $_SESSION['userId'] . ' ';
                     $newFile->save();
                     $message = 'файл с именем ' . $data['name'] . ' загружен в БД';
                     $result = true;
@@ -103,6 +103,8 @@ class FileController
                 if (!($directoryName_parent_folder == '')) {
                     rename((getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $oldName),
                         (getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . $directoryParentName . DIRECTORY_SEPARATOR . $directoryNameTo . DIRECTORY_SEPARATOR . $newName));
+                    $file->name = $newName;
+                    $file->directory_id = $body['id_directory'];
                     $file->save();
 
                     $message = 'файл успешно изменен';
@@ -110,14 +112,18 @@ class FileController
                 } else {
                     rename((getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $oldName),
                         (getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $newName));
+                    $file->name = $newName;
+                    $file->directory_id = $body['id_directory'];
                     $file->save();
 
                     $message = 'файл переименован и сохранен в той же папке';
-                    $result = false;
+                    $result = true;
                 }
             } else {
                 rename((getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $oldName),
                     (getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $newName));
+                $file->name = $newName;
+                $file->directory_id = $body['id_directory'];
                 $file->save();
 
                 $message = 'файл переименован и сохранен в той же папке';
@@ -139,24 +145,27 @@ class FileController
     public function showFileById($id)
     {
         $file = File::find($id);
-//        $folderName = $file->folder->name;
-//        var_dump($file->folder->name);  exit;
-//        $folder = Directory::find($file->directory_id);
-        $objectsJsonUser[] = [
-            [
-//                    'id' => $file->id,
-                'name' => $file->name,
-                'path' => $file->path,
-                'user' => $file->user,
-                'directory' => $file->folder->name,
-//                    'created_at' => $file->created_at,
-//                    'updated_at' => $file->updated_at,
-            ]
-        ];
+        if ($_SESSION['status_user'] == 'administrator' || $file->user == $id) {
+            $objectsJsonUser[] = [
+                [
+                    'name' => $file->name,
+                    'path' => $file->path,
+                    'user' => $file->user,
+                    'directory' => $file->folder->name,
+                ]
+            ];
+            $files = $objectsJsonUser;
+            $message = 'сведения о файле';
+        } else {
+            $files = '';
+            $message = 'авторизированный пользователь не может просмотреть данный файл' ;
+        }
+
 
         return new Json(
             [
-                'files' => json_encode($objectsJsonUser)
+                'files' => $files,
+                'message' => $message,
             ]);
     }
 

@@ -187,7 +187,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\" : 6,\r\n    \"name\" : \"TEST\",\r\n    \"email\" : \"TEST\"\r\n}"
+							"raw": "{\r\n    \"id\" : 6,\r\n    \"name\" : \"TEST-new\",\r\n    \"email\" : \"TEST-new\"\r\n}"
 						},
 						"url": {
 							"raw": "http://127.0.0.1:8000/user",
@@ -240,18 +240,11 @@
 			"item": [
 				{
 					"name": "Authorization",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/login?email=111@mail.com&password=111",
+							"raw": "http://127.0.0.1:8000/login?email=222@mail.com&password=222",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -266,11 +259,11 @@
 							"query": [
 								{
 									"key": "email",
-									"value": "111@mail.com"
+									"value": "222@mail.com"
 								},
 								{
 									"key": "password",
-									"value": "111"
+									"value": "222"
 								}
 							]
 						}
@@ -388,7 +381,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/AndreyV/Pictures/1476-700x525-1.jpg"
+									"src": "/C:/Users/AndreyV/Pictures/001.jpg"
 								},
 								{
 									"key": "directory",
@@ -474,7 +467,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/directory/2",
+							"raw": "http://127.0.0.1:8000/directory/16",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -485,7 +478,7 @@
 							"port": "8000",
 							"path": [
 								"directory",
-								"2"
+								"16"
 							]
 						}
 					},
@@ -496,6 +489,10 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"test\",\r\n    \"directory_id\" : 16\r\n}"
+						},
 						"url": {
 							"raw": "http://127.0.0.1:8000/directory",
 							"protocol": "http",

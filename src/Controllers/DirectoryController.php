@@ -17,8 +17,13 @@ class DirectoryController
     public function addDirectory()
     {
         if (isset($_POST['name'])) {
-            $path = getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $_POST['name'];
+            $path = getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $_POST['name'];
             if (!file_exists($path)) {
+                $newDirectory = new Directory();
+                $newDirectory->name = $_POST['name'];
+                $newDirectory->name_parent_folder = 'user_' . $_SESSION['userId'];
+                $newDirectory->path = $path;
+                $newDirectory->save();
                 mkdir($path);
                 $message = 'папка создана';
                 $result = true;
@@ -45,15 +50,20 @@ class DirectoryController
         $body = json_decode($jsonInput, true);
         if (isset($body)) {
             if (isset($body['name'])) {
-                $directory = Directory::find($body['directory_id']);
-                $oldNameDirectory = $directory->name;
-                $newNameDirectory = $body['name'];
-                rename((getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $oldNameDirectory),
-                    (getcwd() . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $newNameDirectory));
-                $directory->name = $body['name'];
-                $directory->save();
-                $message = 'папка переименована';
-                $result = true;
+                if (isset($body['directory_id'])) {
+                    $directory = Directory::find($body['directory_id']);
+                    $oldNameDirectory = $directory->name;
+                    $newNameDirectory = $body['name'];
+                    rename((getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $oldNameDirectory),
+                        (getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $newNameDirectory));
+                    $directory->name = $body['name'];
+                    $directory->save();
+                    $message = 'папка переименована';
+                    $result = true;
+                } else {
+                    $message = 'не передано какую папку переименовать';
+                    $result = false;
+                }
             } else {
                 $message = 'имя папки не передано';
                 $result = false;
@@ -94,19 +104,32 @@ class DirectoryController
     public function deleteDirectory($id)
     {
         $directory = Directory::find($id);
-        if (isset($directory)) {
-            $result = 'true';
-            $directory -> delete();
-            $message = 'директория с именем: ' .  $directory->name . ' удалена';
+        if ($_SESSION['status_user'] == 'administrator' || $directory->user_create == $id){
+            if (isset($directory)) {
+                $result = 'true';
+                $directory -> delete();
+                rmdir ($directory->path);
+                $message = 'директория с именем: ' .  $directory->name . ' удалена';
+
+            } else {
+                $result = 'false';
+                $message = 'такой директории нет в БД';
+
+                return new Json(
+                    [
+                        'message' => $message,
+                        'result' => $result
+                    ]);
+            }
         } else {
             $result = 'false';
-            $message = 'такой директории нет в БД';
-        }
+            $message = 'авторизированный пользователь не может удалить эту папку';
 
-        return new Json(
-            [
-                'message' => $message,
-                'result' => $result
-            ]);
+            return new Json(
+                [
+                    'message' => $message,
+                    'result' => $result
+                ]);
+        }
     }
 }

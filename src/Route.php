@@ -25,7 +25,6 @@ class Route
     {
         return function (...$params) use ($callback) {
             list($class, $method) = $callback;
-//            var_dump($class); exit;
             return (new $class)->$method(...$params);
         };
     }
