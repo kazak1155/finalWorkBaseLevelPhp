@@ -6,8 +6,6 @@ use App\Models\Directory;
 use App\Models\File;
 use App\Models\User;
 use App\View\Json;
-use App\View\View;
-
 
 /**
  * Class FileController
@@ -17,25 +15,29 @@ class FileController
 {
     public function showAllFiles()
     {
-        $files = File::all();
-        $objectsJsonUser = [];
-        foreach ($files as $file) {
-            $objectsJsonUser[] = [
-                [
-//                    'id' => $file->id,
-                    'name' => $file->name,
-                    'path' => $file->path,
-                    'user' => $file->user,
-                    'directory' => $file->folder->name ?? '',
-//                    'created_at' => $file->created_at,
-//                    'updated_at' => $file->updated_at,
-                ]
-            ];
+        if ($_SESSION['status_user'] == 'administrator') {
+            $files = File::all();
+            $objectsJsonUser = [];
+            foreach ($files as $file) {
+                $objectsJsonUser[] = [
+                    [
+                        'name' => $file->name,
+                        'path' => $file->path,
+                        'user' => $file->user,
+                        'directory' => $file->folder->name ?? '',
+                    ]
+                ];
+            }
+            $files = json_encode($objectsJsonUser);
+        } elseif($_SESSION['status_user'] == 'user') {
+            $files = File::find($_SESSION['userId']);
+                $files = json_encode($files);
         }
+
 
         return new Json(
             [
-                'files' => json_encode($objectsJsonUser)
+                'files' => $files
             ]);
     }
 
