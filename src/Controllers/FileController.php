@@ -15,28 +15,50 @@ class FileController
 {
     public function showAllFiles()
     {
-        if ($_SESSION['status_user'] == 'administrator') {
-            $files = File::all();
-            $objectsJsonUser = [];
-            foreach ($files as $file) {
-                $objectsJsonUser[] = [
-                    [
-                        'name' => $file->name,
-                        'path' => $file->path,
-                        'user' => $file->user,
-                        'directory' => $file->folder->name ?? '',
-                    ]
-                ];
+        if (isset($_SESSION['success'])) {
+            if ($_SESSION['status_user'] == 'administrator') {
+                $files = File::all();
+                $objectsJsonUser = [];
+                foreach ($files as $file) {
+                    $objectsJsonUser[] = [
+                        [
+                            'name' => $file->name,
+                            'path' => $file->path,
+                            'user' => $file->user,
+                            'directory' => $file->folder->name ?? '',
+                        ]
+                    ];
+                }
+                $files = json_encode($objectsJsonUser);
+                $message = '';
+            } elseif ($_SESSION['status_user'] == 'user') {
+                $files = File::where('user', $_SESSION['userId'])
+                    ->get();
+                $objectsJsonUser = [];
+                foreach ($files as $file) {
+                    $objectsJsonUser[] = [
+                        [
+                            'name' => $file->name,
+                            'path' => $file->path,
+                            'user' => $file->user,
+                            'directory' => $file->folder->name ?? '',
+                        ]
+                    ];
+                }
+                $files = json_encode($objectsJsonUser);
+                $message = '';
+            } else {
+                $files = '';
+                $message = 'авторизированный пользователь не администратор';
             }
-            $files = json_encode($objectsJsonUser);
-        } elseif($_SESSION['status_user'] == 'user') {
-            $files = File::find($_SESSION['userId']);
-                $files = json_encode($files);
+        } else {
+            $files = '';
+            $message = 'нет авторизированных пользователей';
         }
-
 
         return new Json(
             [
+                'message' => $message,
                 'files' => $files
             ]);
     }
@@ -146,23 +168,28 @@ class FileController
 
     public function showFileById($id)
     {
-        $file = File::find($id);
-        if ($_SESSION['status_user'] == 'administrator' || $file->user == $id) {
-            $objectsJsonUser[] = [
-                [
-                    'name' => $file->name,
-                    'path' => $file->path,
-                    'user' => $file->user,
-                    'directory' => $file->folder->name,
-                ]
-            ];
-            $files = $objectsJsonUser;
-            $message = 'сведения о файле';
+        if (isset($_SESSION['success'])) {
+            $file = File::find($id);
+             $userIdCreator = $file->user;
+            if ($_SESSION['userId'] == $userIdCreator || $_SESSION['status_user'] == 'administrator') {
+                $objectsJsonUser[] = [
+                    [
+                        'name' => $file->name,
+                        'path' => $file->path,
+                        'user' => $file->user,
+                        'directory' => $file->folder->name,
+                    ]
+                ];
+                $files = $objectsJsonUser;
+                $message = '';
+            } else {
+                $files = '';
+                $message = 'авторизированный пользователь не может узнать данные этого файла';
+            }
         } else {
             $files = '';
-            $message = 'авторизированный пользователь не может просмотреть данный файл' ;
+            $message = 'нет авторизированных пользователей';
         }
-
 
         return new Json(
             [
