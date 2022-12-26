@@ -183,12 +183,6 @@ class UserController
                     } else {
                         $message = 'такого пользовател нет в БД';
                         $result = false;
-
-                        return new Json(
-                            [
-                                'message' => $message,
-                                'result' => $result
-                            ]);
                     }
                 } else {
                     $message = 'ничего не передано в запросе';
@@ -202,7 +196,6 @@ class UserController
             $message = 'нет авторизированных пользователей';
             $result = false;
         }
-
 
         return new Json(
             [
@@ -232,7 +225,6 @@ class UserController
             $message = 'нет авторизированных пользователей';
             $result = false;
         }
-
 
         return new Json(
             [
