@@ -4,8 +4,6 @@ namespace App\Controllers;
 
 use App\Models\User;
 use App\View\Json;
-use App\View\View;
-
 
 /**
  * Class UserController
@@ -15,46 +13,72 @@ class UserController
 {
     public function showUserById($id)
     {
-        $user = User::find($id);
-        $objectsJsonUser = [
-            [
-                'id' => $user->id,
-                'name' => $user->name,
-                'surname' => $user->surname,
-                'password' => $user->password,
-                'email' => $user->email,
-                'date_create' => $user->date_create,
-            ]
-        ];
+        if (isset($_SESSION['success'])) {
+            if ($_SESSION['userId'] == $id || $_SESSION['status_user'] == 'administrator') {
+                $user = User::find($id);
+                $objectsJsonUser = [
+                    [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'surname' => $user->surname,
+                        'password' => $user->password,
+                        'email' => $user->email,
+                        'date_create' => $user->date_create,
+                    ]
+                ];
+                $users = json_encode($objectsJsonUser);
+                $message ='';
+            } else {
+                $users ='';
+                $message = 'авторизированный пользователь не может простматривать данные запрашиваемого пользователя';
+            }
+        } else {
+            $users ='';
+            $message = 'нет авторизированных пользователей';
+        }
 
         return new Json(
             [
-                'users' => json_encode($objectsJsonUser)
+                'users' => $users,
+                'message' => $message,
             ]);
     }
 
     public function showAllUser()
     {
-    $users = User::where(null)
-        ->get();
-    $objectsJsonUsers = [];
-    foreach ($users as $user) {
-        $objectsJsonUsers[] = [
-            [
-                'id' => $user->id,
-                'name' => $user->name,
-                'surname' => $user->surname,
-                'password' => $user->password,
-                'email' => $user->email,
-                'date_create' => $user->date_create,
-            ]
-        ];
-    }
+        if (isset($_SESSION['success'])) {
+            if ($_SESSION['status_user'] == 'administrator') {
+                $users = User::where(null)
+                    ->get();
+                $objectsJsonUsers = [];
+                foreach ($users as $user) {
+                    $objectsJsonUsers[] = [
+                        [
+                            'id' => $user->id,
+                            'name' => $user->name,
+                            'surname' => $user->surname,
+                            'password' => $user->password,
+                            'email' => $user->email,
+                            'date_create' => $user->date_create,
+                        ]
+                    ];
+                }
+                $users = json_encode($objectsJsonUsers);
+                $message ='';
+            } else {
+                $users ='';
+                $message = 'авторизированный пользователь не администратор';
+            }
+        } else {
+            $users ='';
+            $message = 'нет авторизированных пользователей';
+        }
 
-    return new Json(
-        [
-            'users' => json_encode($objectsJsonUsers)
-        ]);
+        return new Json(
+            [
+                'users' => $users,
+                'message' => $message,
+            ]);
     }
 
     public function createUser()
@@ -85,7 +109,7 @@ class UserController
                                 $newUser->created_at = date("Y-m-d");
                                 $newUser->status = 'user';
                                 $newUser->save();
-                                $path = getcwd()  . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'user_' . $newUser->id;
+                                $path = getcwd()  . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $newUser->id;
                                 mkdir($path);
                                 $message = 'новый пользователь с email ' . $body['email'] . ' создан';
 
@@ -141,59 +165,74 @@ class UserController
     {
         $jsonInput = file_get_contents('php://input');
         $body = json_decode($jsonInput, true);
-        if (isset($body)) {
-            $user = User::find($body['id']);
-            if (isset($user)) {
-                $user->name = $body['name'] ?? $user->name;
-                $user->surname = $body['surname'] ?? $user->surname;
-                if (isset($body['password'])) {
-                    $user->password = password_hash($body['password'], PASSWORD_DEFAULT);
+        if (isset($_SESSION['success'])) {
+            if ($_SESSION['userId'] == $body['id'] || $_SESSION['status_user'] == 'administrator') {
+                if (isset($body)) {
+                    $user = User::find($body['id']);
+                    if (isset($user)) {
+                        $user->name = $body['name'] ?? $user->name;
+                        $user->surname = $body['surname'] ?? $user->surname;
+                        if (isset($body['password'])) {
+                            $user->password = password_hash($body['password'], PASSWORD_DEFAULT);
+                        }
+                        $user->email = $body['email'] ?? $user->email;
+                        $user->status = $body['status'] ?? $user->status;
+                        $user->save();
+                        $message = 'пользаватель с id ' . $body['id'] . ' изменен';
+                        $result = true;
+                    } else {
+                        $message = 'такого пользовател нет в БД';
+                        $result = false;
+
+                        return new Json(
+                            [
+                                'message' => $message,
+                                'result' => $result
+                            ]);
+                    }
+                } else {
+                    $message = 'ничего не передано в запросе';
+                    $result = false;
                 }
-                $user->email = $body['email'] ?? $user->email;
-                $user->status = $body['status'] ?? $user->status;
-                $user->save();
-                $message = 'пользаватель с id ' . $body['id'] . ' изменен';
-                $result = true;
-
-                return new Json(
-                    [
-                        'message' => $message,
-                        'result' => $result
-                    ]);
-
             } else {
-                $message = 'такого пользовател нет в БД';
+                $message = 'авторизированный пользователь не может изменить данные этого пользователя';
                 $result = false;
-
-                return new Json(
-                    [
-                        'message' => $message,
-                        'result' => $result
-                    ]);
             }
         } else {
-            $message = 'ничего не передано в запросе';
+            $message = 'нет авторизированных пользователей';
             $result = false;
-
-            return new Json(
-                [
-                    'message' => $message,
-                    'result' => $result
-                ]);
         }
+
+
+        return new Json(
+            [
+                'message' => $message,
+                'result' => $result
+            ]);
     }
 
     public function deleteUser($id)
     {
-        $user = User::find($id);
-        if (isset($user)) {
-            $result = true;
-            $user->delete();
-            $message = 'пользователь с ид: ' .  $user->id . ' удален';
+        if (isset($_SESSION['success'])) {
+            if ($_SESSION['userId'] == $id || $_SESSION['status_user'] == 'administrator') {
+                $user = User::find($id);
+                if (isset($user)) {
+                    $result = true;
+                    $user->delete();
+                    $message = 'пользователь с ид: ' .  $user->id . ' удален';
+                } else {
+                    $result = false;
+                    $message = 'пользователя в таким ид нет в БД';
+                }
+            } else {
+                $message = 'авторизированный пользователь не может удалить данного пользователя';
+                $result = false;
+            }
         } else {
+            $message = 'нет авторизированных пользователей';
             $result = false;
-            $message = 'пользователя в таким ид нет в БД';
         }
+
 
         return new Json(
             [
