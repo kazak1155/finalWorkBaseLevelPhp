@@ -349,37 +349,65 @@ class FileController
 
     public function showUsersAvailableToFile($id)
     {
-        $arrayAvailableNmaeUsers = [];
-        $files = File::find($id);
-        $arrayAvailableUsers = explode(' ', $files->availabl_to_users);
-        foreach ($arrayAvailableUsers as $availableUsers) {
-            $user = User::find($availableUsers);
-            $arrayAvailableNmaeUsers[] = $user->name;
+        $file = File::find($id);
+        if (isset($_SESSION['success'])) {
+            if ($file->user == $_SESSION['userId'] || $_SESSION['status_user'] == 'administrator') {
+                $arrayAvailableNameUsers = [];
+                $arrayAvailableUsers = explode(' ', $file->available_to_users);
+                foreach ($arrayAvailableUsers as $availableUsers) {
+                    $user = User::find($availableUsers);
+                    $arrayAvailableNameUsers[] = $user->name;
+                }
+                $message = '';
+                $result = 'пользователи, кому доступен файл: ' . implode(",", $arrayAvailableNameUsers);
+            } else {
+                $message = 'авторизированный пользователь не может посмотреть, кому доступен данный файл';
+                $result = false;
+            }
+        } else {
+            $message = 'нет авторизированных пользователей';
+            $result = false;
         }
-        $message = 'пользователи, кому доступен файл: ' . implode(",", $arrayAvailableNmaeUsers);
+
 
         return new Json(
             [
                 'message' => $message,
+                'result' => $result
             ]);
     }
 
     public function shareAvailableToFile($idFile, $idUser)
     {
         $file = File::find($idFile);
-        $availabl_to_users = explode(' ', $file->availabl_to_users);
-        foreach ($availabl_to_users as $availabl_to_user) {
-            $user = User::find($availabl_to_user);
-            if ($availabl_to_user == $idUser) {
-                $message = 'пользователь уже имеет доступ к файлу';
-                $result = false;
+        $user1 = User::find($idUser);
+        var_dump($user1->name);
+        $available_to_users = explode(' ', $file->available_to_users);
+//        var_dump($available_to_users); exit;
+        if (isset($_SESSION['success'])) {
+            if ($file->user == $_SESSION['userId'] || $_SESSION['status_user'] == 'administrator') {
+                foreach ($available_to_users as $availabl_to_user) {
+                    $user = User::find($availabl_to_user);
+//                    var_dump($availabl_to_user);
+                    if ($availabl_to_user == $idUser) {
+                        $message = 'пользователь ' . $user1->name . ' уже имеет доступ к файлу';
+                        $result = false;
+                        break;
+                    } else {
+                        $file->availabl_to_users = $file->availabl_to_users . ' ' . $idUser;
+//                        $file->save();
+                        $message = 'пользователю ' . $user->name .  ' дан доступ к файлу';
+                        $result = true;
+//                        break;
+                    }
+                }
             } else {
-                $file->availabl_to_users = $file->availabl_to_users . ' ' . $idUser;
-                $file->save();
-                $message = 'пользователю ' . $user->name .  ' дан доступ к файлу';
-                $result = true;
-                break;
+                $message = 'авторизированный пользователь не может посмотреть, кому доступен данный файл';
+                $result = false;
             }
+        } else {
+            $message = 'нет авторизированных пользователей';
+            $result = false;
         }
 
         return new Json(
