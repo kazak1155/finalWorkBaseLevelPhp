@@ -16,26 +16,32 @@ class DirectoryController
 {
     public function addDirectory()
     {
-        if (isset($_POST['name'])) {
-            $path = getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $_POST['name'];
-            if (!file_exists($path)) {
-                $newDirectory = new Directory();
-                $newDirectory->name = $_POST['name'];
-                $newDirectory->name_parent_folder = 'user_' . $_SESSION['userId'];
-                $newDirectory->path = $path;
-                $newDirectory->save();
-                mkdir($path);
-                $message = 'папка создана';
-                $result = true;
+        if (isset($_SESSION['success'])) {
+            if (isset($_POST['name'])) {
+                $path = getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $_POST['name'];
+                if (!file_exists($path)) {
+                    $newDirectory = new Directory();
+                    $newDirectory->name = $_POST['name'];
+                    $directroryId = Directory::where('name', 'user_' . $_SESSION['userId'])->first();
+                    $newDirectory->id_parent_folder = $directroryId->id;
+                    $newDirectory->path = $path;
+                    $newDirectory->id_user_create = $_SESSION['userId'];
+                    $newDirectory->save();
+                    mkdir($path);
+                    $message = 'папка создана';
+                    $result = true;
+                } else {
+                    $message = 'такая папка уже существует';
+                    $result = false;
+                }
             } else {
-                $message = 'такая папка уже существует';
+                $message = 'название папки не задано';
                 $result = false;
             }
         } else {
-            $message = 'название папки не задано';
+            $message = 'нет авторизированных пользователей';
             $result = false;
         }
-
 
         return new Json(
             [
@@ -46,30 +52,40 @@ class DirectoryController
 
     public function editDirectory()
     {
-        $jsonInput = file_get_contents('php://input');
-        $body = json_decode($jsonInput, true);
-        if (isset($body)) {
-            if (isset($body['name'])) {
-                if (isset($body['directory_id'])) {
-                    $directory = Directory::find($body['directory_id']);
-                    $oldNameDirectory = $directory->name;
-                    $newNameDirectory = $body['name'];
-                    rename((getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $oldNameDirectory),
-                        (getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $newNameDirectory));
-                    $directory->name = $body['name'];
-                    $directory->save();
-                    $message = 'папка переименована';
-                    $result = true;
+        if (isset($_SESSION['success'])) {
+            $jsonInput = file_get_contents('php://input');
+            $body = json_decode($jsonInput, true);
+            if (isset($body)) {
+                if (isset($body['name'])) {
+                    if (isset($body['directory_id'])) {
+                        $directory = Directory::find($body['directory_id']);
+                        if ($directory->id_user_create == $_SESSION['userId'] || $_SESSION['status_user'] == 'administrator') {
+                            $oldNameDirectory = $directory->name;
+                            $newNameDirectory = $body['name'];
+                            rename((getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $directory->id_user_create . DIRECTORY_SEPARATOR . $oldNameDirectory),
+                                (getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $directory->id_user_create . DIRECTORY_SEPARATOR . $newNameDirectory));
+                            $directory->name = $body['name'];
+                            $directory->save();
+                            $message = 'папка переименована';
+                            $result = true;
+                        } else {
+                            $message = 'авторизированный пользователь не может переименовать данную папку';
+                            $result = false;
+                        }
+                    } else {
+                        $message = 'не передано какую папку переименовать';
+                        $result = false;
+                    }
                 } else {
-                    $message = 'не передано какую папку переименовать';
+                    $message = 'имя папки не передано';
                     $result = false;
                 }
             } else {
-                $message = 'имя папки не передано';
+                $message = 'ничего не передано';
                 $result = false;
             }
         } else {
-            $message = 'ничего не передано';
+            $message = 'нет авторизированных пользователей';
             $result = false;
         }
 
