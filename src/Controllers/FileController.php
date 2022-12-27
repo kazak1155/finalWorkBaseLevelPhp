@@ -414,21 +414,32 @@ class FileController
     public function deleteAvailableToFile($idFile, $idUser)
     {
         $file = File::find($idFile);
-        $availabl_to_users = explode(' ', $file->availabl_to_users);
-        foreach ($availabl_to_users as $availabl_to_user) {
-            $user = User::find($availabl_to_user);
-            if ($availabl_to_user == $idUser) {
-                $message = 'пользователю ' . $user->name .  ' убран доступ к файлу';
-                $stringToDelete = ' ' . $idUser;
-                $file->availabl_to_users = str_replace($stringToDelete, '', $file->availabl_to_users);
-                $file->save();
-                $result = true;
-                break;
+        $user1 = User::find($idUser);
+        if (isset($_SESSION['success'])) {
+            if ($file->user == $_SESSION['userId'] || $_SESSION['status_user'] == 'administrator') {
+                $availabl_to_users = explode(' ', $file->available_to_users);
+                foreach ($availabl_to_users as $available_to_user) {
+                    if ($available_to_user == $idUser) {
+                        $message = 'пользователю ' . $user1->name . ' с ид ' . $user1->id . ' убран доступ к файлу';
+                        $stringToDelete = ' ' . $idUser;
+                        $file->available_to_users = str_replace($stringToDelete, '', $file->available_to_users);
+                        $file->save();
+                        $result = true;
+                        break;
+                    } else {
+                        $message = 'у пользователя ' . $user1->name . ' с ид ' . $user1->id . ' нет доступа к файлу';
+                        $result = false;
+                    }
+                }
             } else {
-                $message = 'у пользователя ' . $user->name .  ' нет доступа к файлу';
+                $message = 'авторизированный пользователь не может удалить доступ к этому файлу';
                 $result = false;
             }
+        } else {
+            $message = 'нет авторизированных пользователей';
+            $result = false;
         }
+
 
         return new Json(
             [
