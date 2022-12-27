@@ -369,7 +369,6 @@ class FileController
             $result = false;
         }
 
-
         return new Json(
             [
                 'message' => $message,
@@ -381,24 +380,19 @@ class FileController
     {
         $file = File::find($idFile);
         $user1 = User::find($idUser);
-        var_dump($user1->name);
         $available_to_users = explode(' ', $file->available_to_users);
-//        var_dump($available_to_users); exit;
         if (isset($_SESSION['success'])) {
             if ($file->user == $_SESSION['userId'] || $_SESSION['status_user'] == 'administrator') {
                 foreach ($available_to_users as $availabl_to_user) {
-                    $user = User::find($availabl_to_user);
-//                    var_dump($availabl_to_user);
                     if ($availabl_to_user == $idUser) {
                         $message = 'пользователь ' . $user1->name . ' уже имеет доступ к файлу';
                         $result = false;
                         break;
                     } else {
-                        $file->availabl_to_users = $file->availabl_to_users . ' ' . $idUser;
-//                        $file->save();
-                        $message = 'пользователю ' . $user->name .  ' дан доступ к файлу';
+                        $file->available_to_users = $file->available_to_users . ' ' . $idUser;
+                        $file->save();
+                        $message = 'пользователю c id= ' . $idUser .  ' дан доступ к файлу';
                         $result = true;
-//                        break;
                     }
                 }
             } else {
