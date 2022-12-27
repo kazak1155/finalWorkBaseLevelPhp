@@ -98,50 +98,64 @@ class DirectoryController
 
     public function showFilesInDirectory($id)
     {
-        $files = File::where('directory_id', $id)->get();
-        $arrayFiles = [];
-        foreach ($files as $file){
-            $arrayFiles[] = [
-                [
-                    'name' => $file->name
-                ]
-            ];
+        if (isset($_SESSION['success'])) {
+            $files = File::where('directory_id', $id)->get();
+            $arrayFiles = [];
+            foreach ($files as $file){
+                if ($file->user == $_SESSION['userId']) {
+                    $arrayFiles[] = [
+                        [
+                            'name' => $file->name
+                        ]
+                    ];
+                    $result = json_encode($arrayFiles);
+                    $message = '';
+                } else {
+                    $message = 'авторизированный пользователь не может посмотреть файлы в это папке';
+                    $result = false;
+                    break;
+                }
+            }
+        } else {
+            $message = 'нет авторизированных пользователей';
+            $result = false;
         }
 
         return new Json(
             [
-                'files' => json_encode($arrayFiles)
+                'message' => $message,
+                'result' => $result
             ]);
     }
 
     public function deleteDirectory($id)
     {
         $directory = Directory::find($id);
-        if ($_SESSION['status_user'] == 'administrator' || $directory->user_create == $id){
-            if (isset($directory)) {
-                $result = 'true';
-                $directory -> delete();
-                rmdir ($directory->path);
-                $message = 'директория с именем: ' .  $directory->name . ' удалена';
+        if (isset($_SESSION['success'])) {
+            if ($_SESSION['status_user'] == 'administrator' || $directory->id_user_create == $_SESSION['userId']) {
+                if (isset($directory)) {
+                    $result = 'true';
+                    $directory -> delete();
+                    rmdir ($directory->path);
+                    $message = 'директория с именем: ' .  $directory->name . ' удалена';
+                } else {
+                    $result = 'false';
+                    $message = 'такой директории нет в БД';
+                }
             } else {
-                $result = 'false';
-                $message = 'такой директории нет в БД';
-
-                return new Json(
-                    [
-                        'message' => $message,
-                        'result' => $result
-                    ]);
+                $message = 'авторизированный пользователь не может удалить данную папку';
+                $result = false;
             }
         } else {
-            $result = 'false';
-            $message = 'авторизированный пользователь не может удалить эту папку';
+            $message = 'нет авторизированных пользователей';
+            $result = false;
+        }
 
             return new Json(
                 [
                     'message' => $message,
                     'result' => $result
                 ]);
-        }
+
     }
 }
