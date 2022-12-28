@@ -65,9 +65,11 @@ class FileController
 
     public function addFile()
     {
+//        var_dump($_FILES); exit;
         if (isset($_SESSION['success'])) {
             if ($_SESSION['status_user'] == 'administrator') {
                 if (!empty($_FILES)) {
+//                    var_dump(($_FILES["file"]["size"]));exit;
                     foreach ($_FILES as $data) {
                         if (isset($_POST['Id_directory'])) {
                             $folder = Directory::where('id', $_POST['Id_directory'])->first();
@@ -173,6 +175,8 @@ class FileController
                 if (isset($body['newName'])) {
                     $file = File::find($body['id']);
                     $directory = Directory::find($file->directory_id);
+                    $userDirectory = $directory->id_user_create;
+//                    var_dump($userDirectory); exit;
                     $directoryName = $directory->name;
                     $directoryName_parent_folder = $directory->name_parent_folder;
                     $pieces = explode(".", $file->name);
@@ -180,23 +184,29 @@ class FileController
                     $newName = $body['newName'] . '.' . end($pieces);
                     if (isset($body['id_directory'])) {
                         $directoryTo = Directory::find($body['id_directory']);
+                        $userTo = $directoryTo->id_user_create;
+//                        var_dump($userTo); exit;
                         $directoryNameTo = $directoryTo->name;
-                        $directoryParentName = $directoryTo->name_parent_folder;
-                        if (!($directoryName_parent_folder == '')) {
-                            rename((getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $oldName),
-                                (getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . $directoryParentName . DIRECTORY_SEPARATOR . $directoryNameTo . DIRECTORY_SEPARATOR . $newName));
+                        $directoryParentId = $directoryTo->id_parent_folder;
+                        $directoryNameTo = Directory::find($directoryParentId);
+                        $directoryNameTo = $directoryNameTo->name;
+//                        var_dump($directoryNameTo); exit;
+//                        var_dump($directoryName_parent_folder == null); exit;
+                        if ($directoryName_parent_folder == null) {
+                            rename((getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $userDirectory . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $oldName),
+                                (getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $userTo . $directoryParentName . DIRECTORY_SEPARATOR . $directoryNameTo . DIRECTORY_SEPARATOR . $newName));
                             $file->name = $newName;
                             $file->directory_id = $body['id_directory'];
-                            $file->save();
+//                            $file->save();
 
                             $message = 'файл успешно изменен';
                             $result = true;
                         } else {
-                            rename((getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $oldName),
-                                (getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $newName));
+                            rename((getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $userDirectory . DIRECTORY_SEPARATOR . $oldName),
+                                (getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $newName));
                             $file->name = $newName;
                             $file->directory_id = $body['id_directory'];
-                            $file->save();
+//                            $file->save();
 
                             $message = 'файл переименован и сохранен в той же папке';
                             $result = true;
@@ -382,6 +392,7 @@ class FileController
         $user1 = User::find($idUser);
         $available_to_users = explode(' ', $file->available_to_users);
         if (isset($_SESSION['success'])) {
+            var_dump($file->user == $_SESSION['userId']);
             if ($file->user == $_SESSION['userId'] || $_SESSION['status_user'] == 'administrator') {
                 foreach ($available_to_users as $availabl_to_user) {
                     if ($availabl_to_user == $idUser) {
