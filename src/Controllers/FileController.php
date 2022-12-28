@@ -65,98 +65,157 @@ class FileController
 
     public function addFile()
     {
-//        var_dump($_FILES); exit;
         if (isset($_SESSION['success'])) {
             if ($_SESSION['status_user'] == 'administrator') {
-                if (!empty($_FILES)) {
-//                    var_dump(($_FILES["file"]["size"]));exit;
-                    foreach ($_FILES as $data) {
-                        if (isset($_POST['Id_directory'])) {
-                            $folder = Directory::where('id', $_POST['Id_directory'])->first();
-                            $directoryName = $folder->name;
-                            $directoryUser = $folder->id_user_create;
-                            $destianation = getcwd()  . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $directoryUser . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $data['name'];
-                            move_uploaded_file($_FILES['file']['tmp_name'], $destianation);
-                            $newFile = new File();
-                            $newFile->name = $data['name'];
-                            $newFile->user = $_SESSION['userId'];
-                            $newFile->path = $destianation;
-                            $newFile->directory_id = $folder->id;
-                            $newFile->available_to_users = $_SESSION['userId'] . ' ';
-                            $newFile->save();
-
-                            $message = 'файл с именем ' . $data['name'] . ' загружен в БД';
-                            $result = true;
+                if (isset($_POST['Id_directory'])) {
+                    $folder = Directory::where('id', $_POST['Id_directory'])->first();
+                    if (isset($folder)) {
+                        if ($_FILES['file']['name'] != '') {
+                            foreach ($_FILES as $data) {
+                                $directoryName = $folder->name;
+                                $nameFile = $data['name'];
+                                $destianation = getcwd()  . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $nameFile;
+                                move_uploaded_file($_FILES['file']['tmp_name'], $destianation);
+                                var_dump($nameFile); exit;
+                            }
                         } else {
-                            $destianation = getcwd()  . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $data['name'];
-                            move_uploaded_file($_FILES['file']['tmp_name'], $destianation);
-                            $newFile = new File();
-                            $newFile->name = $data['name'];
-                            $newFile->user = $_SESSION['userId'];
-                            $newFile->path = $destianation;
-                            $folder = Directory::where('name', ('user_' . $_SESSION['userId']))->first();
-                            $newFile->directory_id = $folder->id;
-                            $newFile->available_to_users = $_SESSION['userId'] . ' ';
-                            $newFile->save();
-
-                            $message = 'файл с именем ' . $data['name'] . ' загружен в БД';
-                            $result = true;
+                            $message = 'никокого файла не передано';
+                            $result = false;
                         }
+                    } else {
+                        $message = 'такой папки не существует';
+                        $result = false;
                     }
                 } else {
-                    $message = 'никокого файла не передано';
-                    $result = false;
-                }
-            } elseif ($_SESSION['status_user'] == 'user') {
-                $folder = Directory::where('id', $_POST['Id_directory'])->first();
-                $test = $folder->id_user_create;
-                if ($test == $_SESSION['userId']) {
-                    if (!empty($_FILES)) {
+                    if ($_FILES['file']['name'] != '') {
                         foreach ($_FILES as $data) {
-                            if (isset($_POST['Id_directory'])) {
-                                $folder = Directory::where('id', $_POST['Id_directory'])->first();
-                                $directoryName = $folder->name;
 
-                                $destianation = getcwd()  . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $data['name'];
-                                move_uploaded_file($_FILES['file']['tmp_name'], $destianation);
-                                $newFile = new File();
-                                $newFile->name = $data['name'];
-                                $newFile->user = $_SESSION['userId'];
-                                $newFile->path = $destianation;
-                                $newFile->directory_id = $folder->id;
-                                $newFile->available_to_users = $_SESSION['userId'] . ' ';
-                                $newFile->save();
-                                $message = 'файл с именем ' . $data['name'] . ' загружен в БД';
-                                $result = true;
-                            } else {
-                                $destianation = getcwd()  . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $data['name'];
-                                move_uploaded_file($_FILES['test']['tmp_name'], $destianation);
-                                $name = 'user_' . $_SESSION['userId'];
-                                $folder = Directory::where('name', $name)->first();
-                                $newFile = new File();
-                                $newFile->name = $data['name'];
-                                $newFile->user = $_SESSION['userId'];
-                                $newFile->path = $destianation;
-                                $newFile->directory_id = $folder->id;
-                                $newFile->available_to_users = $_SESSION['userId'] . ' ';
-                                $newFile->save();
-                                $message = 'файл с именем ' . $data['name'] . ' загружен в БД';
-                                $result = true;
-                            }
                         }
                     } else {
                         $message = 'никокого файла не передано';
                         $result = false;
                     }
-                } else {
-                    $message = 'авторизированный пользователь не может записать файл в данную папку';
-                    $result = false;
                 }
             }
-        } else {
-            $message = 'нет авторизированных пользователей';
-            $result = false;
+            elseif ($_SESSION['status_user'] == 'user') {
+
+            }
         }
+//            if ($_SESSION['status_user'] == 'administrator') {
+//                $folder = Directory::where('id', $_POST['Id_directory'])->first();
+//                if (isset($folder)) {
+//                    if ($folder->id_user_create == $_SESSION['userId']) {
+//                        if ($_FILES['file']['name'] != '') {
+//                            foreach ($_FILES as $data) {
+//                                if (isset($_POST['Id_directory'])) {
+//                                    $folder = Directory::where('id', $_POST['Id_directory'])->first();
+//                                    $directoryName = $folder->name;
+//                                    $nameFile = $_FILES['file']['name'];
+//                                    $file = File::where('name',$nameFile)->first();
+//                                    if (!isset($file)) {
+//                                        $destianation = getcwd()  . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $data['name'];
+//                                        move_uploaded_file($_FILES['file']['tmp_name'], $destianation);
+//                                        $newFile = new File();
+//                                        $newFile->name = $data['name'];
+//                                        $newFile->user = $_SESSION['userId'];
+//                                        $newFile->path = $destianation;
+//                                        $newFile->directory_id = $folder->id;
+//                                        $newFile->available_to_users = $_SESSION['userId'] . ' ';
+//                                        $newFile->save();
+//                                        $message = 'файл с именем ' . $data['name'] . ' загружен в БД';
+//                                        $result = true;
+//                                    } else {
+//                                        $message = 'файл с таким именем уже есть в БД';
+//                                        $result = false;
+//                                    }
+//                                } else {
+//                                    $destianation = getcwd()  . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $data['name'];
+//                                    move_uploaded_file($_FILES['test']['tmp_name'], $destianation);
+//                                    $name = 'user_' . $_SESSION['userId'];
+//                                    $folder = Directory::where('name', $name)->first();
+//                                    $newFile = new File();
+//                                    $newFile->name = $data['name'];
+//                                    $newFile->user = $_SESSION['userId'];
+//                                    $newFile->path = $destianation;
+//                                    $newFile->directory_id = $folder->id;
+//                                    $newFile->available_to_users = $_SESSION['userId'] . ' ';
+//                                    $newFile->save();
+//                                    $message = 'файл с именем ' . $data['name'] . ' загружен в БД';
+//                                    $result = true;
+//                                }
+//                            }
+//                        } else {
+//                            $message = 'никокого файла не передано';
+//                            $result = false;
+//                        }
+//                    } else {
+//                        $message = 'авторизированный пользователь не может записать файл в данную папку';
+//                        $result = false;
+//                    }
+//                } else {
+//                    $message = 'такой папки не существует';
+//                    $result = false;
+//                }
+//                } elseif ($_SESSION['status_user'] == 'user') {
+//                $folder = Directory::where('id', $_POST['Id_directory'])->first();
+//                if (isset($folder)) {
+//                    if ($folder->id_user_create == $_SESSION['userId']) {
+//                        if ($_FILES['file']['name'] != '') {
+//                            foreach ($_FILES as $data) {
+//                                if (isset($_POST['Id_directory'])) {
+//                                    $folder = Directory::where('id', $_POST['Id_directory'])->first();
+//                                    $directoryName = $folder->name;
+//                                    $nameFile = $_FILES['file']['name'];
+//                                    $file = File::where('name',$nameFile)->first();
+//                                    if (!isset($file)) {
+//                                        $destianation = getcwd()  . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $data['name'];
+//                                        move_uploaded_file($_FILES['file']['tmp_name'], $destianation);
+//                                        $newFile = new File();
+//                                        $newFile->name = $data['name'];
+//                                        $newFile->user = $_SESSION['userId'];
+//                                        $newFile->path = $destianation;
+//                                        $newFile->directory_id = $folder->id;
+//                                        $newFile->available_to_users = $_SESSION['userId'] . ' ';
+//                                        $newFile->save();
+//                                        $message = 'файл с именем ' . $data['name'] . ' загружен в БД';
+//                                        $result = true;
+//                                    } else {
+//                                        $message = 'файл с таким именем уже есть в БД';
+//                                        $result = false;
+//                                    }
+//                                } else {
+//                                    $destianation = getcwd()  . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $data['name'];
+//                                    move_uploaded_file($_FILES['test']['tmp_name'], $destianation);
+//                                    $name = 'user_' . $_SESSION['userId'];
+//                                    $folder = Directory::where('name', $name)->first();
+//                                    $newFile = new File();
+//                                    $newFile->name = $data['name'];
+//                                    $newFile->user = $_SESSION['userId'];
+//                                    $newFile->path = $destianation;
+//                                    $newFile->directory_id = $folder->id;
+//                                    $newFile->available_to_users = $_SESSION['userId'] . ' ';
+//                                    $newFile->save();
+//                                    $message = 'файл с именем ' . $data['name'] . ' загружен в БД';
+//                                    $result = true;
+//                                }
+//                            }
+//                        } else {
+//                            $message = 'никокого файла не передано';
+//                            $result = false;
+//                        }
+//                    } else {
+//                        $message = 'авторизированный пользователь не может записать файл в данную папку';
+//                        $result = false;
+//                    }
+//                } else {
+//                    $message = 'такой папки не существует';
+//                    $result = false;
+//                }
+//            }
+//        } else {
+//            $message = 'нет авторизированных пользователей';
+//            $result = false;
+//        }
 
         return new Json(
             [
