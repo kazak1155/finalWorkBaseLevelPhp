@@ -62,7 +62,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/admin/user/5",
+							"raw": "http://127.0.0.1:8000/admin/user/6",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -74,7 +74,7 @@
 							"path": [
 								"admin",
 								"user",
-								"5"
+								"6"
 							]
 						}
 					},
@@ -239,12 +239,12 @@
 			"name": "Authorization",
 			"item": [
 				{
-					"name": "Authorization",
+					"name": "login",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/login?email=222@mail.com&password=222",
+							"raw": "http://127.0.0.1:8000/login?email=111@mail.com&password=111",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -259,11 +259,11 @@
 							"query": [
 								{
 									"key": "email",
-									"value": "222@mail.com"
+									"value": "111@mail.com"
 								},
 								{
 									"key": "password",
-									"value": "222"
+									"value": "111"
 								}
 							]
 						}
@@ -353,7 +353,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/file/2",
+							"raw": "http://127.0.0.1:8000/file/3",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -364,7 +364,7 @@
 							"port": "8000",
 							"path": [
 								"file",
-								"2"
+								"3"
 							]
 						}
 					},
@@ -381,11 +381,11 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/AndreyV/Pictures/001.jpg"
+									"src": "/C:/Users/AndreyV/Pictures/1476-700x525-1.jpg"
 								},
 								{
-									"key": "directory",
-									"value": "4",
+									"key": "Id_directory",
+									"value": "3",
 									"type": "text"
 								}
 							]
@@ -414,7 +414,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\" : 26,\r\n    \"newName\" :\"testName\",\r\n    \"id_directory\" : 9\r\n}"
+							"raw": "{\r\n    \"id\" : 27,\r\n    \"newName\" :\"testName\",\r\n    \"id_directory\" : 9\r\n}"
 						},
 						"url": {
 							"raw": "http://127.0.0.1:8000/file",
@@ -439,7 +439,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/file/26",
+							"raw": "http://127.0.0.1:8000/file/27",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -450,7 +450,7 @@
 							"port": "8000",
 							"path": [
 								"file",
-								"26"
+								"27"
 							]
 						}
 					},
@@ -491,7 +491,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\" : \"test\",\r\n    \"directory_id\" : 16\r\n}"
+							"raw": "{\r\n    \"name\" : \"test\",\r\n    \"directory_id\" : 18\r\n}"
 						},
 						"url": {
 							"raw": "http://127.0.0.1:8000/directory",
@@ -516,7 +516,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/directory/2",
+							"raw": "http://127.0.0.1:8000/directory/4",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -527,7 +527,7 @@
 							"port": "8000",
 							"path": [
 								"directory",
-								"2"
+								"4"
 							]
 						}
 					},
@@ -545,6 +545,12 @@
 									"key": "name",
 									"value": "directory_x",
 									"type": "text"
+								},
+								{
+									"key": "id_directory",
+									"value": "2",
+									"type": "text",
+									"disabled": true
 								}
 							]
 						},

@@ -72,11 +72,25 @@ class FileController
                     if (isset($folder)) {
                         if ($_FILES['file']['name'] != '') {
                             foreach ($_FILES as $data) {
-                                $directoryName = $folder->name;
-                                $nameFile = $data['name'];
-                                $destianation = getcwd()  . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $nameFile;
-                                move_uploaded_file($_FILES['file']['tmp_name'], $destianation);
-                                var_dump($nameFile); exit;
+                                $fileExist = File::where('name',$data['name'] )->first();
+                                if (!isset($fileExist)) {
+                                    $directoryName = $folder->name;
+                                    $nameFile = $data['name'];
+                                    $path = getcwd()  . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $nameFile;
+                                    move_uploaded_file($_FILES['file']['tmp_name'], $path);
+                                    $newFile = new File();
+                                    $newFile->user = $_SESSION['userId'];
+                                    $newFile->name = $data['name'];
+                                    $newFile->path = $path;
+                                    $newFile->directory_id = $folder->id;
+                                    $newFile->available_to_users = $_SESSION['userId'] . ' ';
+                                    $newFile->save();
+                                    $message = 'файл записан в папку user_' . $_SESSION['userId'] . '/' . $directoryName;
+                                    $result = true;
+                                } else {
+                                    $message = 'файл с таким именем уже есть в БД';
+                                    $result = false;
+                                }
                             }
                         } else {
                             $message = 'никокого файла не передано';
@@ -89,7 +103,26 @@ class FileController
                 } else {
                     if ($_FILES['file']['name'] != '') {
                         foreach ($_FILES as $data) {
-
+                            $fileExist = File::where('name',$data['name'] )->first();
+                            if (!isset($fileExist)) {
+                                $nameFile = $data['name'];
+                                $path = getcwd()  . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $nameFile;
+                                move_uploaded_file($_FILES['file']['tmp_name'], $path);
+                                $newFile = new File();
+                                $newFile->user = $_SESSION['userId'];
+                                $newFile->name = $data['name'];
+                                $newFile->path = $path;
+                                $folderId = Directory::where('name', 'user_' . $_SESSION['userId'])->first();
+                                $folderId = $folderId->id;
+                                $newFile->directory_id = $folderId;
+                                $newFile->available_to_users = $_SESSION['userId'] . ' ';
+                                $newFile->save();
+                                $message = 'файл записан в папку user_' . $_SESSION['userId'];
+                                $result = true;
+                            } else {
+                                $message = 'файл с таким именем уже есть в БД';
+                                $result = false;
+                            }
                         }
                     } else {
                         $message = 'никокого файла не передано';
@@ -98,7 +131,73 @@ class FileController
                 }
             }
             elseif ($_SESSION['status_user'] == 'user') {
-
+                if (isset($_POST['Id_directory'])) {
+                    $folder = Directory::where('id', $_POST['Id_directory'])->first();
+                    if (isset($folder)) {
+                        if ($folder->id_user_create == $_SESSION['userId']) {
+                            if ($_FILES['file']['name'] != '') {
+                                foreach ($_FILES as $data) {
+                                    $fileExist = File::where('name',$data['name'] )->first();
+                                    if (!isset($fileExist)) {
+                                        $directoryName = $folder->name;
+                                        $nameFile = $data['name'];
+                                        $path = getcwd()  . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $nameFile;
+                                        move_uploaded_file($_FILES['file']['tmp_name'], $path);
+                                        $newFile = new File();
+                                        $newFile->user = $_SESSION['userId'];
+                                        $newFile->name = $data['name'];
+                                        $newFile->path = $path;
+                                        $newFile->directory_id = $folder->id;
+                                        $newFile->available_to_users = $_SESSION['userId'] . ' ';
+                                        $newFile->save();
+                                        $message = 'файл записан в папку user_' . $_SESSION['userId'] . '/' . $directoryName;
+                                        $result = true;
+                                    } else {
+                                        $message = 'файл с таким именем уже есть в БД';
+                                        $result = false;
+                                    }
+                                }
+                            } else {
+                                $message = 'никокого файла не передано';
+                                $result = false;
+                            }
+                        } else {
+                            $message = 'авторизированный пользователь не может записать файл в данную папку';
+                            $result = false;
+                        }
+                    } else {
+                        $message = 'такой папки не существует';
+                        $result = false;
+                    }
+                } else {
+                    if ($_FILES['file']['name'] != '') {
+                        foreach ($_FILES as $data) {
+                            $fileExist = File::where('name',$data['name'] )->first();
+                            if (!isset($fileExist)) {
+                                $nameFile = $data['name'];
+                                $path = getcwd()  . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $nameFile;
+                                move_uploaded_file($_FILES['file']['tmp_name'], $path);
+                                $newFile = new File();
+                                $newFile->user = $_SESSION['userId'];
+                                $newFile->name = $data['name'];
+                                $newFile->path = $path;
+                                $folderId = Directory::where('name', 'user_' . $_SESSION['userId'])->first();
+                                $folderId = $folderId->id;
+                                $newFile->directory_id = $folderId;
+                                $newFile->available_to_users = $_SESSION['userId'] . ' ';
+                                $newFile->save();
+                                $message = 'файл записан в папку user_' . $_SESSION['userId'];
+                                $result = true;
+                            } else {
+                                $message = 'файл с таким именем уже есть в БД';
+                                $result = false;
+                            }
+                        }
+                    } else {
+                        $message = 'никокого файла не передано';
+                        $result = false;
+                    }
+                }
             }
         }
 //            if ($_SESSION['status_user'] == 'administrator') {

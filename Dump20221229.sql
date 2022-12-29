@@ -66,7 +66,7 @@ CREATE TABLE `files` (
   KEY `name_folder_idx` (`directory_id`),
   CONSTRAINT `namde_folder_to_file` FOREIGN KEY (`directory_id`) REFERENCES `directory` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `user_file` FOREIGN KEY (`user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -75,7 +75,7 @@ CREATE TABLE `files` (
 
 LOCK TABLES `files` WRITE;
 /*!40000 ALTER TABLE `files` DISABLE KEYS */;
-INSERT INTO `files` VALUES (1,'vsratayaKartinka1.jpg',1,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_1\\directory_1\\vsratayaKartinka1.jpg',1,'1 ','2022-12-09','2022-12-09'),(2,'vsratayaKartinka2.jpg',1,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_1\\directory_2\\vsratayaKartinka2.jpg',2,'1 ','2002-02-02','2022-12-09'),(3,'vsratayaKartinka3.jpg',2,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_2\\directory_1\\vsratayaKartinka3.jpg',3,'2 ','2003-03-03',NULL),(4,'vsratayaKartinka4.jpg',2,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_2\\directory_2\\vsratayaKartinka4.jpg',4,'2 ','2004-04-04',NULL),(5,'vsratayaKartinka5.jpg',3,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_3\\directory_1\\vsratayaKartinka5.jpg',5,'3 ','2005-05-05',NULL),(6,'vsratayaKartinka6.jpg',3,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_3\\directory_2\\vsratayaKartinka6.jpg',6,'3 ','2006-06-06',NULL),(7,'vsratayaKartinka7.jpg',4,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_4\\directory_1\\vsratayaKartinka7.jpg',7,'4 ','2007-07-07',NULL),(8,'vsratayaKartinka8.jpg',4,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_4\\directory_2\\vsratayaKartinka8.jpg',8,'4 ','2008-08-08',NULL),(9,'vsratayaKartinka9.jpg',5,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_5\\directory_1\\vsratayaKartinka9.jpg',9,'5 ','2009-09-09',NULL),(10,'vsratayaKartinka10.jpg',5,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_5\\directory_2\\vsratayaKartinka10.jpg',10,'5 ','2010-10-10',NULL),(26,'333.jpg',2,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_2\\directory_2\\333.jpg',4,'2 4 1','2004-04-04',NULL),(27,'333.jpg',1,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_1\\directory_1\\333.jpg',9,'1','2022-12-09','2022-12-27');
+INSERT INTO `files` VALUES (1,'testName.jpg',1,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_1\\directory_1\\vsratayaKartinka1.jpg',9,'1 ','2022-12-09','2022-12-28'),(2,'vsratayaKartinka2.jpg',1,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_1\\directory_2\\vsratayaKartinka2.jpg',2,'1 ','2002-02-02','2022-12-09'),(3,'vsratayaKartinka3.jpg',2,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_2\\directory_1\\vsratayaKartinka3.jpg',3,'2 ','2003-03-03',NULL),(4,'vsratayaKartinka4.jpg',2,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_2\\directory_2\\vsratayaKartinka4.jpg',4,'2 ','2004-04-04',NULL),(5,'vsratayaKartinka5.jpg',3,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_3\\directory_1\\vsratayaKartinka5.jpg',5,'3 ','2005-05-05',NULL),(6,'vsratayaKartinka6.jpg',3,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_3\\directory_2\\vsratayaKartinka6.jpg',6,'3 ','2006-06-06',NULL),(7,'vsratayaKartinka7.jpg',4,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_4\\directory_1\\vsratayaKartinka7.jpg',7,'4 ','2007-07-07',NULL),(8,'vsratayaKartinka8.jpg',4,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_4\\directory_2\\vsratayaKartinka8.jpg',8,'4 ','2008-08-08',NULL),(9,'vsratayaKartinka9.jpg',5,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_5\\directory_1\\vsratayaKartinka9.jpg',9,'5 ','2009-09-09',NULL),(10,'vsratayaKartinka10.jpg',5,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_5\\directory_2\\vsratayaKartinka10.jpg',10,'5 ','2010-10-10',NULL);
 /*!40000 ALTER TABLE `files` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1047,7 +1047,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'ivan','ivanov','$2y$10$RNfilcfMVgPpX/l7IAfBNuRBnNj6aesjHYM.TO73kmgrTj875SiCm','111@mail.com','2001-01-01',NULL,'user'),(2,'petr','petrov','$2y$10$lCNPFif03QGj2SlLdxkSZe3liiBfH4eebwg2r0Yb1D0UpqUPS20P2','222@mail.com','2002-02-02','2022-11-20','administrator'),(3,'semen','semenov','$2y$10$YiYsDTB5YfN8L3N0DAvfQOCpBUVKJ4K5dtwzTynpjeoYBjvaVflfm','333@mail.com','2003-03-03',NULL,'user'),(4,'andrey','andreev','$2y$10$Tt10htkln1MaacrRjtHDmuIG1fjmjN1t0THdKqzktQXriRBPkZ/Sy','444@mail.com','2003-04-04',NULL,'administrator'),(5,'alexandr','alexandrov','$2y$10$ASRBS1bXGw37hWiQ.klRLOjv80vSXmmnQQEzjMwaI2EI4SArvP0Cm','555@mail.com','2003-05-05',NULL,'user'),(6,'test1','test1','$2y$10$IgcsMJcVCPSQCy0pUuKBMuucIJzf6zvb33F373S8HJ63o5KApAlsC','test1@mail.com','2003-06-06','2022-12-09','user'),(7,'test2','test2','$2y$10$31K1C3Sc9kykEjP1ZyIOb.lgtTfbtd1o9fMWEAjFH73i1N2rASGvK','test2@mail.com','2003-07-07',NULL,'user'),(8,'test3','test3','$2y$10$SXJETJW/OBoOzjfYfWsK2.SynTfwqUeD2Um2lTns5GAB0178mXyB6','test3@mail.com','2003-08-08',NULL,'user');
+INSERT INTO `user` VALUES (1,'ivan','ivanov','$2y$10$RNfilcfMVgPpX/l7IAfBNuRBnNj6aesjHYM.TO73kmgrTj875SiCm','111@mail.com','2001-01-01',NULL,'user'),(2,'petr','petrov','$2y$10$lCNPFif03QGj2SlLdxkSZe3liiBfH4eebwg2r0Yb1D0UpqUPS20P2','222@mail.com','2002-02-02','2022-11-20','administrator'),(3,'semen','semenov','$2y$10$YiYsDTB5YfN8L3N0DAvfQOCpBUVKJ4K5dtwzTynpjeoYBjvaVflfm','333@mail.com','2003-03-03',NULL,'user'),(4,'andrey','andreev','$2y$10$Tt10htkln1MaacrRjtHDmuIG1fjmjN1t0THdKqzktQXriRBPkZ/Sy','444@mail.com','2003-04-04',NULL,'administrator'),(5,'alexandr','alexandrov','$2y$10$ASRBS1bXGw37hWiQ.klRLOjv80vSXmmnQQEzjMwaI2EI4SArvP0Cm','555@mail.com','2003-05-05',NULL,'user'),(7,'test2','test2','$2y$10$31K1C3Sc9kykEjP1ZyIOb.lgtTfbtd1o9fMWEAjFH73i1N2rASGvK','test2@mail.com','2003-07-07',NULL,'user'),(8,'test3','test3','$2y$10$SXJETJW/OBoOzjfYfWsK2.SynTfwqUeD2Um2lTns5GAB0178mXyB6','test3@mail.com','2003-08-08',NULL,'user');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4039,4 +4039,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-28 11:36:47
+-- Dump completed on 2022-12-29  9:19:19
