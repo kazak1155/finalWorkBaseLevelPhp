@@ -299,6 +299,7 @@ class FileController
                                     $pathNew = implode(DIRECTORY_SEPARATOR, $arrayPathOld);
                                     $pathOld = $file->path;
                                     rename($pathOld, $pathNew);
+                                    $file->path = $pathNew;
                                     $file->save();
                                     $message = 'у файла с ид=' . $body['id'] . ' изменено имя';
                                     $result =  true;

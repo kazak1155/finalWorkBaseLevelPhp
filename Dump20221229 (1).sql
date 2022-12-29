@@ -41,7 +41,7 @@ CREATE TABLE `directory` (
 
 LOCK TABLES `directory` WRITE;
 /*!40000 ALTER TABLE `directory` DISABLE KEYS */;
-INSERT INTO `directory` VALUES (1,'directory_1','11','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_1\\directory_1',1,NULL,NULL),(2,'directory_2','11','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_1\\directory_2',1,NULL,NULL),(3,'directory_1','12','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_2\\directory_1',2,NULL,NULL),(4,'directory_2','12','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_2\\directory_2',2,NULL,NULL),(5,'directory_1','13','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_3\\directory_1',3,NULL,NULL),(6,'directory_2','13','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_3\\directory_2',3,NULL,NULL),(7,'directory_1','14','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_4\\directory_1',4,NULL,NULL),(8,'directory_2','14','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_4\\directory_2',4,NULL,NULL),(9,'directory_1','15','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_5\\directory_1',5,NULL,NULL),(10,'directory_2','15','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_5\\directory_2',6,NULL,NULL),(11,'user_1',NULL,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_1',1,NULL,NULL),(12,'user_2',NULL,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_2',2,NULL,NULL),(13,'user_3',NULL,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_3',3,NULL,NULL),(14,'user_4',NULL,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_4',4,NULL,NULL),(15,'user_5',NULL,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_5',5,NULL,NULL),(17,'directory_x','11','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_1\\directory_x',1,'2022-12-27','2022-12-27');
+INSERT INTO `directory` VALUES (1,'directory_1','11','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_1\\directory_1',1,NULL,NULL),(2,'directory_2','11','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_1\\directory_2',1,NULL,NULL),(3,'directory_1','12','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_2\\directory_1',2,NULL,NULL),(4,'directory_2','12','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_2\\directory_2',2,NULL,NULL),(5,'directory_1','13','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_3\\directory_1',3,NULL,NULL),(6,'directory_2','13','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_3\\directory_2',3,NULL,NULL),(7,'directory_1','14','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_4\\directory_1',4,NULL,NULL),(8,'directory_2','14','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_4\\directory_2',4,NULL,NULL),(9,'directory_1','15','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_5\\directory_1',5,NULL,NULL),(10,'directory_2','15','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_5\\directory_2',6,NULL,NULL),(11,'user_1',NULL,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_1',1,NULL,NULL),(12,'user_2',NULL,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_2',2,NULL,NULL),(13,'user_3',NULL,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_3',3,NULL,NULL),(14,'user_4',NULL,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_4',4,NULL,NULL),(15,'user_5',NULL,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_5',5,NULL,NULL);
 /*!40000 ALTER TABLE `directory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -66,7 +66,7 @@ CREATE TABLE `files` (
   KEY `name_folder_idx` (`directory_id`),
   CONSTRAINT `namde_folder_to_file` FOREIGN KEY (`directory_id`) REFERENCES `directory` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `user_file` FOREIGN KEY (`user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4039,4 +4039,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-29  9:19:19
+-- Dump completed on 2022-12-29 15:46:24
