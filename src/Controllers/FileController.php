@@ -222,47 +222,45 @@ class FileController
             if ($_SESSION['status_user'] == 'administrator') {
                 if (isset($body['directory_id'])) {
                     $folder = Directory::find($body['directory_id']);
+                    $directoryNameNew = $folder->name;
                     if (isset($folder)) {
                         if (isset($body['id'])) {
                             $file = File::find($body['id']);
+                            $pieces = explode(".", $file->name);
+                            $fileNameNew = $body['newName'] . '.' . end($pieces);
                             if ($file != null) {
                                 if (isset($body['newName'])) {
-                                    $fileExist = File::where('name', $body['newName'])->first();
+                                    $pieces = explode(".", $file->name);
+                                    $fileNameNew = $body['newName'] . '.' . end($pieces);
+                                    $fileExist = File::where('name', $fileNameNew)->first();
                                     if (!isset($fileExist)) {
-                                       $directotyOld = Directory::where('id', $file->directory_id)->first();
-                                       $directiryParent = Directory::find($directotyOld->id_parent_folder);
-                                       if ($directotyOld->id_parent_folder != null) {
-                                           $directoryParentold = Directory::find($directotyOld->id_parent_folder);
-                                           $directoryParentNameOld = $directoryParentold->name;
-                                           $directoryParent = Directory::find($body['directory_id']);
-                                           $directoryParentNew = Directory::find($directoryParent->id_parent_folder);
-                                           if ($directoryParent->id_parent_folder != null) {
-                                               $directoryParentNameNew = $directoryParentNew->name;
-                                               $pieces = explode(".", $file->name);
-                                               $fileNameOld = $file->name;
-                                               $fileNameNew = $body['newName'] . '.' . end($pieces);
-                                               $directoryNameOld = $directotyOld->name;
-                                               $directoryNameNew = $folder->name;
-                                               $pathOld = getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . $directoryParentNameOld . DIRECTORY_SEPARATOR . $directoryNameOld . DIRECTORY_SEPARATOR . $fileNameOld;
-                                               $pathNew = getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . $directoryParentNameNew . DIRECTORY_SEPARATOR . $directoryNameNew . DIRECTORY_SEPARATOR . $fileNameNew;
-                                               $message = 'файл переименован и записан в папку ' . DIRECTORY_SEPARATOR . $directoryParentNameNew . DIRECTORY_SEPARATOR . $directoryNameNew;
-                                               $result = true;
-                                               $file->name = $fileNameNew;
-                                               $file->path = $pathNew;
-                                               $file->directory_id = $body['directory_id'];
-                                               $file->save();
-                                               rename($pathOld, $pathNew);
-                                           } else {
-                                               $message = 'no parent folder new place';
-                                               $pathOld = '';
-                                               $pathNew = '';
-                                           }
-                                       } else {
-                                           $pathOld = '';
-                                           $pathNew = '';
-                                           $message = 'no parent folder';
-                                           $result =  false;
-                                       }
+                                        if ($folder->id_parent_folder != null) {
+                                            $pathOld = $file->path;
+                                            $directoryParentNew = Directory::find($folder->id_parent_folder);
+                                            $directoryParentNameNew = $directoryParentNew->name;
+                                            $pathNew = getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . $directoryParentNameNew . DIRECTORY_SEPARATOR . $directoryNameNew . DIRECTORY_SEPARATOR . $fileNameNew;
+                                            $pieces = explode(".", $file->name);
+                                            $fileNameNew = $body['newName'] . '.' . end($pieces);
+                                            $file->name = $fileNameNew;
+                                            $file->path = $pathNew;
+                                            $file->directory_id = $body['directory_id'];
+                                            $file->save();
+                                            rename($pathOld, $pathNew);
+                                            $message = 'файл с ид= ' . $file->id .' переименован и перемещен в папку с ид=' . $body['directory_id'];
+                                            $result = true;
+                                        } else {
+                                            $pathOld = $file->path;
+                                            $pathNew = getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . $directoryNameNew . DIRECTORY_SEPARATOR . $fileNameNew;
+                                            $pieces = explode(".", $file->name);
+                                            $fileNameNew = $body['newName'] . '.' . end($pieces);
+                                            $file->name = $fileNameNew;
+                                            $file->path = $pathNew;
+                                            $file->directory_id = $body['directory_id'];
+                                            $file->save();
+                                            rename($pathOld, $pathNew);
+                                            $message = 'файл с ид= ' . $file->id .' переименован и перемещен в папку с ид=' . $body['directory_id'];
+                                            $result =  true;
+                                        }
                                     } else {
                                         $message = 'файл с таким именем есть в БД';
                                         $result =  false;
@@ -279,18 +277,57 @@ class FileController
                             $message = 'не передан id файла';
                             $result =  false;
                         }
-
                     } else {
                         $message = 'такой папки не существует';
                         $result =  false;
                     }
                 } else {
-                    $a = 'sdelat rename file';
-                    $message = 'rename';
-                    $result =  false;
+                    if (isset($body['id'])) {
+                        $file = File::find($body['id']);
+                        if ($file != null) {
+                            if (isset($body['newName'])) {
+                                $pieces = explode(".", $file->name);
+                                $fileNameNew = $body['newName'] . '.' . end($pieces);
+                                $fileExist = File::where('name', $fileNameNew)->first();
+                                if (!isset($fileExist)) {
+                                    $pieces = explode(".", $file->name);
+                                    $fileNameNew = $body['newName'] . '.' . end($pieces);
+                                    $file->name = $fileNameNew;
+                                    $arrayPathOld = explode(DIRECTORY_SEPARATOR, $file->path);
+                                    $removed = array_pop($arrayPathOld);
+                                    $arrayPathOld[] = $fileNameNew;
+                                    $pathNew = implode(DIRECTORY_SEPARATOR, $arrayPathOld);
+                                    $pathOld = $file->path;
+                                    rename($pathOld, $pathNew);
+                                    $file->save();
+                                    $message = 'у файла с ид=' . $body['id'] . ' изменено имя';
+                                    $result =  true;
+                                } else {
+                                    $message = 'файл с таким именем есть в БД';
+                                    $result =  false;
+                                }
+                            } else {
+                                $message = 'не передано имени нового файла';
+                                $result =  false;
+                            }
+                        } else {
+                            $message = 'файла с таким ИД не существует';
+                            $result =  false;
+                        }
+//                        $a = 'sdelat rename file';
+//                        $message = 'rename';
+//                        $result =  false;
+                    } else {
+                        $message = 'не передан id файла';
+                        $result =  false;
+                    }
                 }
-
             } elseif ($_SESSION['status_user'] == 'user') {
+                if (isset($body['directory_id'])) {
+
+                } else {
+
+                }
                 $message = 'user';
                 $result =  false;
             }
@@ -298,123 +335,6 @@ class FileController
             $message = 'нет авторизированных пользователей';
             $result =  false;
         }
-
-//        if (isset($_SESSION['success'])) {
-//            if ($_SESSION['status_user'] == 'administrator') {
-//                if (isset($body['newName'])) {
-//                    $file = File::find($body['id']);
-//                    $directory = Directory::find($file->directory_id);
-//                    $userDirectory = $directory->id_user_create;
-//
-//                    $directoryName = $directory->name;
-//                    $directoryName_parent_folder = $directory->name_parent_folder;
-//                    $pieces = explode(".", $file->name);
-//                    $oldName = $file->name;
-//                    $newName = $body['newName'] . '.' . end($pieces);
-//                    if (isset($body['id_directory'])) {
-//                        $directoryTo = Directory::find($body['id_directory']);
-//                        $userTo = $directoryTo->id_user_create;
-//
-//                        $directoryNameTo = $directoryTo->name;
-//                        $directoryParentId = $directoryTo->id_parent_folder;
-//                        $directoryNameTo = Directory::find($directoryParentId);
-//                        $directoryNameTo = $directoryNameTo->name;
-//
-//                        if ($directoryName_parent_folder == null) {
-//                            rename((getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $userDirectory . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $oldName),
-//                                (getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $userTo . $directoryParentName . DIRECTORY_SEPARATOR . $directoryNameTo . DIRECTORY_SEPARATOR . $newName));
-//                            $file->name = $newName;
-//                            $file->directory_id = $body['id_directory'];
-////                            $file->save();
-//
-//                            $message = 'файл успешно изменен';
-//                            $result = true;
-//                        } else {
-//                            rename((getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $userDirectory . DIRECTORY_SEPARATOR . $oldName),
-//                                (getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $newName));
-//                            $file->name = $newName;
-//                            $file->directory_id = $body['id_directory'];
-////                            $file->save();
-//
-//                            $message = 'файл переименован и сохранен в той же папке';
-//                            $result = true;
-//                        }
-//                    } else {
-//                        rename((getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $oldName),
-//                            (getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $newName));
-//                        $file->name = $newName;
-//                        $file->directory_id = $body['id_directory'];
-//                        $file->save();
-//
-//                        $message = 'файл переименован и сохранен в той же папке';
-//                        $result = false;
-//                    }
-//                } else {
-//                    $message = 'ничего не передано в запросе';
-//                    $result =  false;
-//                }
-//            } elseif ($_SESSION['status_user'] == 'user') {
-//                $file = File::find($body['id']);
-//                if ($file->user == $_SESSION['userId']) {
-//                    if (isset($body['newName'])) {
-//                        $file = File::find($body['id']);
-//                        $directory = Directory::find($file->directory_id);
-//                        $directoryName = $directory->name;
-//                        $directoryName_parent_folder = $directory->name_parent_folder;
-//                        $pieces = explode(".", $file->name);
-//                        $oldName = $file->name;
-//                        $newName = $body['newName'] . '.' . end($pieces);
-//                        if ($directory->id_user_create == $_SESSION['userId']) {
-//                            if (isset($body['id_directory'])) {
-//                                $directoryTo = Directory::find($body['id_directory']);
-//                                $directoryNameTo = $directoryTo->name;
-//                                $directoryParentName = $directoryTo->name_parent_folder;
-//                                if (!($directoryName_parent_folder == '')) {
-//                                    rename((getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $oldName),
-//                                        (getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . $directoryParentName . DIRECTORY_SEPARATOR . $directoryNameTo . DIRECTORY_SEPARATOR . $newName));
-//                                    $file->name = $newName;
-//                                    $file->directory_id = $body['id_directory'];
-//                                    $file->save();
-//
-//                                    $message = 'файл успешно изменен';
-//                                    $result = true;
-//                                } else {
-//                                    rename((getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $oldName),
-//                                        (getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $newName));
-//                                    $file->name = $newName;
-//                                    $file->directory_id = $body['id_directory'];
-//                                    $file->save();
-//
-//                                    $message = 'файл переименован и сохранен в той же папке';
-//                                    $result = true;
-//                                }
-//                            } else {
-//                                rename((getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $oldName),
-//                                    (getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $newName));
-//                                $file->name = $newName;
-//                                $file->directory_id = $body['id_directory'];
-//                                $file->save();
-//
-//                                $message = 'файл переименован и сохранен в той же папке';
-//                                $result = false;
-//                            }
-//                        } else {
-//                            $message = 'авторизированный пользователь не может изменить файл в данной папке';
-//                            $result = false;
-//                        }
-//                    } else {
-//                        $message = 'ничего не передано в запросе';
-//                        $result =  false;
-//                    }
-//                } else {
-//                    $message = 'авторизированный пользователь не может изменить данный файл';
-//                    $result =  false;
-//                }
-//            }
-//        } else {
-//            $message = 'нет авторизированных пользователей';
-//            $result =  false;
-//        }
 
         return new Json(
             [
