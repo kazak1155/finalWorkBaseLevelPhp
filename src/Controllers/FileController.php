@@ -308,29 +308,129 @@ class FileController
                                     $result =  false;
                                 }
                             } else {
-                                $message = 'не передано имени нового файла';
+                                $message = 'не передано имени файла';
                                 $result =  false;
                             }
                         } else {
                             $message = 'файла с таким ИД не существует';
                             $result =  false;
                         }
-//                        $a = 'sdelat rename file';
-//                        $message = 'rename';
-//                        $result =  false;
                     } else {
                         $message = 'не передан id файла';
                         $result =  false;
                     }
                 }
             } elseif ($_SESSION['status_user'] == 'user') {
-                if (isset($body['directory_id'])) {
-
+                if (isset($body)) {
+                    if (isset($body['id'])) {
+                        $file = File::find($body['id']);
+                        if ($file != null) {
+                            if ($file->user != $_SESSION['userId']) {
+                                if (isset($body['directory_id'])) {
+                                    $directory = Directory::find($body['directory_id']);
+                                    $directoryNameNew = $directory->name;
+                                    if ($directory->id_user_create == $_SESSION['userId']) {
+                                        if ($directory->id_parent_folder != null) {
+                                            if (isset($body['newName'])) {
+                                                $pieces = explode(".", $file->name);
+                                                $fileNameNew = $body['newName'] . '.' . end($pieces);
+                                                $fileExist = File::where('name', $fileNameNew)->first();
+                                                if (!isset($fileExist)) {
+                                                    $pathOld = $file->path;
+                                                    $directoryParentNew = Directory::find($directory->id_parent_folder);
+                                                    $directoryParentNameNew = $directoryParentNew->name;
+                                                    $pathNew = getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . $directoryParentNameNew . DIRECTORY_SEPARATOR . $directoryNameNew . DIRECTORY_SEPARATOR . $fileNameNew;
+                                                    $pieces = explode(".", $file->name);
+                                                    $fileNameNew = $body['newName'] . '.' . end($pieces);
+                                                    $file->name = $fileNameNew;
+                                                    $file->path = $pathNew;
+                                                    $file->directory_id = $body['directory_id'];
+                                                    $file->save();
+                                                    rename($pathOld, $pathNew);
+                                                    $message = 'файл с ид= ' . $file->id .' переименован и перемещен в папку с ид=' . $body['directory_id'];
+                                                    $result = true;
+                                                } else {
+                                                    $message = 'файл с таким именем есть в БД';
+                                                    $result =  false;
+                                                }
+                                            } else {
+                                                $message = 'не передано имени файла';
+                                                $result =  false;
+                                            }
+                                        } else {
+                                            if (isset($body['newName'])) {
+                                                $pieces = explode(".", $file->name);
+                                                $fileNameNew = $body['newName'] . '.' . end($pieces);
+                                                $fileExist = File::where('name', $fileNameNew)->first();
+                                                if (!isset($fileExist)) {
+                                                    $pathOld = $file->path;
+                                                    $pathNew = getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . $directoryNameNew . DIRECTORY_SEPARATOR . $fileNameNew;
+                                                    $pieces = explode(".", $file->name);
+                                                    $fileNameNew = $body['newName'] . '.' . end($pieces);
+                                                    $file->name = $fileNameNew;
+                                                    $file->path = $pathNew;
+                                                    $file->directory_id = $body['directory_id'];
+                                                    $file->save();
+                                                    rename($pathOld, $pathNew);
+                                                    $message = 'файл с ид= ' . $file->id .' переименован и перемещен в папку с ид=' . $body['directory_id'];
+                                                    $result = true;
+                                                } else {
+                                                    $message = 'файл с таким именем есть в БД';
+                                                    $result =  false;
+                                                }
+                                            } else {
+                                                $message = 'не передано имени файла';
+                                                $result =  false;
+                                            }
+                                        }
+                                    } else {
+                                        $message = 'авторизированный пользователь не может переместить файл в эту папку';
+                                        $result =  false;
+                                    }
+                                } else {
+                                    if (isset($body['newName'])) {
+                                        $pieces = explode(".", $file->name);
+                                        $fileNameNew = $body['newName'] . '.' . end($pieces);
+                                        $fileExist = File::where('name', $fileNameNew)->first();
+                                        if (!isset($fileExist)) {
+                                            $pieces = explode(".", $file->name);
+                                            $fileNameNew = $body['newName'] . '.' . end($pieces);
+                                            $file->name = $fileNameNew;
+                                            $arrayPathOld = explode(DIRECTORY_SEPARATOR, $file->path);
+                                            $removed = array_pop($arrayPathOld);
+                                            $arrayPathOld[] = $fileNameNew;
+                                            $pathNew = implode(DIRECTORY_SEPARATOR, $arrayPathOld);
+                                            $pathOld = $file->path;
+                                            rename($pathOld, $pathNew);
+                                            $file->path = $pathNew;
+                                            $file->save();
+                                            $message = 'у файла с ид=' . $body['id'] . ' изменено имя';
+                                            $result =  true;
+                                        } else {
+                                            $message = 'файл с таким именем есть в БД';
+                                            $result =  false;
+                                        }
+                                    } else {
+                                        $message = 'не передано имени файла';
+                                        $result =  false;
+                                    }
+                                }
+                            } else {
+                                $message = 'авторизированный пользователь не может изменить данный файл';
+                                $result =  false;
+                            }
+                        } else {
+                            $message = 'файла с таким ИД не существует';
+                            $result =  false;
+                        }
+                    } else {
+                        $message = 'не передан id файла';
+                        $result =  false;
+                    }
                 } else {
-
+                    $message = 'ничего не передено';
+                    $result =  false;
                 }
-                $message = 'user';
-                $result =  false;
             }
         } else {
             $message = 'нет авторизированных пользователей';
