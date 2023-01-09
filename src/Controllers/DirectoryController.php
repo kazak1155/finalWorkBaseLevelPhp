@@ -52,7 +52,6 @@ class DirectoryController
 
     public function editDirectory()
     {
-
         if (isset($_SESSION['success'])) {
             if ($_SESSION['status_user'] == 'administrator') {
                 $jsonInput = file_get_contents('php://input');
@@ -60,9 +59,27 @@ class DirectoryController
                 if (isset($body)) {
                     if (isset($body['name'])) {
                         if (isset($body['directory_id'])) {
-                            $directoryExist = Directory::find($body['directory_id']);
-                            if (isset($directoryExist)) {
-
+                            $directory = Directory::find($body['directory_id']);
+                            if (isset($directory)) {
+                                $pathOld = $directory->path;
+                                if ($directory->id_parent_folder != null) {
+                                    $parentDirectory = Directory::find($directory->id_parent_folder);
+                                    $pathNew = getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . $parentDirectory->name . DIRECTORY_SEPARATOR . $body['name'];
+                                    $directory->name = $body['name'];
+                                    $directory->path = $pathNew;
+                                    $directory->save();
+                                    rename($pathOld, $pathNew);
+                                    $message = 'папка с id =' . $body['directory_id'] . ' переименована';
+                                    $result = true;
+                                } else {
+                                    $pathNew = getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . $body['name'];
+                                    $directory->name = $body['name'];
+                                    $directory->path = $pathNew;
+                                    $directory->save();
+                                    rename($pathOld, $pathNew);
+                                    $message = 'папка с id =' . $body['directory_id'] . ' переименована';
+                                    $result = true;
+                                }
                             } else {
                                 $message = 'директории с таким id не существует';
                                 $result = false;
@@ -80,28 +97,20 @@ class DirectoryController
                     $result = false;
                 }
             } elseif ($_SESSION['status_user'] == 'user') {
-
-            }
-
-
-
-            $jsonInput = file_get_contents('php://input');
-            $body = json_decode($jsonInput, true);
-            if (isset($body)) {
-                if (isset($body['name'])) {
+                $jsonInput = file_get_contents('php://input');
+                $body = json_decode($jsonInput, true);
+                if (isset($body)) {
                     if (isset($body['directory_id'])) {
                         $directory = Directory::find($body['directory_id']);
-                        if ($directory->id_user_create == $_SESSION['userId'] || $_SESSION['status_user'] == 'administrator') {
-                            $oldNameDirectory = $directory->name;
-                            $newNameDirectory = $body['name'];
-                            rename((getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $directory->id_user_create . DIRECTORY_SEPARATOR . $oldNameDirectory),
-                                (getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $directory->id_user_create . DIRECTORY_SEPARATOR . $newNameDirectory));
-                            $directory->name = $body['name'];
-                            $directory->save();
-                            $message = 'папка переименована';
-                            $result = true;
+                        if (isset($directory)) {
+                            if (isset($body['name'])) {
+
+                            } else {
+                                $message = 'имя папки не передано';
+                                $result = false;
+                            }
                         } else {
-                            $message = 'авторизированный пользователь не может переименовать данную папку';
+                            $message = 'директории с таким id не существует';
                             $result = false;
                         }
                     } else {
@@ -109,13 +118,44 @@ class DirectoryController
                         $result = false;
                     }
                 } else {
-                    $message = 'имя папки не передано';
-                    $result = false;
-                }
-            } else {
                 $message = 'ничего не передано';
                 $result = false;
+                }
             }
+
+
+
+//            $jsonInput = file_get_contents('php://input');
+//            $body = json_decode($jsonInput, true);
+//            if (isset($body)) {
+//                if (isset($body['name'])) {
+//                    if (isset($body['directory_id'])) {
+//                        $directory = Directory::find($body['directory_id']);
+//                        if ($directory->id_user_create == $_SESSION['userId'] || $_SESSION['status_user'] == 'administrator') {
+//                            $oldNameDirectory = $directory->name;
+//                            $newNameDirectory = $body['name'];
+//                            rename((getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $directory->id_user_create . DIRECTORY_SEPARATOR . $oldNameDirectory),
+//                                (getcwd() . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $directory->id_user_create . DIRECTORY_SEPARATOR . $newNameDirectory));
+//                            $directory->name = $body['name'];
+//                            $directory->save();
+//                            $message = 'папка переименована';
+//                            $result = true;
+//                        } else {
+//                            $message = 'авторизированный пользователь не может переименовать данную папку';
+//                            $result = false;
+//                        }
+//                    } else {
+//                        $message = 'не передано какую папку переименовать';
+//                        $result = false;
+//                    }
+//                } else {
+//                    $message = 'имя папки не передано';
+//                    $result = false;
+//                }
+//            } else {
+//                $message = 'ничего не передано';
+//                $result = false;
+//            }
         } else {
             $message = 'нет авторизированных пользователей';
             $result = false;
