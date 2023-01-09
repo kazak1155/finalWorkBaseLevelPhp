@@ -76,7 +76,7 @@ class FileController
                                 if (!isset($fileExist)) {
                                     $directoryName = $folder->name;
                                     $nameFile = $data['name'];
-                                    $path = getcwd()  . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $_SESSION['userId'] . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $nameFile;
+                                    $path = getcwd()  . DIRECTORY_SEPARATOR . 'dataUser' . DIRECTORY_SEPARATOR . 'user_' . $folder->id_user_create . DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR . $nameFile;
                                     move_uploaded_file($_FILES['file']['tmp_name'], $path);
                                     $newFile = new File();
                                     $newFile->user = $_SESSION['userId'];
@@ -85,7 +85,7 @@ class FileController
                                     $newFile->directory_id = $folder->id;
                                     $newFile->available_to_users = $_SESSION['userId'] . ' ';
                                     $newFile->save();
-                                    $message = 'файл записан в папку user_' . $_SESSION['userId'] . '/' . $directoryName;
+                                    $message = 'файл записан в папку user_' . $folder->id_user_create . '/' . $directoryName;
                                     $result = true;
                                 } else {
                                     $message = 'файл с таким именем уже есть в БД';
@@ -325,7 +325,7 @@ class FileController
                     if (isset($body['id'])) {
                         $file = File::find($body['id']);
                         if ($file != null) {
-                            if ($file->user != $_SESSION['userId']) {
+                            if ($file->user == $_SESSION['userId']) {
                                 if (isset($body['directory_id'])) {
                                     $directory = Directory::find($body['directory_id']);
                                     $directoryNameNew = $directory->name;
