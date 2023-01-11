@@ -32,7 +32,7 @@ CREATE TABLE `directory` (
   `updated_at` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `file_to_folder_idx` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `directory` (
 
 LOCK TABLES `directory` WRITE;
 /*!40000 ALTER TABLE `directory` DISABLE KEYS */;
-INSERT INTO `directory` VALUES (1,'directory_1','11','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_1\\directory_1',1,NULL,NULL),(2,'directory_2','11','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_1\\directory_2',1,NULL,NULL),(3,'directory_1','12','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_2\\directory_1',2,NULL,NULL),(4,'directory_2','12','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_2\\directory_2',2,NULL,NULL),(5,'directory_1','13','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_3\\directory_1',3,NULL,NULL),(6,'directory_2','13','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_3\\directory_2',3,NULL,NULL),(7,'directory_1','14','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_4\\directory_1',4,NULL,NULL),(8,'directory_2','14','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_4\\directory_2',4,NULL,NULL),(9,'directory_1','15','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_5\\directory_1',5,NULL,NULL),(10,'directory_2','15','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_5\\directory_2',6,NULL,NULL),(11,'user_1',NULL,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_1',1,NULL,NULL),(12,'user_2',NULL,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_2',2,NULL,NULL),(13,'user_3',NULL,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_3',3,NULL,NULL),(14,'user_4',NULL,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_4',4,NULL,NULL),(15,'user_5',NULL,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_5',5,NULL,NULL);
+INSERT INTO `directory` VALUES (1,'directory_1','11','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_1\\directory_1',1,NULL,NULL),(2,'test','11','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_1\\test',1,NULL,'2023-01-10'),(3,'directory_1','12','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_2\\directory_1',2,NULL,NULL),(4,'directory_2','12','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_2\\directory_2',2,NULL,NULL),(5,'directory_1','13','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_3\\directory_1',3,NULL,NULL),(6,'directory_2','13','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_3\\directory_2',3,NULL,NULL),(7,'directory_1','14','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_4\\directory_1',4,NULL,NULL),(8,'directory_2','14','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_4\\directory_2',4,NULL,NULL),(9,'directory_1','15','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_5\\directory_1',5,NULL,NULL),(10,'directory_2','15','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_5\\directory_2',5,NULL,NULL),(11,'user_1','18','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_1',1,NULL,NULL),(12,'user_2','18','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_2',2,NULL,NULL),(13,'user_3','18','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_3',3,NULL,NULL),(14,'user_4','18','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_4',4,NULL,NULL),(15,'user_5','18','C:\\myProject\\finalWorkBaseLevelPhp\\dataUser\\user_5',5,NULL,NULL),(18,'dataUser',NULL,'C:\\myProject\\finalWorkBaseLevelPhp\\dataUser',2,'2023-01-10','2023-01-10');
 /*!40000 ALTER TABLE `directory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4039,4 +4039,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-30  8:46:19
+-- Dump completed on 2023-01-11  9:44:01
