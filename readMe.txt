@@ -8,3 +8,5 @@ email, password and status user for authorization
 test1@mail.com, 666, user
 test2@mail.com, 777, user
 test3@mail.com, 888, user
+
+simple word
